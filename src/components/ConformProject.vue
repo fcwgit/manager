@@ -2,40 +2,54 @@
 <div>
     <!-- Hello AwesomePos Demo. -->
     <el-row>
-      <el-col :span='13' class="content">
+      <el-col :span='12' class="content">
         <el-tabs style="padding:5px"> 
           <el-tab-pane label="项目信息">
-            <el-form label-width="120px" class="demo-ruleForm">
+            <el-form label-width="100px">
               <el-form-item label="检查项目名称" >
-                <el-input v-model="projectName" :disabled="true">
+                <el-input type="textarea" :rows="4" v-model="projectName" :disabled="true">
                 </el-input>
               </el-form-item>
+            </el-form>
+            <el-form label-width="100px">
               <el-form-item label="检查项目描述" >
                 <!-- <el-input v-model="projectDesc" :disabled="true">
                 </el-input> -->
-                <el-input type="textarea" :rows="6" :disabled="true" v-model="projectDesc">
+                <el-input type="textarea" :rows="10" :disabled="true" v-model="projectDesc">
                 </el-input>
               </el-form-item>
+            </el-form>
+            <el-form label-width="100px">
               <el-form-item label="检查年份" >
                 <el-input v-model="projectDate" :disabled="true">
                 </el-input>
               </el-form-item>
+            </el-form>
+            <el-form label-width="100px">
               <el-form-item label="检查对象" >
-                <el-input v-model="projectTarget" :readonly="true" @click.native="dialogTableVisible=true">
+                <el-input v-model="projectTarget" :readonly="true" @mouseover.native="showTransfer1" @click.native="dialogTableVisible=true">
                 </el-input>
               </el-form-item>
+            </el-form>
+            <el-form label-width="100px">
               <el-form-item label="组长" >
-                <el-input v-model="projectLeader" :readonly="true" @click.native="showTransfer2">
+                <el-input v-model="projectLeader" :readonly="true" @mouseover.native="showTransfer2">
                 </el-input>
               </el-form-item>
+            </el-form>
+            <el-form label-width="100px">
               <el-form-item label="主查" >
-                <el-input v-model="projectMaster" :readonly="true" @click.native="showTransfer3">
+                <el-input v-model="projectMaster" :readonly="true" @mouseover.native="showTransfer3">
                 </el-input>
               </el-form-item>
+            </el-form>
+            <el-form label-width="100px">
               <el-form-item label="检查人员" >
-                <el-input v-model="projectSlaver" :readonly="true" @click.native="showTransfer4">
+                <el-input v-model="projectSlaver" :readonly="true" @mouseover.native="showTransfer4">
                 </el-input>
               </el-form-item>
+            </el-form>
+            <el-form label-width="100px">
               <el-form-item>
                 <el-upload
                   class="upload-demo"
@@ -50,7 +64,7 @@
           </el-tab-pane>
         </el-tabs>
       </el-col>
-      <el-col :span="11">
+      <el-col :span="12">
         <div id="transfer1">
           <el-tabs style="padding:5px">
             <el-tab-pane label="检查对象">
@@ -70,25 +84,23 @@
 
               <el-dialog title="检查对象" :visible.sync="dialogTableVisible" @close="bankHandleChange">
                 <el-tree
-                  :data="data2"
+                  :data="bankData"
                   show-checkbox
-                  default-expand-all
                   node-key="id"
                   ref="tree"
                   highlight-current
                   :props="defaultProps"
-                  v-model="bankSelected"
                   >
                 </el-tree>
               </el-dialog> 
 
 
               <el-table :data="bankTableData" height="400" size="small">
-                <el-table-column prop="type" label="类别" width="80">
+                <el-table-column prop="master" label="类别" width="80">
                 </el-table-column>
-                <el-table-column prop="master" label="行名" width="120">
+                <el-table-column prop="slaver" label="行名" width="120">
                 </el-table-column>
-                <el-table-column prop="alias" label="简称" width="120">
+                <el-table-column prop="type" label="简称" width="120">
                 </el-table-column>
                 <el-table-column prop="id" label="编号" width="80">
                 </el-table-column>
@@ -110,10 +122,11 @@
               </el-table>
               <div class="totalDiv" > 
                 <small>数量：</small>{{bankTableData.length}} &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-                <small>数量：</small><input maxlength="3" style=”width:5px;” onkeyup="value=value.replace(/[^\d]/g,'')"/>
+                <small>数量：</small><input maxlength="3" v-model="bankTargetCount" style=”width:5px;” onkeyup="value=value.replace(/[^\d]/g,'')"/>
               </div>
               <div class="div-btn">
-                <el-button type="success" @click="checkoutBank()">随机</el-button>
+                <!-- <el-button type="success" @click="checkoutBank()">随机</el-button> -->
+                <el-button type="success" @click="checkoutBank">随机</el-button>
               </div>
             </el-tab-pane>
           </el-tabs>
@@ -157,7 +170,7 @@
               </el-table>
               <div class="totalDiv" > 
                 <small>数量：</small>{{leaderSelected.length}} &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-                <small>数量：</small><input maxlength="3" style=”width:5px;” onkeyup="value=value.replace(/[^\d]/g,'')"/>>
+                <small>数量：</small><input maxlength="3" style=”width:5px;” onkeyup="value=value.replace(/[^\d]/g,'')"/>
               </div>
               <div class="div-btn" center>
                 <el-button type="success" @click="checkoutLeader()">确认</el-button>
@@ -347,10 +360,10 @@ export default {
         ],
         options: [{
           value: 1,
-          label: '低级'
+          label: '一般级'
         }, {
           value: 2,
-          label: '中级'
+          label: '较高级'
         }, {
           value: 3,
           label: '高级'
@@ -363,150 +376,54 @@ export default {
           name: 'food2.jpeg',
           url: 'https://fuss10.elemecdn.com/3/63/4e7f3a15429bfda99bce42a18cdd1jpeg.jpeg?imageMogr2/thumbnail/360x360/format/webp/quality/100'
         }],
-        data2: [{
-          id: 1,
+        bankData: [{
+          id: 100000,
           label: '国有',
           children: [{
-            id: 4,
+            id: 100001,
             label: '中国工商银行',
-            children: [{
-              id: 9,
-              label: '北京分行',
-              alias:'工行北京分行'
-            }, {
-              id: 10,
-              label: '天津分行',
-              alias:'工行天津分行'
-            }, {
-              id: 11,
-              label: '山东分行',
-              alias:'工行山东分行'
-            }, {
-              id: 12,
-              label: '上海分行',
-              alias:'工行上海分行'
-            }, {
-              id: 13,
-              label: '河北分行',
-              alias:'工行河北分行'
-            }, {
-              id: 14,
-              label: '重庆分行',
-              alias:'工行重庆分行'
-            }, {
-              id: 15,
-              label: '重庆分行',
-              alias:'工行重庆分行'
-            }, {
-              id: 16,
-              label: '重庆分行',
-              alias:'工行重庆分行'
-            }, {
-              id: 17,
-              label: '重庆分行',
-              alias:'工行重庆分行'
-            }, {
-              id: 18,
-              label: '重庆分行',
-              alias:'工行重庆分行'
-            }]
+            type:'分行'
+          },{
+            id: 100002,
+            label: '农业银行',
+            type:'法人'
+          },{
+            id: 100003,
+            label: '中国银行',
+            type:'分公司'
+          },{
+            id: 100004,
+            label: '建设银行',
+            type:'卡中心'
+          },{
+            id: 100005,
+            label: '交通银行',
+            type:'业务中心'
           }]
         },
         {
-          id: 2,
+          id: 110000,
           label: '邮储',
           children: [{
-            id: 4,
-            label: '中国工商银行',
-            children: [{
-              id: 9,
-              label: '北京分行',
-              alias:'工行北京分行'
-            }, {
-              id: 10,
-              label: '天津分行',
-              alias:'工行天津分行'
-            }, {
-              id: 11,
-              label: '山东分行',
-              alias:'工行山东分行'
-            }, {
-              id: 12,
-              label: '上海分行',
-              alias:'工行上海分行'
-            }, {
-              id: 13,
-              label: '河北分行',
-              alias:'工行河北分行'
-            }, {
-              id: 14,
-              label: '重庆分行',
-              alias:'工行重庆分行'
-            }, {
-              id: 15,
-              label: '重庆分行',
-              alias:'工行重庆分行'
-            }, {
-              id: 16,
-              label: '重庆分行',
-              alias:'工行重庆分行'
-            }, {
-              id: 17,
-              label: '重庆分行',
-              alias:'工行重庆分行'
-            }, {
-              id: 18,
-              label: '重庆分行',
-              alias:'工行重庆分行'
-            }]
+            id: 110001,
+            label: '邮储银行北京分行',
+            type:'业务中心'
+          },{
+            id: 110002,
+            label: '邮储银行天津分行',
+            type:'法人'
+          },{
+            id: 110003,
+            label: '邮储银行上海分行',
+            type:'分公司'
           }]
         },{
-          id: 3,
+          id: 120000,
           label: '政策性',
           children: [{
-            id: 4,
-            label: '中国工商银行',
-            children: [{
-              id: 9,
-              label: '北京分行',
-              alias:'工行北京分行'
-            }, {
-              id: 10,
-              label: '天津分行',
-              alias:'工行天津分行'
-            }, {
-              id: 11,
-              label: '山东分行',
-              alias:'工行山东分行'
-            }, {
-              id: 12,
-              label: '上海分行',
-              alias:'工行上海分行'
-            }, {
-              id: 13,
-              label: '河北分行',
-              alias:'工行河北分行'
-            }, {
-              id: 14,
-              label: '重庆分行',
-              alias:'工行重庆分行'
-            }, {
-              id: 15,
-              label: '重庆分行',
-              alias:'工行重庆分行'
-            }, {
-              id: 16,
-              label: '重庆分行',
-              alias:'工行重庆分行'
-            }, {
-              id: 17,
-              label: '重庆分行',
-              alias:'工行重庆分行'
-            }, {
-              id: 18,
-              label: '重庆分行',
-              alias:'工行重庆分行'
-            }]
+            id: 120001,
+            label: '中国进出口银行',
+            type:'分公司'
           }]
         }],
         defaultProps: {
@@ -515,7 +432,8 @@ export default {
         },
         dialogTableVisible: false,
         dialogFormVisible: false,
-        formLabelWidth: '120px'
+        formLabelWidth: '120px',
+        bankTargetCount:0
     }
   },
   methods: {
@@ -533,6 +451,7 @@ export default {
       document.getElementById("transfer2").style.display="";
       document.getElementById("transfer3").style.display="none";
       document.getElementById("transfer4").style.display="none";
+      
     },
     showTransfer3(){
       document.getElementById("transfer1").style.display="none";
@@ -546,36 +465,22 @@ export default {
       document.getElementById("transfer3").style.display="none";
       document.getElementById("transfer4").style.display="";
     },
-    bankHandleChange(value, direction, movedKeys) {
-        // this.bankTableData = [];
-        // for(let i=0;i<value.length;i++){
-        //     for(let j=0;j<this.bankAll.length;j++){
-        //       let obj = this.bankAll[j];
-        //       if(obj.pinyin == value[i]){
-        //         this.bankTableData.push(obj);
-        //         break;
-        //       }
-        //     }
-        //   }
-        this.showTransfer1();
+    bankHandleChange() {
+      // alert("1111");
+        
         let arr = this.$refs.tree.getCheckedKeys();
-        // console.log(arr);
-        // console.log("==============");
-        // console.log(this.bankSelected);
         this.bankTableData = [];
-        for(let i=0;i<this.data2.length;i++){
-          let level1 = this.data2[i];
+        for(let i=0;i<this.bankData.length;i++){
+          let level1 = this.bankData[i];
           for(let j=0;j<level1.children.length;j++){
             let level2 = level1.children[j];
-
-            if(level2.children.length==0){
+            if(level2 != undefined){
               for(let l=0;l<arr.length;l++){
                 if(arr[l] == level2.id){
                     let data = {
-                      type:level1.label,
-                      master:level2.label,
+                      master:level1.label,
                       slaver:level2.label,
-                      alias:level2.alias,
+                      type:level2.type,
                       id:level2.id,
                       right:''
                     }
@@ -584,27 +489,10 @@ export default {
                 }
               }
             }
-            for(let k=0;k<level2.children.length;k++){
-              let level3 = level2.children[k];
-              console.log("id="+level3.id);
-              for(let l=0;l<arr.length;l++){
-                if(arr[l] == level3.id){
-
-                  let data = {
-                    type:level1.label,
-                    master:level2.label,
-                    slaver:level3.label,
-                    alias:level3.alias,
-                    id:level3.id,
-                    right:''
-                  }
-                  this.bankTableData.push(data);
-                  break;
-                }
-              }
-            }
           }
         }
+
+        this.showTransfer1();
       },
       leaderHandleChange(value, direction, movedKeys) {
         this.leaderTableData = [];
@@ -657,11 +545,37 @@ export default {
           })  
           return; 
         }
-        this.projectTarget = '';
+        let source = [];
+        let target = [];
         for(let i=0;i<this.bankTableData.length;i++){
           let obj = this.bankTableData[i];
-          this.projectTarget += "["+obj.alias+"]";
+          source += "["+obj.slaver+"]";
         }
+//todo 从source随机选择对应数量的机构
+        target = source;
+
+        this.$confirm('从'+source+'这'+this.bankTableData.length+'个备选机构随机选择'+target+'这'+this.bankTargetCount+'个检查对象, 是否继续?', '提示', {
+          confirmButtonText: '确定',
+          cancelButtonText: '取消',
+          type: 'warning'
+        }).then(() => {
+          this.$message({
+            type: 'success',
+            message: '随机选择成功!'
+          });
+
+          this.projectTarget = source;
+        }).catch(() => {
+          this.$message({
+            type: 'warning',
+            message: '请重新选择检查对象!'
+          });          
+        });
+
+
+
+
+
       },
       checkoutLeader(){
         if(this.leaderTableData.length == 0){

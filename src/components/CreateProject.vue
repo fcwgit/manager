@@ -5,19 +5,27 @@
       <el-form :model="ruleForm" :rules="rules" ref="ruleForm" label-width="120px" class="demo-ruleForm">
         <el-form-item label="检查项目名称" prop="name">
           <el-col :span="23">
-            <el-input v-model="ruleForm.name" ></el-input>
+            <el-input type="textarea" v-model="ruleForm.name" rows=2 maxlength=100></el-input>
           </el-col>
         </el-form-item>
         <el-form-item label="检查项目简介" prop="desc">
           <el-col :span="23">
-            <el-input type="textarea" v-model="ruleForm.desc"></el-input>
+            <el-input type="textarea" v-model="ruleForm.desc" rows=16 maxlength=1000></el-input>
           </el-col>
         </el-form-item>
-        <el-form-item label="检查年份" required>
+        <el-form-item label="检查月份" required>
             <el-col :span="2">
             <el-form-item prop="date1">
                 <!-- <el-date-picker type="date" placeholder="选择日期" v-model="ruleForm.date1" style="width: 100%;"></el-date-picker> -->
-                <el-date-picker type="date" placeholder="选择日期" v-model="ruleForm.date1" format="yyyy 年 MM 月 dd 日" value-format="yyyy-MM-dd"></el-date-picker>
+                <!-- <el-date-picker type="date" placeholder="选择日期" v-model="ruleForm.date1" 
+                format="yyyy 年 MM 月 dd 日" value-format="yyyy-MM-dd"></el-date-picker> -->
+                
+                <el-date-picker
+                  v-model="ruleForm.date1"
+                  type="month"
+                  placeholder="选择月"
+                  value-format="yyyy-MM">
+                </el-date-picker>
             </el-form-item>
             </el-col>
         </el-form-item>
@@ -45,11 +53,17 @@ export default {
       rules: {
         name: [
           { required: true, message: "请输入项目名称", trigger: "blur" },
-          { min: 3, max: 50, message: "长度在 3 到 50 个字符", trigger: "blur" }
+          { min: 3, max: 100, message: "长度在 3 到 100 个字符", trigger: "blur" }
         ],
-        desc: [{ required: true, message: "请填写项目简介", trigger: "blur" }],
+        desc: [
+          { required: true, message: "请填写项目简介", trigger: "blur" },
+          { min: 3, max: 1000, message: "长度在 3 到 1000 个字符", trigger: "blur" }
+        ],
         author:[
           { required: true, message: "请重新登录", trigger: "blur" }
+        ],
+        data1:[
+          { required: true, message: "请设置检查月份", trigger: "blur" }
         ]
       },
 
