@@ -7,7 +7,7 @@
           <el-tab-pane label="项目信息">
             <el-form label-width="100px">
               <el-form-item label="检查项目名称" >
-                <el-input type="textarea" :rows="4" v-model="projectName" :disabled="true">
+                <el-input type="textarea" :rows=2 v-model="projectName" :disabled="true">
                 </el-input>
               </el-form-item>
             </el-form>
@@ -15,7 +15,7 @@
               <el-form-item label="检查项目描述" >
                 <!-- <el-input v-model="projectDesc" :disabled="true">
                 </el-input> -->
-                <el-input type="textarea" :rows="10" :disabled="true" v-model="projectDesc">
+                <el-input type="textarea" :rows=5 :disabled="true" v-model="projectDesc">
                 </el-input>
               </el-form-item>
             </el-form>
@@ -146,26 +146,13 @@
                 :data="workerAll">
               </el-transfer>
               <el-table :data="leaderTableData" height="250" size="small">
-                <el-table-column prop="pinyin" label="姓名" width="120">
+                <el-table-column prop="name" label="姓名" width="120">
                 </el-table-column>
-                <el-table-column prop="label" label="职务" width="120">
+                <el-table-column prop="section" label="处室" width="120">
                 </el-table-column>
-                <el-table-column prop="specialty" label="专长" width="120">
+                <el-table-column prop="post" label="职务" width="120">
                 </el-table-column>
-                <el-table-column prop="right"
-                  fixed="right"
-                  label="权重"
-                  >
-                  <template  slot-scope="scope">
-                    <el-select v-model="scope.row.right" placeholder="请选择" size="small" @click.native="handleClick(scope.row)" >
-                      <el-option
-                        v-for="item in options"
-                        :key="item.value"
-                        :label="item.label"
-                        :value="item.value">
-                      </el-option>
-                    </el-select>
-                  </template>
+                <el-table-column prop="specialty" label="专长">
                 </el-table-column>
               </el-table>
               <div class="totalDiv" > 
@@ -193,34 +180,21 @@
                 :data="workerAll">
               </el-transfer>
               <el-table :data="masterTableData" height="250" size="small">
-                <el-table-column prop="pinyin" label="姓名" width="120">
+                <el-table-column prop="name" label="姓名" width="120">
                 </el-table-column>
-                <el-table-column prop="label" label="职务" width="120">
+                <el-table-column prop="section" label="处室" width="120">
                 </el-table-column>
-                <el-table-column prop="specialty" label="专长" width="120">
+                <el-table-column prop="post" label="职务" width="120">
                 </el-table-column>
-                <el-table-column prop="right"
-                  fixed="right"
-                  label="权重"
-                  >
-                  <template  slot-scope="scope">
-                    <el-select v-model="scope.row.right" placeholder="请选择" size="small" @click.native="handleClick(scope.row)" >
-                      <el-option
-                        v-for="item in options"
-                        :key="item.value"
-                        :label="item.label"
-                        :value="item.value">
-                      </el-option>
-                    </el-select>
-                  </template>
+                <el-table-column prop="specialty" label="专长">
                 </el-table-column>
               </el-table>
               <div class="totalDiv" > 
                 <small>数量：</small>{{masterSelected.length}} &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-                <small>数量：</small><input maxlength="3" style=”width:5px;” onkeyup="value=value.replace(/[^\d]/g,'')"/>>
+                <small>数量：</small><input maxlength="3" style=”width:5px;” onkeyup="value=value.replace(/[^\d]/g,'')"/>
               </div>
               <div class="div-btn" center>
-                <el-button type="success" @click="checkoutMaster()">确认</el-button>
+                <el-button type="success" @click="checkoutMaster()">随机</el-button>
               </div>
             </el-tab-pane>
           </el-tabs>
@@ -240,31 +214,18 @@
                 :data="workerAll">
               </el-transfer>
               <el-table :data="slaverTableData" height="250" size="small">
-                <el-table-column prop="pinyin" label="姓名" width="120">
+                <el-table-column prop="name" label="姓名" width="120">
                 </el-table-column>
-                <el-table-column prop="label" label="职务" width="120">
+                <el-table-column prop="section" label="处室" width="120">
                 </el-table-column>
-                <el-table-column prop="specialty" label="专长" width="120">
+                <el-table-column prop="post" label="职务" width="120">
                 </el-table-column>
-                <el-table-column prop="right"
-                  fixed="right"
-                  label="权重"
-                  >
-                  <template  slot-scope="scope">
-                    <el-select v-model="scope.row.right" placeholder="请选择" size="small" @click.native="handleClick(scope.row)" >
-                      <el-option
-                        v-for="item in options"
-                        :key="item.value"
-                        :label="item.label"
-                        :value="item.value">
-                      </el-option>
-                    </el-select>
-                  </template>
+                <el-table-column prop="specialty" label="专长">
                 </el-table-column>
               </el-table>
               <div class="totalDiv" > 
                 <small>数量：</small>{{slaverSelected.length}} &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-                <small>数量：</small><input maxlength="3" style=”width:5px;” onkeyup="value=value.replace(/[^\d]/g,'')"/>>
+                <small>数量：</small><input maxlength="3" style=”width:5px;” onkeyup="value=value.replace(/[^\d]/g,'')"/>
               </div>
               <div class="div-btn" center>
                 <el-button type="success" @click="checkoutSlaver()">确认</el-button>
@@ -308,10 +269,13 @@ export default {
       const workerAll = [];
         const workers = ['肖军', '黄建', '玉珍', '王芳', '汪洋', '高阳', '秦虹'];
         const pinyin = ['xiaojun', 'huangjian', 'yuzhen', 'wangfang', 'wangyang', 'gaoyang', 'qinhong'];
-        const specialty = ['zookper','dubbo','kafka','redis','mongodb','docker'];
+        const specialty = ['zookper','dubbo','kafka','redis','mongodb','docker','maven'];
+        const post = ['处长','科长','局长','科员','处长','部长','局长'];
         workers.forEach((worker, index) => {
           workerAll.push({
             label: worker,
+            name:worker,
+            post:post[index],
             key: pinyin[index],
             pinyin: pinyin[index],
             specialty:specialty[index],
