@@ -6,6 +6,8 @@ import Home from '@/components/Home'
 import CreateProject from '@/components/CreateProject'
 import ConformProject from '@/components/ConformProject'
 import QueryProject from '@/components/QueryProject'
+import DetailProject from '@/components/DetailProject'
+import ModifyProject from '@/components/ModifyProject'
 
 Vue.use(Router)
 
@@ -33,6 +35,12 @@ export default new Router({
         },{
           path:'queryProject',
           component:QueryProject
+        },{
+          path:'detailProject',
+          component:DetailProject
+        },{
+          path:'modifyProject',
+          component:ModifyProject
         }
       ]
     },

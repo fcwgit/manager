@@ -37,12 +37,12 @@
     
     <el-container>
       <el-header style="text-align: right; font-size: 12px;">
-        <el-dropdown>
+        <el-dropdown @command="handleCommand">
           <i class="el-icon-setting" style="margin-right: 15px"></i>
           <el-dropdown-menu slot="dropdown">
-            <el-dropdown-item>查看</el-dropdown-item>
-            <el-dropdown-item>新增</el-dropdown-item>
-            <el-dropdown-item>删除</el-dropdown-item>
+            <!-- <el-dropdown-item>查看</el-dropdown-item>
+            <el-dropdown-item>新增</el-dropdown-item> -->
+            <el-dropdown-item command="logout">注销</el-dropdown-item>
           </el-dropdown-menu>
         </el-dropdown>
         <span>王小虎</span>
@@ -97,10 +97,14 @@
       }
     },
     methods:{
-      createProject(){
-        // this.$router.push();
-        // alert('232323');
-        this.$router.push("/createProject");
+      // createProject(){
+      //   // this.$router.push();
+      //   // alert('232323');
+      //   this.$router.push("/createProject");
+      // },
+      handleCommand(command) {
+        this.$message('退出登录 ');
+        this.$router.push("/");
       }
     },
 

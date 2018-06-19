@@ -23,7 +23,8 @@
 </template>
 
 <script>
-import axios from 'axios'
+import axios from 'axios';
+import store from '@/vuex/store';
 export default {
   name: 'pos',
   
@@ -49,11 +50,45 @@ export default {
           this.fullscreenLoading = true;
           setTimeout(() => {
             this.fullscreenLoading = false;
-            this.$message({
-              message: '恭喜你，登录成功',
-              type: 'success'
+            let flag = false;
+            // let param = new URLSearchParams();
+            // param.append("username", "admin");
+            // param.append("password", "admin");
+            axios.post("http://localhost:8080/login.action",{
+              name:'chaoji',
+              password:'123456'
+            })
+            .then(response=>{
+              // console.log('response='+response);
+              // console.log('response='+response.data.name);
+              // console.log('branch_rate'+response.data.body.branch_rate[0].key);
+              // console.log('branch_rate'+response.data.body.branch_rate[0].value);
+              store.commit('initOptions',response.data.body.branch_rate);
+              store.commit('initWorker',response.data.body.worker);
+              this.$message({
+                message: '恭喜你，登录成功',
+                type: 'success'
+              });
+              flag=true;
+              this.$router.push('/container');
+              return;
+            }).catch(error=>{
+              console.log('error='+error);
+              this.$message({
+                message: '登录失败',
+                type: 'error'
+              });
+              flag=false;
+              this.$router.push('/');
+              return;
             });
-            this.$router.push('/container');
+            //超时后的处理
+            if(flag){
+              this.$router.push('/container');
+            }else{
+              this.$router.push('/');
+            }
+
           }, 2000);
           
         }

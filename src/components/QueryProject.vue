@@ -1,5 +1,4 @@
 <template>
-<div>
   <el-table
     :data="tableData3"
     style="width:80%"
@@ -15,11 +14,11 @@
       label="项目名称"
       width="300" style="text-overflow:ellipsis">
     </el-table-column>
-    <el-table-column
+    <!-- <el-table-column
       prop="province"
       label="项目描述"
       width="300">
-    </el-table-column>
+    </el-table-column> -->
     <el-table-column
       prop="city"
       label="检查对象"
@@ -50,7 +49,6 @@
       </template>
     </el-table-column>
   </el-table>
-</div>
 </template>
 
 <script>
@@ -58,11 +56,11 @@
     methods: {
       detailClick(row) {
         console.log(row);
-        this.$router.push('/detailProject');
+        this.$router.push('/container/detailProject');
       },
       modifyClick(row) {
         console.log(row);
-        this.$router.push('/modifyProject');
+        this.$router.push('/container/modifyProject');
       }
     },
     data() {
