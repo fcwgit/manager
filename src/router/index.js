@@ -8,6 +8,12 @@ import ConformProject from '@/components/ConformProject'
 import QueryProject from '@/components/QueryProject'
 import DetailProject from '@/components/DetailProject'
 import ModifyProject from '@/components/ModifyProject'
+import QueryBranch from '@/components/QueryBranch'
+import DetailBranch from '@/components/DetailBranch'
+import ModifyBranch from '@/components/ModifyBranch'
+import QueryUser from '@/components/QueryUser'
+import DetailUser from '@/components/DetailUser'
+import ModifyUser from '@/components/ModifyUser'
 
 Vue.use(Router)
 
@@ -41,6 +47,24 @@ export default new Router({
         },{
           path:'modifyProject',
           component:ModifyProject
+        },{
+          path:'queryBranch',
+          component:QueryBranch
+        },{
+          path:'detailBranch',
+          component:DetailBranch
+        },{
+          path:'modifyBranch',
+          component:ModifyBranch
+        },{
+          path:'queryUser',
+          component:QueryUser
+        },{
+          path:'detailUser',
+          component:DetailUser
+        },{
+          path:'modifyUser',
+          component:ModifyUser
         }
       ]
     },

@@ -1,7 +1,7 @@
 <template>
   <el-table
     :data="tableData3"
-    style="width:80%"
+    style="width:99%"
     height="800">
     <el-table-column
       fixed

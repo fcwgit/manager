@@ -14,13 +14,13 @@
         <el-submenu index="2">
           <template slot="title"><i class="el-icon-menu"></i>检查机构库管理</template>
           <el-menu-item-group>
-            <el-menu-item index="2-1">管理检查机构库</el-menu-item>
+            <el-menu-item index="/container/queryBranch">管理检查机构库</el-menu-item>
           </el-menu-item-group>
         </el-submenu>
         <el-submenu index="3">
           <template slot="title"><i class="el-icon-setting"></i>检查人员管理</template>
           <el-menu-item-group>
-            <el-menu-item index="3-1">管理检查人员库</el-menu-item>
+            <el-menu-item index="/container/queryUser">管理检查人员库</el-menu-item>
           </el-menu-item-group>
         </el-submenu>
         <el-submenu index="4">

@@ -51,18 +51,20 @@ export default {
           setTimeout(() => {
             this.fullscreenLoading = false;
             let flag = false;
-            // let param = new URLSearchParams();
-            // param.append("username", "admin");
-            // param.append("password", "admin");
             axios.post("http://localhost:8080/login.action",{
-              name:'chaoji',
-              password:'123456'
+              name:this.name,
+              password:this.password
             })
             .then(response=>{
-              // console.log('response='+response);
-              // console.log('response='+response.data.name);
-              // console.log('branch_rate'+response.data.body.branch_rate[0].key);
-              // console.log('branch_rate'+response.data.body.branch_rate[0].value);
+              let errorcode = response.data.head.errorCode;
+              if(errorcode != '000000'){
+                let errorMessage = response.data.head.errorMessage;
+                this.$message({
+                message: errorMessage,
+                type: 'error'
+              });
+                return;
+              }
               store.commit('initOptions',response.data.body.branch_rate);
               store.commit('initWorker',response.data.body.worker);
               this.$message({

@@ -160,7 +160,7 @@
                 <small>数量：</small><input maxlength="3" style=”width:5px;” onkeyup="value=value.replace(/[^\d]/g,'')"/>
               </div>
               <div class="div-btn" center>
-                <el-button type="success" @click="checkoutLeader()">确认</el-button>
+                <el-button type="success" @click="checkoutLeader()">随机</el-button>
               </div>
             </el-tab-pane>
           </el-tabs>
@@ -228,7 +228,7 @@
                 <small>数量：</small><input maxlength="3" style=”width:5px;” onkeyup="value=value.replace(/[^\d]/g,'')"/>
               </div>
               <div class="div-btn" center>
-                <el-button type="success" @click="checkoutSlaver()">确认</el-button>
+                <el-button type="success" @click="checkoutSlaver()">随机</el-button>
               </div>
             </el-tab-pane>
           </el-tabs>

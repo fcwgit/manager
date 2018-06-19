@@ -4,16 +4,16 @@
   <div>
     <ul style="list-style-type:none;text-align:left;margin-left:150px">
       <li>
-        <router-link to="/createProject">1、事项清单</router-link>
+        <router-link to="/container/createProject">1、事项清单</router-link>
       </li>
       <li>
-        <router-link to="/createProject">2、检查对象库</router-link>
+        <router-link to="/container/createProject">2、检查对象库</router-link>
       </li>
       <li>
-        <router-link to="/createProject">3、检查人员库</router-link>
+        <router-link to="/container/createProject">3、检查人员库</router-link>
       </li>
       <li>
-        <router-link to="/createProject">4、检查项目</router-link>
+        <router-link to="/container/createProject">4、检查项目</router-link>
       </li>
     </ul>
   </div>
