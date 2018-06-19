@@ -26,11 +26,11 @@
         <el-submenu index="4">
           <template slot="title"><i class="el-icon-service"></i>系统用户管理</template>
           <el-menu-item-group>
-            <el-menu-item index="4-1">新建用户</el-menu-item>
+            <el-menu-item index="/container/queryManager">管理系统用户</el-menu-item>
           </el-menu-item-group>
-          <el-menu-item-group>
+          <!-- <el-menu-item-group>
             <el-menu-item index="4-2">修改用户</el-menu-item>
-          </el-menu-item-group>
+          </el-menu-item-group> -->
         </el-submenu>
       </el-menu>
     </el-aside>

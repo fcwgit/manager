@@ -1,14 +1,14 @@
 <template>
     <el-row>
       <el-col :span="23">
-          <div class="title">修改用户信息</div>
+          <div class="title">修改管理员信息</div>
             <el-form :model="ruleForm" ref="ruleForm" label-width="120px" class="demo-ruleForm">
               <el-form-item label="添加日期">
                 <el-col :span="24">
-                  <el-input v-model="ruleForm.date"></el-input>
+                  <el-input v-model="ruleForm.date" readonly="true" disabled="true"></el-input>
                 </el-col>
               </el-form-item>
-              <el-form-item label="用户名">
+              <el-form-item label="姓名">
                   <el-input v-model="ruleForm.name"></el-input>
               </el-form-item>
               <el-form-item label="处室">
@@ -17,14 +17,14 @@
                   </el-col>
               </el-form-item>
               
-              <el-form-item label="职务">
+              <el-form-item label="类别">
                 <el-col :span="24">
                   <el-input v-model="ruleForm.post"></el-input>
                 </el-col>
               </el-form-item>
-              <el-form-item label="专长">
+              <el-form-item label="添加者">
                 <el-col :span="24">
-                  <el-input v-model="ruleForm.author"></el-input>
+                  <el-input v-model="ruleForm.author" readonly="true" disabled="true"></el-input>
                 </el-col>
               </el-form-item>
               <el-form-item>
@@ -47,8 +47,8 @@ export default {
         date: '2018-05-03',
         name: '张三',
         mobile: '科技处一室',
-        post: '处长',
-        author: 'zookeeper、dubbo'
+        post: '超级管理员',
+        author: 'chaoji'
       }
     };
   },

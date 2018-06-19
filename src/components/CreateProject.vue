@@ -59,46 +59,9 @@ export default {
           { required: true, message: "请填写项目简介", trigger: "blur" },
           { min: 3, max: 1000, message: "长度在 3 到 1000 个字符", trigger: "blur" }
         ],
-        author:[
-          { required: true, message: "请重新登录", trigger: "blur" }
-        ],
         data1:[
           { required: true, message: "请设置检查月份", trigger: "blur" }
         ]
-      },
-
-      data: [{
-        label: '项目管理',
-        children: [{
-          label: '新建项目',
-          id:'createProject'
-        },{
-          label: '查询项目',
-          id:'queryProject'
-        }
-        ]
-      }, {
-        label: '机构管理',
-        children: [{
-          label: '添加机构',
-          id:'addBranch'
-        }, {
-          label: '查询机构',
-          id:'queryBranch'
-        }]
-      }, {
-        label: '用户管理',
-        children: [{
-          label: '新增管理员',
-          id:'addUser'
-        }, {
-          label: '查询管理员',
-          id:'queryUser'
-        }]
-      }],
-      defaultProps: {
-        children: 'children',
-        label: 'label'
       }
     };
   },
@@ -124,7 +87,7 @@ export default {
     },
     resetForm(formName) {
       this.$refs[formName].resetFields();
-    },
+    }
   },
 };
 </script>

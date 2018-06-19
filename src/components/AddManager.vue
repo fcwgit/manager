@@ -1,14 +1,14 @@
 <template>
     <el-row>
       <el-col :span="23">
-          <div class="title">新增用户</div>
+          <div class="title">新增管理员</div>
             <el-form :model="ruleForm" :rules="rules" ref="ruleForm" label-width="120px" class="demo-ruleForm">
               <!-- <el-form-item label="添加日期">
                 <el-col :span="24">
                   <el-input v-model="ruleForm.date"></el-input>
                 </el-col>
               </el-form-item> -->
-              <el-form-item label="用户名" prop="name">
+              <el-form-item label="姓名" prop="name">
                   <el-input v-model="ruleForm.name"></el-input>
               </el-form-item>
               <el-form-item label="处室" prop="mobile">
@@ -17,14 +17,14 @@
                   </el-col>
               </el-form-item>
               
-              <el-form-item label="职务" prop="post">
+              <el-form-item label="类别" prop="post">
                 <el-col :span="24">
                   <el-input v-model="ruleForm.post"></el-input>
                 </el-col>
               </el-form-item>
-              <el-form-item label="专长" prop="author">
+              <el-form-item label="添加者" prop="author">
                 <el-col :span="24">
-                  <el-input v-model="ruleForm.author"></el-input>
+                  <el-input v-model="ruleForm.author" readonly="true" disabled="true"></el-input>
                 </el-col>
               </el-form-item>
               <el-form-item>
@@ -48,7 +48,7 @@ export default {
         name: '',
         mobile: '',
         post: '',
-        author: ''
+        author: 'chaoji'
       },
       rules: {
         name: [

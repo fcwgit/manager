@@ -1,8 +1,8 @@
 <template>
 <div>
-  <div class="title">用户详细信息</div>
+  <div class="title">查询管理员信息</div>
   <el-form :model="ruleForm" :rules="rules" ref="ruleForm" label-width="120px" class="demo-ruleForm">
-        <el-form-item label="人员名称" prop="name">
+        <el-form-item label="管理员名称" prop="name">
           <el-col :span="10">
             <el-input type="text" v-model="ruleForm.name" maxlength=10></el-input>
           </el-col>
@@ -26,11 +26,11 @@
         <el-table-column
           prop="date"
           label="添加日期"
-          width="100">
+          width="200">
         </el-table-column>
         <el-table-column
           prop="name"
-          label="用户名"
+          label="姓名"
           width="100" style="text-overflow:ellipsis">
         </el-table-column>
         <el-table-column
@@ -40,13 +40,13 @@
         </el-table-column>
         <el-table-column
           prop="post"
-          label="职务"
+          label="类别"
           width="200">
         </el-table-column>
         <el-table-column
           prop="author"
-          label="专长"
-          width="300">
+          label="添加者"
+          width="200">
         </el-table-column>
         
         <el-table-column
@@ -72,11 +72,11 @@
     methods: {
       detailClick(row) {
         console.log(row);
-        this.$router.push('/container/detailUser');
+        this.$router.push('/container/detailManager');
       },
       modifyClick(row) {
         console.log(row);
-        this.$router.push('/container/modifyUser');
+        this.$router.push('/container/modifyManager');
       },
       submitForm(formName) {
         // this.$refs[formName].validate(valid => {
@@ -94,7 +94,7 @@
         this.$refs[formName].resetFields();
       },
       addForm() {
-        this.$router.push('/container/addUser');
+        this.$router.push('/container/addManager');
       }
     },
     data() {
@@ -104,7 +104,7 @@
         },
         rules: {
           name: [
-            { required: true, message: "请输入人员名称", trigger: "blur" },
+            { required: true, message: "请输入管理员名称", trigger: "blur" },
             { min: 3, max: 100, message: "长度在 3 到 10 个字符", trigger: "blur" }
           ]
     },
@@ -112,44 +112,44 @@
           date: '2018-05-03',
           name: '张三',
           mobile: '科技处一室',
-          post: '处长',
-          author: 'zookeeper、dubbo'
+          post: '超级管理员',
+          author: 'chaoji'
         }, {
           date: '2018-05-03',
           name: '李四',
           mobile: '电子银行二室',
-          post: '科员',
-          author: 'dubbo、redis'
+          post: '超级管理员',
+          author: 'chaoji'
         }, {
           date: '2018-05-03',
           name: '王五',
           mobile: '电子银行三室',
-          post: '局长',
-          author: 'redis、MongoDB'
+          post: '普通管理员',
+          author: 'chaoji'
         }, {
           date: '2018-05-03',
           name: '赵六',
           mobile: '电子银行二室',
-          post: '司长',
-          author: 'ActiveMQ'
+          post: '普通管理员',
+          author: 'chaoji'
         }, {
           date: '2018-05-03',
           name: '孙七',
           mobile: '电子银行一室',
-          post: '组长',
-          author: 'SpringBoot'
+          post: '超级管理员',
+          author: 'chaoji'
         }, {
           date: '2018-05-03',
           name: '周八',
           mobile: '电子银行二室',
-          post: '主管',
-          author: 'SpringCloud'
+          post: '普通管理员',
+          author: 'chaoji'
         }, {
           date: '2018-05-03',
           name: '吴九',
           mobile: '电子银行三室',
-          post: '部长',
-          author: 'ssm'
+          post: '超级管理员',
+          author: 'chaoji'
         }]
       }
     }
