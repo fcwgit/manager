@@ -112,8 +112,8 @@
                     <el-select v-model="scope.row.right" placeholder="请选择" size="small" @click.native="handleClick(scope.row)" >
                       <el-option
                         v-for="item in options"
-                        :key="item.value"
-                        :label="item.label"
+                        :key="item.key"
+                        :label="item.value"
                         :value="item.value">
                       </el-option>
                     </el-select>
@@ -492,9 +492,11 @@ export default {
       showRender(){
       },
       handleClick(row) {
+        console.log("=======");
         console.log(row);
         console.log(row.id);
         console.log(row.name);
+        console.log(row.right);
       },
       checkoutBank(){
         if(this.bankTableData.length == 0){
@@ -584,6 +586,8 @@ export default {
     this.projectDesc = this.$route.params.projectDesc;
     this.projectDate = this.$route.params.projectDate;
     this.showTransfer1();
+    console.log(this.options);
+    console.log(this.worker);
   }
     
 }

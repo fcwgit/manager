@@ -5,32 +5,10 @@
         router 
         :default-active="$route.path">
         <el-submenu index="1">
-          <template slot="title"><i class="el-icon-message"></i>检查项目管理</template>
+          <template slot="title"><i class="el-icon-message"></i>修改密码</template>
           <el-menu-item-group>
-            <el-menu-item index="/container/createProject" >新建检查项目</el-menu-item>
-            <el-menu-item index="/container/queryProject">管理检查项目</el-menu-item>
+            <el-menu-item index="/container/createProject" >修改密码</el-menu-item>
           </el-menu-item-group>
-        </el-submenu>
-        <el-submenu index="2">
-          <template slot="title"><i class="el-icon-menu"></i>检查机构库管理</template>
-          <el-menu-item-group>
-            <el-menu-item index="/container/queryBranch">管理检查机构库</el-menu-item>
-          </el-menu-item-group>
-        </el-submenu>
-        <el-submenu index="3">
-          <template slot="title"><i class="el-icon-setting"></i>检查人员管理</template>
-          <el-menu-item-group>
-            <el-menu-item index="/container/queryUser">管理检查人员库</el-menu-item>
-          </el-menu-item-group>
-        </el-submenu>
-        <el-submenu index="4">
-          <template slot="title"><i class="el-icon-service"></i>系统用户管理</template>
-          <el-menu-item-group>
-            <el-menu-item index="/container/queryManager">管理系统用户</el-menu-item>
-          </el-menu-item-group>
-          <!-- <el-menu-item-group>
-            <el-menu-item index="4-2">修改用户</el-menu-item>
-          </el-menu-item-group> -->
         </el-submenu>
       </el-menu>
     </el-aside>
@@ -46,7 +24,7 @@
             <el-dropdown-item command="logout">注销</el-dropdown-item>
           </el-dropdown-menu>
         </el-dropdown>
-        <span>{{managerAlias}}</span>
+        <span>chaoji</span>
       </el-header>
       
       <el-main>
@@ -91,7 +69,6 @@
 </style>
 
 <script>
-import store from '@/vuex/store';
   export default {
     data() {
       const item = {
@@ -100,8 +77,6 @@ import store from '@/vuex/store';
         address: '上海市普陀区金沙江路 1518 弄'
       };
       return {
-        managerAlias:store.state.alias,
-        managerName:store.state.name,
         tableData: Array(20).fill(item)
       }
     },

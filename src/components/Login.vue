@@ -1,46 +1,68 @@
 <template>
-  <div class="login-box">  
-    <el-row>  
-        <el-col :span="8">  
-            <el-input id="name"  v-model="name" placeholder="请输入帐号">  
-                <template slot="prepend">帐号</template>  
-            </el-input>   
-        </el-col>  
-    </el-row>  
-    <el-row>  
-        <el-col :span="8">  
-            <el-input id="password" v-model="password" type="password" placeholder="请输入密码">  
-                <template slot="prepend">密码</template>  
-            </el-input>  
-        </el-col>  
-    </el-row>  
-    <el-row>  
-        <el-col :span="8">  
-            <el-button id="login" v-on:click="check" style="width:100%" type="primary" v-loading.fullscreen.lock="fullscreenLoading">登录</el-button>  
-        </el-col>  
-    </el-row>  
-  </div> 
+    <el-main>
+        <el-form :model="LoginForm" ref="LoginForm" :rules="rule" label-width="0" class="login-form">
+            <h3>用户登录</h3>
+            <el-form-item prop="username" label="用户名：" label-width="80px" >
+              <el-col>
+                <el-input type="text" v-model="LoginForm.username" placeholder="用户名" >
+                </el-input>
+              </el-col>
+            </el-form-item>
+            <el-form-item prop="password" label="密码：" label-width="80px">
+              <el-col>
+                <el-input type="password" v-model="LoginForm.password" placeholder="密 码" >
+                </el-input>
+              </el-col>
+            </el-form-item>
+            <el-form-item >
+              <el-col>
+                <el-button type="danger" class="submitBtn" round @click.native.prevent="submit" v-loading.fullscreen.lock="fullscreenLoading"> 登录 </el-button>
+                <el-button type="primary" class="resetBtn" round @click.native.prevent="reset"> 重置 </el-button> 
+              </el-col>
+                <hr> 
+                <p>忘记密码，请联系超级管理员<span class="to" @click="toregin">超级</span></p>
+              
+            </el-form-item>
+        </el-form>
+    </el-main>
 </template>
-
 <script>
-import axios from 'axios';
+// import axios from 'axios';
 import store from '@/vuex/store';
-export default {
-  name: 'pos',
-  
-  data() {  
-    return{
-      name : '',  
-      password : '',
-      fullscreenLoading: false
-    }
-  },  
-  methods : {  
-    check : function(event){  
-        //获取值  
-        var name = this.name;  
-        var password = this.password;  
-        if(name == '' || password == ''){  
+export default { 
+  data () { 
+      return { 
+          fullscreenLoading: false,
+          LoginForm: { 
+              username: '', 
+              password: '' 
+          }, 
+          // logining: false, 
+          rule: { 
+              username:[{
+                  required:true,
+                  min: 3,
+                  max: 10,
+                  message:'用户名是必须的，长度为3-10位',
+                  trigger: 'blur'
+              } ], 
+              password: [ { 
+                  required: true, 
+                  message: '密码是必须的！', 
+                  trigger: 'blur' 
+              } ] 
+          } 
+      } 
+  }, 
+  methods: { 
+    submit () { 
+      this.fullscreenLoading = true;
+      this.$refs.LoginForm.validate(valid => { 
+        if (valid) { 
+          //获取值  
+          var name = this.LoginForm.username;  
+          var password = this.LoginForm.password;  
+          if(name == '' || password == ''){  
           this.$message({  
               message : '账号或密码为空！',  
               type : 'error'  
@@ -51,63 +73,87 @@ export default {
           setTimeout(() => {
             this.fullscreenLoading = false;
             let flag = false;
-            axios.post("http://localhost:8080/login.action",{
-              name:this.name,
-              password:this.password
-            })
-            .then(response=>{
-              let errorcode = response.data.head.errorCode;
-              if(errorcode != '000000'){
-                let errorMessage = response.data.head.errorMessage;
+            this.$axios.post("http://localhost:8080/login.action",{
+              name:this.LoginForm.username,
+              password:this.LoginForm.password})
+              .then(response=>{
+                let errorcode = response.data.head.errorCode;
+                if(errorcode == '100004'){
+                  this.$router.push('resetPassword');
+                  return;
+                }
+                if(errorcode != '000000'){
+                  let errorMessage = response.data.head.errorMessage;
+                  this.$message({
+                    message: errorMessage,
+                    type: 'error'
+                  });
+                  return;
+                }
+                store.commit('initAlias',response.data.body.alias);
+                store.commit('initName',response.data.body.name);
+                store.commit('initOptions',response.data.body.branch_rate);
+                store.commit('initWorker',response.data.body.worker);
+                store.commit('initManagerType',response.data.body.manager_type);
                 this.$message({
-                message: errorMessage,
-                type: 'error'
-              });
+                    message: '恭喜你，登录成功',
+                    type: 'success'
+                });
+                flag=true;
+                this.$router.push('/container');
                 return;
+              })
+              .catch(error=>{
+                console.log('error='+error);
+                this.$message({
+                    message: '登录失败',
+                    type: 'error'
+                });
+                flag=false;
+                this.$router.push('/');
+                return;
+              });
+              //超时后的处理
+              if(flag){
+                this.$router.push('/container');
+              }else{
+                this.$router.push('/');
               }
-              store.commit('initOptions',response.data.body.branch_rate);
-              store.commit('initWorker',response.data.body.worker);
-              this.$message({
-                message: '恭喜你，登录成功',
-                type: 'success'
-              });
-              flag=true;
-              this.$router.push('/container');
-              return;
-            }).catch(error=>{
-              console.log('error='+error);
-              this.$message({
-                message: '登录失败',
-                type: 'error'
-              });
-              flag=false;
-              this.$router.push('/');
-              return;
-            });
-            //超时后的处理
-            if(flag){
-              this.$router.push('/container');
-            }else{
-              this.$router.push('/');
-            }
-
-          }, 2000);
-          
-        }
-    }  
-  }  
+            }, 2000);
+          }
+        } else { 
+          console.log('submit err');
+        } 
+      }) 
+    }, 
+    reset () { 
+      this.$refs.LoginForm.resetFields();
+    }, 
+    toregin () { 
+      this.$router.push('/regin') ;
+    } 
+  }
 }
 </script>
-
 <style scoped>
-  .el-row {  
-    margin-bottom: 20px;  
-    /* &:last-child {  
-      margin-bottom: 0;  
-    }   */
-  }  
-  .login-box {  
-      margin-top:20%;  
-      margin-left:40%;
-  } 
+    .login-form {
+        margin: 20px auto;
+        width: 310px;
+        background: #fff;
+        box-shadow: 0 0 35px #b4bccc;
+        padding: 30px 30px 0 30px;
+        border-radius: 25px;
+        /* background:url('../assets/logo.png') no-repeat;
+        background-size:100%;
+        -moz-background-size:100% 100%; */
+    }
+    .submitBtn {
+      width: 70%;
+    }
+    
+
+    .to {
+      color: #67c23a;
+      cursor: pointer;
+    }
 </style>
