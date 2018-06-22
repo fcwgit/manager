@@ -43,7 +43,9 @@
               <el-form-item>
                   <!-- <el-col :span="12"> -->
                     <el-button type="primary" @click="goBackForm('ruleForm')" v-loading.fullscreen.lock="fullscreenLoading">返回</el-button>
-                    <el-button type="primary" @click="submitForm('ruleForm')" v-loading.fullscreen.lock="fullscreenLoading">提交</el-button>
+                    <el-button type="primary" @click="submitForm('ruleForm')" v-loading.fullscreen.lock="fullscreenLoading">修改信息</el-button>
+                    <el-button type="primary" @click="unregisterForm('ruleForm')" v-loading.fullscreen.lock="fullscreenLoading">注销</el-button>
+                    <el-button type="primary" @click="registerForm('ruleForm')" v-loading.fullscreen.lock="fullscreenLoading">激活</el-button>
                   <!-- </el-col> -->
               </el-form-item>
           </el-form>
@@ -161,6 +163,75 @@ export default {
           return;
         } 
       }) 
+    },
+    unregisterForm(){
+      this.fullscreenLoading = true;
+      setTimeout(() => {
+        this.fullscreenLoading = true;
+        this.$axios.post("http://localhost:8080/unregisterUser.action",{
+          key:this.ruleForm.key
+        })
+        .then(response=>{
+          let errorcode = response.data.head.errorCode;
+          if(errorcode != '000000'){
+            let errorMessage = response.data.head.errorMessage;
+            this.$message({
+              message: errorMessage,
+              type: 'error'
+            });
+            return;
+          }
+          this.$message({
+              message: '恭喜你，注销用户成功',
+              type: 'success'
+          });
+          this.$router.push('/container/queryUser');
+          return;
+        })
+        .catch(error=>{
+          this.$message({
+              message: '注销用户失败',
+              type: 'error'
+          });
+          fullscreenLoading:false;
+          return;
+        });
+        
+      }, 2000);
+    },
+    registerForm(){
+      this.fullscreenLoading = true;
+      setTimeout(() => {
+        this.fullscreenLoading = true;
+        this.$axios.post("http://localhost:8080/registerUser.action",{
+          key:this.ruleForm.key
+        })
+        .then(response=>{
+          let errorcode = response.data.head.errorCode;
+          if(errorcode != '000000'){
+            let errorMessage = response.data.head.errorMessage;
+            this.$message({
+              message: errorMessage,
+              type: 'error'
+            });
+            return;
+          }
+          this.$message({
+              message: '恭喜你，激活用户成功',
+              type: 'success'
+          });
+          this.$router.push('/container/queryUser');
+          return;
+        })
+        .catch(error=>{
+          this.$message({
+              message: '激活用户失败',
+              type: 'error'
+          });
+          fullscreenLoading:false;
+          return;
+        });
+      }, 2000);
     }
   },
   mounted:function(){
