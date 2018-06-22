@@ -1,6 +1,6 @@
 <template>
 <div>
-  <div class="title">用户详细信息</div>
+  <div class="title">查询人员库信息</div>
   <el-form :model="ruleForm" :rules="rules" ref="ruleForm" label-width="120px" class="demo-ruleForm">
         <el-form-item label="人员名称" prop="name">
           <el-col :span="10">

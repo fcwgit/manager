@@ -46,7 +46,8 @@
               </el-form-item>
               <el-form-item>
                   <!-- <el-col :span="12"> -->
-                    <el-button type="primary" @click="submit()" >提交</el-button>
+                    <el-button type="primary" @click="goBack()" v-loading.fullscreen.lock="fullscreenLoading">返回</el-button>
+                    <el-button type="primary" @click="submit()" v-loading.fullscreen.lock="fullscreenLoading">提交</el-button>
                   <!-- </el-col> -->
               </el-form-item>
           </el-form>
@@ -75,7 +76,7 @@ export default {
     };
     return {
       managerType:store.state.managerType,
-      fullscreenLoading:true,
+      fullscreenLoading:false,
       ruleForm: {
         alias:'',
         name: '',
@@ -109,13 +110,16 @@ export default {
     };
   },
   methods: {
-    submit () { 
+    goBack(){
+      this.$router.go(-1);
+    },
+    submit() { 
       this.fullscreenLoading = true;
       this.$refs.ruleForm.validate(valid => { 
         if (valid) { 
           this.fullscreenLoading = true;
           setTimeout(() => {
-            this.fullscreenLoading = false;
+            this.fullscreenLoading = true;
             this.$axios.post("http://localhost:8080/addManager.action",{
               alias:this.ruleForm.alias,
               name:this.ruleForm.name,
@@ -141,13 +145,11 @@ export default {
               return;
             })
             .catch(error=>{
-              // console.log('error='+error);
               this.$message({
                   message: '添加管理员失败',
                   type: 'error'
               });
-              // flag=false;
-              // this.$router.push('/');
+              this.fullscreenLoading = false;
               return;
             });
             

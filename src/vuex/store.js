@@ -5,6 +5,7 @@ Vue.use(Vuex);
 const state={
     alias:'',
     name:'',
+    pageSize:'',
     options: [],
     worker:[],
     managerType:[]
@@ -25,6 +26,9 @@ const mutations={
     },
     initManagerType(state,params){
         state.managerType=params;
+    },
+    initPageSize(state,param){
+        state.pageSize=param;
     }
 }
 

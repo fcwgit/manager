@@ -14,15 +14,8 @@
             <el-button @click="addForm()">新增</el-button>
         </el-form-item>
       </el-form>
-
-
-<hr>
-
-
-      <el-table
-        :data="tableData"
-        style="width:98%"
-        >
+      <hr>
+      <el-table :data="tableData" style="width:98%" >
         <el-table-column
           prop="time"
           label="添加日期"
@@ -76,6 +69,8 @@
       </el-table>
       <el-pagination
         layout="prev, pager, next"
+        @current-change="handleCurrentChange"
+        :page-size=pageSize
         :total=count>
       </el-pagination>
 </div>
@@ -83,20 +78,24 @@
 
 <script>
 import axios from "axios";
+import store from "@/vuex/store"
   export default {
     // name:queryManager,
     methods: {
+      handleCurrentChange(val) {
+        this.currentPage = val;
+        this.submitForm();
+      },
       detailClick(row) {
-        // console.log(row);
         this.$router.push('/container/detailManager/'+row.time+"/"+row.alias+"/"+row.name+"/"+row.section+"/"+row.post+"/"+row.type+"/"+row.state+"/"+row.author);
       },
       modifyClick(row) {
-        // console.log(row);
         this.$router.push('/container/modifyManager/'+row.time+"/"+row.alias+"/"+row.name+"/"+row.section+"/"+row.post+"/"+row.type+"/"+row.state+"/"+row.author);
       },
       submitForm(formName) {
         this.$axios.post("http://localhost:8080/queryManager.action",{
-          name:this.ruleForm.name
+          name:this.ruleForm.name,
+          currentPage:this.currentPage
         })
         .then(response=>{
           let errorcode = response.data.head.errorCode;
@@ -114,10 +113,9 @@ import axios from "axios";
               type: 'success'
           });
 
-
           this.tableData = response.data.body.managerList;
           this.count = parseInt(response.data.body.count);
-          
+          this.pageSize = parseInt(store.state.pageSize);
           return;
         })
         .catch(error=>{
@@ -160,44 +158,11 @@ import axios from "axios";
         ]
         },
         tableData: [],
-        count:0
+        count:0,
+        pageSize:0,
+        currentPage:'1'
       }
     },
-    // mounted:function(){
-    //   this.$axios.post("http://localhost:8080/queryManager.action",{
-    //     name:this.ruleForm.name
-    //   })
-    //     .then(response=>{
-    //       let errorcode = response.data.head.errorCode;
-    //       if(errorcode != '000000'){
-    //         let errorMessage = response.data.head.errorMessage;
-    //         this.$message({
-    //           message: errorMessage,
-    //           type: 'error'
-    //         });
-    //         return;
-    //       }
-          
-    //       this.$message({
-    //           message: '查询成功',
-    //           type: 'success'
-    //       });
-
-
-    //       this.tableData = response.data.body.managerList;
-    //       this.count = parseInt(response.data.body.count);
-          
-    //       return;
-    //     })
-    //     .catch(error=>{
-    //       console.log('error='+error);
-    //       this.$message({
-    //           message: '查询失败',
-    //           type: 'error'
-    //       });
-    //       return;
-    //     });
-    // }
   }
 </script>
 
