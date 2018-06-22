@@ -56,6 +56,11 @@
           label="添加者"
           width="100">
         </el-table-column>
+        <el-table-column
+          prop="key"
+          label="添加者"
+          width="100" v-if="false">
+        </el-table-column>
         
         <el-table-column
           fixed="right"
@@ -87,10 +92,10 @@ import store from "@/vuex/store"
         this.submitForm();
       },
       detailClick(row) {
-        this.$router.push('/container/detailManager/'+row.time+"/"+row.alias+"/"+row.name+"/"+row.section+"/"+row.post+"/"+row.type+"/"+row.state+"/"+row.author);
+        this.$router.push('/container/detailUser/'+row.time+"/"+row.pinyin+"/"+row.name+"/"+row.section+"/"+row.post+"/"+row.specialty+"/"+row.stateDesc+"/"+row.author+"/"+row.key);
       },
       modifyClick(row) {
-        this.$router.push('/container/modifyManager/'+row.time+"/"+row.alias+"/"+row.name+"/"+row.section+"/"+row.post+"/"+row.type+"/"+row.state+"/"+row.author);
+        this.$router.push('/container/modifyUser/'+row.time+"/"+row.pinyin+"/"+row.name+"/"+row.section+"/"+row.post+"/"+row.specialty+"/"+row.stateDesc+"/"+row.author+"/"+row.key);
       },
       submitForm(formName) {
         this.$axios.post("http://localhost:8080/queryUser.action",{

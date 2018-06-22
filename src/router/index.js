@@ -70,12 +70,12 @@ export default new Router({
           component:ModifyBranch, meta: { keepAlive: false }
         },{
           path:'queryUser',
-          component:QueryUser, meta: { keepAlive: false }
+          component:QueryUser, meta: { keepAlive: true }
         },{
-          path:'detailUser',
+          path:'detailUser/:time/:pinyin/:name/:section/:post/:specialty/:stateDesc/:author/:key',
           component:DetailUser, meta: { keepAlive: false }
         },{
-          path:'modifyUser',
+          path:'modifyUser/:time/:pinyin/:name/:section/:post/:specialty/:stateDesc/:author/:key',
           component:ModifyUser, meta: { keepAlive: false }
         },{
           path:'addUser',
