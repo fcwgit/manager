@@ -27,9 +27,8 @@
                   </el-col>
               </el-form-item>
               
-              <el-form-item label="类别" prop="type">
+              <el-form-item label="角色" prop="type">
                 <el-col :span="24">
-                  <!-- <el-input v-model="ruleForm.post"></el-input> -->
                   <el-select v-model="ruleForm.type" placeholder="请选择" size="small" >
                       <el-option
                         v-for="item in managerType"

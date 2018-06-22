@@ -29,12 +29,12 @@ export default new Router({
     {
       path: '/resetPassword',
       name: 'ResetPassword',
-      component: ResetPassword
+      component: ResetPassword, meta: { keepAlive: false }
     },
     {
       path: '/',
       name: 'Login',
-      component: Login
+      component: Login, meta: { keepAlive: false }
     },
     {
       path: '/container',
@@ -42,56 +42,56 @@ export default new Router({
       children:[
         {
           path:'/',
-          component:Home
+          component:Home, meta: { keepAlive: false }
         },
         {
           path:'createProject',
-          component:CreateProject
+          component:CreateProject, meta: { keepAlive: false }
         },{
           path:'conformProject/:projectName/:projectDesc/:projectDate',
-          component:ConformProject
+          component:ConformProject, meta: { keepAlive: false }
         },{
           path:'queryProject',
-          component:QueryProject
+          component:QueryProject, meta: { keepAlive: false }
         },{
           path:'detailProject',
-          component:DetailProject
+          component:DetailProject, meta: { keepAlive: false }
         },{
           path:'modifyProject',
-          component:ModifyProject
+          component:ModifyProject, meta: { keepAlive: false }
         },{
           path:'queryBranch',
-          component:QueryBranch
+          component:QueryBranch, meta: { keepAlive: false }
         },{
           path:'detailBranch',
-          component:DetailBranch
+          component:DetailBranch, meta: { keepAlive: false }
         },{
           path:'modifyBranch',
-          component:ModifyBranch
+          component:ModifyBranch, meta: { keepAlive: false }
         },{
           path:'queryUser',
-          component:QueryUser
+          component:QueryUser, meta: { keepAlive: false }
         },{
           path:'detailUser',
-          component:DetailUser
+          component:DetailUser, meta: { keepAlive: false }
         },{
           path:'modifyUser',
-          component:ModifyUser
+          component:ModifyUser, meta: { keepAlive: false }
         },{
           path:'addUser',
-          component:AddUser
+          component:AddUser, meta: { keepAlive: false }
         },{
           path:'queryManager',
-          component:QueryManager
+          component:QueryManager, meta: { keepAlive: true }
         },{
-          path:'detailManager',
-          component:DetailManager
+          path:'detailManager/:time/:alias/:name/:section/:post/:type/:state/:author',
+          component:DetailManager, meta: { keepAlive: false }
         },{
-          path:'modifyManager',
-          component:ModifyManager
+          path:'modifyManager/:time/:alias/:name/:section/:post/:type/:state/:author',
+          component:ModifyManager, meta: { keepAlive: false }
         },{
           path:'addManager',
-          component:AddManager
+          component:AddManager, meta: { keepAlive: false }
         }
       ]
     },

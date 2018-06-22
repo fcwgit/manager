@@ -2,7 +2,7 @@
 <div>
   <div class="title">查询管理员信息</div>
   <el-form :model="ruleForm" :rules="rules" ref="ruleForm" label-width="120px" class="demo-ruleForm">
-        <el-form-item label="管理员名称" prop="name">
+        <el-form-item label="管理员用户名" prop="name">
           <el-col :span="10">
             <el-input type="text" v-model="ruleForm.name" maxlength=10></el-input>
           </el-col>
@@ -20,33 +20,48 @@
 
 
       <el-table
-        :data="tableData3"
+        :data="tableData"
         style="width:98%"
         >
         <el-table-column
-          prop="date"
+          prop="time"
           label="添加日期"
           width="200">
         </el-table-column>
         <el-table-column
-          prop="name"
+          prop="alias"
           label="姓名"
           width="100" style="text-overflow:ellipsis">
         </el-table-column>
         <el-table-column
-          prop="mobile"
+          prop="name"
+          label="用户名"
+          width="100" style="text-overflow:ellipsis">
+        </el-table-column>
+        <el-table-column
+          prop="section"
           label="处室"
           width="300">
         </el-table-column>
         <el-table-column
           prop="post"
-          label="类别"
-          width="200">
+          label="职务"
+          width="100">
+        </el-table-column>
+        <el-table-column
+          prop="type"
+          label="角色"
+          width="100">
+        </el-table-column>
+        <el-table-column
+          prop="state"
+          label="状态"
+          width="100">
         </el-table-column>
         <el-table-column
           prop="author"
           label="添加者"
-          width="200">
+          width="100">
         </el-table-column>
         
         <el-table-column
@@ -61,34 +76,58 @@
       </el-table>
       <el-pagination
         layout="prev, pager, next"
-        :total="50">
+        :total=count>
       </el-pagination>
 </div>
 </template>
 
 <script>
+import axios from "axios";
   export default {
-    
+    // name:queryManager,
     methods: {
       detailClick(row) {
-        console.log(row);
-        this.$router.push('/container/detailManager');
+        // console.log(row);
+        this.$router.push('/container/detailManager/'+row.time+"/"+row.alias+"/"+row.name+"/"+row.section+"/"+row.post+"/"+row.type+"/"+row.state+"/"+row.author);
       },
       modifyClick(row) {
-        console.log(row);
-        this.$router.push('/container/modifyManager');
+        // console.log(row);
+        this.$router.push('/container/modifyManager/'+row.time+"/"+row.alias+"/"+row.name+"/"+row.section+"/"+row.post+"/"+row.type+"/"+row.state+"/"+row.author);
       },
       submitForm(formName) {
-        // this.$refs[formName].validate(valid => {
-        //   if (valid) {
-        //     // alert("submit!");
-        //     // console.log(this.ruleForm.name);
-        //     this.$router.push('/container/conformProject/' + this.ruleForm.name + "/" + this.ruleForm.desc + "/" + this.ruleForm.date1);
-        //   } else {
-        //     console.log("error submit!!");
-        //     return false;
-        //   }
-        // });
+        this.$axios.post("http://localhost:8080/queryManager.action",{
+          name:this.ruleForm.name
+        })
+        .then(response=>{
+          let errorcode = response.data.head.errorCode;
+          if(errorcode != '000000'){
+            let errorMessage = response.data.head.errorMessage;
+            this.$message({
+              message: errorMessage,
+              type: 'error'
+            });
+            return;
+          }
+          
+          this.$message({
+              message: '查询成功',
+              type: 'success'
+          });
+
+
+          this.tableData = response.data.body.managerList;
+          this.count = parseInt(response.data.body.count);
+          
+          return;
+        })
+        .catch(error=>{
+          console.log('error='+error);
+          this.$message({
+              message: '查询失败',
+              type: 'error'
+          });
+          return;
+        });
       },
       resetForm(formName) {
         this.$refs[formName].resetFields();
@@ -98,61 +137,67 @@
       }
     },
     data() {
+      var checkName = (rule,value,callback)=>{
+        if(value == ''){
+          callback();
+        }else{
+          var reg= /^[A-Za-z]+$/;
+          if (reg.test(value)) //判断是否符合正则表达式
+          {
+            callback();
+          }else{
+            callback(new Error('用户名为1到10个字母组成'));
+          }
+        }
+      };
       return {
         ruleForm: {
           name: "",
         },
         rules: {
           name: [
-            { required: true, message: "请输入管理员名称", trigger: "blur" },
-            { min: 3, max: 100, message: "长度在 3 到 10 个字符", trigger: "blur" }
-          ]
-    },
-        tableData3: [{
-          date: '2018-05-03',
-          name: '张三',
-          mobile: '科技处一室',
-          post: '超级管理员',
-          author: 'chaoji'
-        }, {
-          date: '2018-05-03',
-          name: '李四',
-          mobile: '电子银行二室',
-          post: '超级管理员',
-          author: 'chaoji'
-        }, {
-          date: '2018-05-03',
-          name: '王五',
-          mobile: '电子银行三室',
-          post: '普通管理员',
-          author: 'chaoji'
-        }, {
-          date: '2018-05-03',
-          name: '赵六',
-          mobile: '电子银行二室',
-          post: '普通管理员',
-          author: 'chaoji'
-        }, {
-          date: '2018-05-03',
-          name: '孙七',
-          mobile: '电子银行一室',
-          post: '超级管理员',
-          author: 'chaoji'
-        }, {
-          date: '2018-05-03',
-          name: '周八',
-          mobile: '电子银行二室',
-          post: '普通管理员',
-          author: 'chaoji'
-        }, {
-          date: '2018-05-03',
-          name: '吴九',
-          mobile: '电子银行三室',
-          post: '超级管理员',
-          author: 'chaoji'
-        }]
+          { validator:checkName, trigger: "blur" }
+        ]
+        },
+        tableData: [],
+        count:0
       }
-    }
+    },
+    // mounted:function(){
+    //   this.$axios.post("http://localhost:8080/queryManager.action",{
+    //     name:this.ruleForm.name
+    //   })
+    //     .then(response=>{
+    //       let errorcode = response.data.head.errorCode;
+    //       if(errorcode != '000000'){
+    //         let errorMessage = response.data.head.errorMessage;
+    //         this.$message({
+    //           message: errorMessage,
+    //           type: 'error'
+    //         });
+    //         return;
+    //       }
+          
+    //       this.$message({
+    //           message: '查询成功',
+    //           type: 'success'
+    //       });
+
+
+    //       this.tableData = response.data.body.managerList;
+    //       this.count = parseInt(response.data.body.count);
+          
+    //       return;
+    //     })
+    //     .catch(error=>{
+    //       console.log('error='+error);
+    //       this.$message({
+    //           message: '查询失败',
+    //           type: 'error'
+    //       });
+    //       return;
+    //     });
+    // }
   }
 </script>
 
