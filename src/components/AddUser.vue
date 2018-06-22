@@ -1,19 +1,22 @@
 <template>
     <el-row>
       <el-col :span="23">
-          <div class="title">新增用户</div>
+          <div class="title">新增检查人员</div>
             <el-form :model="ruleForm" :rules="rules" ref="ruleForm" label-width="120px" class="demo-ruleForm">
               <!-- <el-form-item label="添加日期">
                 <el-col :span="24">
                   <el-input v-model="ruleForm.date"></el-input>
                 </el-col>
               </el-form-item> -->
-              <el-form-item label="用户名" prop="name">
+              <el-form-item label="姓名" prop="name">
                   <el-input v-model="ruleForm.name"></el-input>
               </el-form-item>
-              <el-form-item label="处室" prop="mobile">
+              <el-form-item label="拼音" prop="pinyin">
+                  <el-input v-model="ruleForm.pinyin"></el-input>
+              </el-form-item>
+              <el-form-item label="处室" prop="section">
                   <el-col :span="24">
-                    <el-input v-model="ruleForm.mobile"></el-input> 
+                    <el-input v-model="ruleForm.section"></el-input> 
                   </el-col>
               </el-form-item>
               
@@ -22,13 +25,19 @@
                   <el-input v-model="ruleForm.post"></el-input>
                 </el-col>
               </el-form-item>
-              <el-form-item label="专长" prop="author">
+              <el-form-item label="专长" prop="specialty">
                 <el-col :span="24">
-                  <el-input v-model="ruleForm.author"></el-input>
+                  <el-input v-model="ruleForm.specialty"></el-input>
+                </el-col>
+              </el-form-item>
+              <el-form-item label="添加者">
+                <el-col :span="24">
+                  <el-input v-model="ruleForm.author" :disabled=true></el-input>
                 </el-col>
               </el-form-item>
               <el-form-item>
                   <!-- <el-col :span="12"> -->
+                    <el-button type="primary" @click="goBackForm('ruleForm')" >返回</el-button>
                     <el-button type="primary" @click="submitForm('ruleForm')" >提交</el-button>
                   <!-- </el-col> -->
               </el-form-item>
@@ -39,35 +48,58 @@
 
 <script>
 import axios from "axios";
+import store from "@/vuex/store"
 export default {
   name: "detailProject",
   data() {
+    var checkName = (rule,value,callback)=>{
+      if(value == ''){
+        callback(new Error('请输入用户名'));
+      }else{
+        var reg= /^[A-Za-z]+$/;
+        if (reg.test(value)) //判断是否符合正则表达式
+        {
+          callback();
+        }else{
+          callback(new Error('用户名为1到10个字母组成'));
+        }
+      }
+    };
     return {
       ruleForm: {
-        date: '',
         name: '',
-        mobile: '',
+        pinyin:'',
+        section: '',
         post: '',
-        author: ''
+        specialty:'',
+        author: store.state.alias
       },
       rules: {
         name: [
           { required: true, message: "请输入用户名称", trigger: "blur" },
-          { min: 3, max: 100, message: "长度在 2 到 5 个字符", trigger: "blur" }
+          { min: 2, max: 100, message: "长度在 2 到 5 个字符", trigger: "blur" }
         ],
-        mobile: [
-          { required: true, message: "请填写处室", trigger: "blur" },
-          { min: 3, max: 20, message: "长度在 3 到 20 个字符", trigger: "blur" }
+        pinyin: [
+          { required:true,validator:checkName, trigger: "blur" }
+        ],
+        section: [
+          { required: true, message: "请输入用户名称", trigger: "blur" },
+          { min: 2, max: 100, message: "长度在 2 到 5 个字符", trigger: "blur" }
         ],
         post:[
           { required: true, message: "请填写职务", trigger: "blur" },
-          { min: 3, max: 20, message: "长度在 3 到 20 个字符", trigger: "blur" }
+          { min: 2, max: 20, message: "长度在 32到 20 个字符", trigger: "blur" }
         ],
         author:[
           { required: true, message: "请填写职务", trigger: "blur" },
-          { min: 3, max: 20, message: "长度在 3 到 20 个字符", trigger: "blur" }
+          { min: 2, max: 20, message: "长度在 2 到 20 个字符", trigger: "blur" }
+        ],
+        specialty:[
+          { required: true, message: "请填写职务", trigger: "blur" },
+          { min: 2, max: 20, message: "长度在 2 到 20 个字符", trigger: "blur" }
         ]
-      }
+      },
+      fullscreenLoading:false
     };
   },
   methods: {
@@ -77,8 +109,54 @@ export default {
     //     this.$router.push("/" + data.id);
     //   }
     // },
-    submitForm(formName) {
+    goBackForm(formName) {
       this.$router.go(-1);
+    },
+    submitForm(formName) {
+      this.fullscreenLoading = true;
+      this.$refs.ruleForm.validate(valid => { 
+        if (valid) { 
+          this.fullscreenLoading = true;
+          setTimeout(() => {
+            this.fullscreenLoading = true;
+            this.$axios.post("http://localhost:8080/addUser.action",{
+              pinyin:this.ruleForm.pinyin,
+              name:this.ruleForm.name,
+              section:this.ruleForm.section,
+              post:this.ruleForm.post,
+              specialty:this.ruleForm.specialty
+            })
+            .then(response=>{
+              let errorcode = response.data.head.errorCode;
+              if(errorcode != '000000'){
+                let errorMessage = response.data.head.errorMessage;
+                this.$message({
+                  message: errorMessage,
+                  type: 'error'
+                });
+                return;
+              }
+              this.$message({
+                  message: '恭喜你，添加管理员成功',
+                  type: 'success'
+              });
+              this.$router.push('/container/queryUser');
+              return;
+            })
+            .catch(error=>{
+              this.$message({
+                  message: '添加管理员失败',
+                  type: 'error'
+              });
+              this.fullscreenLoading = false;
+              return;
+            });
+            
+          }, 2000);
+        } else { 
+          console.log('submit err');
+        } 
+      }) 
     }
   },
 };

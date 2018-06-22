@@ -19,7 +19,7 @@
         <el-table-column
           prop="time"
           label="添加日期"
-          width="200">
+          width="150">
         </el-table-column>
         <el-table-column
           prop="alias"
@@ -34,7 +34,7 @@
         <el-table-column
           prop="section"
           label="处室"
-          width="300">
+          width="100">
         </el-table-column>
         <el-table-column
           prop="post"
