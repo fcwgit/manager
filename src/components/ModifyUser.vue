@@ -2,7 +2,7 @@
     <el-row>
       <el-col :span="23">
           <div class="title">修改用户信息</div>
-            <el-form :model="ruleForm" :rules="rules" ref="ruleForm" label-width="120px" class="demo-ruleForm">
+            <el-form :model="ruleForm" :rules="rules" ref="ruleForm" label-width="120px" >
               <el-form-item label="添加日期">
                 <el-col :span="24">
                   <el-input v-model="ruleForm.time" :disabled=true></el-input>
