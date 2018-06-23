@@ -15,6 +15,7 @@
           <template slot="title"><i class="el-icon-menu"></i>检查机构库管理</template>
           <el-menu-item-group>
             <el-menu-item index="/container/queryBranch">管理检查机构库</el-menu-item>
+            <el-menu-item index="/container/addBranch">新增检查机构</el-menu-item>
           </el-menu-item-group>
         </el-submenu>
         <el-submenu index="3">

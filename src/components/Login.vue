@@ -96,6 +96,8 @@ export default {
                 store.commit('initWorker',response.data.body.worker);
                 store.commit('initManagerType',response.data.body.manager_type);
                 store.commit('initPageSize',response.data.body.pageSize);
+                store.commit('initBranchMasterType',response.data.body.branch_master_type);
+                store.commit('initBranchSlaverType',response.data.body.branch_slaver_type);
                 
                 this.$message({
                     message: '恭喜你，登录成功',

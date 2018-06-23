@@ -1,41 +1,74 @@
 <template>
   <div>
-    <el-tabs style="padding:5px">
-      <el-tab-pane label="检查对象">
-        <div class="tree-class">
-          <el-tree
-            :data="bankData"
-            show-checkbox
-            node-key="id"
-            ref="tree"
-            highlight-current
-            :props="defaultProps"
-            
+    <el-row>
+      <el-col :span='6' style="border:1px solid #d3dce6">
+        <el-tree
+          :data="bankData"
+          show-checkbox
+          node-key="id"
+          ref="tree"
+          default-expand-all
+          :props="defaultProps"
+          @check-change="handleClick"
+          >
+        </el-tree>
+      </el-col>
+      <el-col :span='18'>
+        <el-table :data="bankTableData" height="400" size="small">
+          <el-table-column prop="time" label="添加日期" width="80" v-if="false">
+          </el-table-column>
+          <el-table-column prop="id" label="行名" width="120" v-if="false">
+          </el-table-column>
+          <el-table-column prop="label" label="名称" width="150">
+          </el-table-column>
+          <el-table-column prop="num" label="机构编号" width="120">
+          </el-table-column>
+          <el-table-column prop="master" label="一级类别" width="80">
+          </el-table-column>
+          <el-table-column prop="slaver" label="二级类别" width="80">
+          </el-table-column>
+          
+          <el-table-column prop="state" label="状态" width="80">
+          </el-table-column>
+          <el-table-column prop="author" label="添加者" width="80">
+          </el-table-column>
+          <el-table-column prop="right"
+            fixed="right"
+            label="操作"
             >
-          </el-tree>
-        </div>
-      </el-tab-pane>
-    </el-tabs>
+            <template slot-scope="scope">
+              <el-button @click="detailClick(scope.row)" type="text" size="small">查看</el-button>
+              <el-button @click="modifyClick(scope.row)" type="text" size="small">编辑</el-button>
+            </template>
+          </el-table-column>
+        </el-table>
+      </el-col>
+    </el-row>
   </div>
 </template>
 
 <style>
-.tree-class{
-  width: 500px;
-  height: 200px;
-  border: 1px solid #f34b08;
-  scroll-behavior: auto;
-  overflow: auto
-}
+
 </style>
 
 
 <script>
   export default {
     methods: {
+      handleClick(data,checked, node) {
+        // console.log("=======");
+        // console.log(data);
+        // console.log(checked);
+        // console.log(node);
+        // console.log("=======");
+        // console.log(this.$refs.tree.getCheckedNodes(true));
+        // console.log(this.$refs.tree.getCheckedKeys());
+        this.bankTableData = this.$refs.tree.getCheckedNodes(true);
+      //  console.log
+      },
       detailClick(row) {
         console.log(row);
-        this.$router.push('/container/detailBranch');
+        // this.$router.push('/container/detailBranch');
       },
       modifyClick(row) {
         console.log(row);
@@ -44,57 +77,42 @@
     },
     data() {
       return {
-        bankData: [{
-          id: 100000,
-          label: '国有',
-          children: [{
-            id: 100001,
-            label: '中国工商银行',
-            type:'分行'
-          },{
-            id: 100002,
-            label: '农业银行',
-            type:'法人'
-          },{
-            id: 100003,
-            label: '中国银行',
-            type:'分公司'
-          },{
-            id: 100004,
-            label: '建设银行',
-            type:'卡中心'
-          },{
-            id: 100005,
-            label: '交通银行',
-            type:'业务中心'
-          }]
+        bankData: [],
+        bankTableData:[],
+        defaultProps: {
+          children: 'children',
+          label: 'label'
         },
-        {
-          id: 110000,
-          label: '邮储',
-          children: [{
-            id: 110001,
-            label: '邮储银行北京分行',
-            type:'业务中心'
-          },{
-            id: 110002,
-            label: '邮储银行天津分行',
-            type:'法人'
-          },{
-            id: 110003,
-            label: '邮储银行上海分行',
-            type:'分公司'
-          }]
-        },{
-          id: 120000,
-          label: '政策性',
-          children: [{
-            id: 120001,
-            label: '中国进出口银行',
-            type:'分公司'
-          }]
-        }],
       }
+    },
+    mounted:function(){
+      setTimeout(() => {
+        this.$axios.post("http://localhost:8080/queryMasterSlaver.action")
+        .then(response=>{
+          let errorcode = response.data.head.errorCode;
+          if(errorcode != '000000'){
+            let errorMessage = response.data.head.errorMessage;
+            this.$message({
+              message: errorMessage,
+              type: 'error'
+            });
+            return;
+          }
+          this.$message({
+              message: '查询对象列表成功',
+              type: 'success'
+          });
+          this.bankData=response.data.body.bankData;
+          return;
+        })
+        .catch(error=>{
+          this.$message({
+              message: '查询对象列表失败',
+              type: 'error'
+          });
+          return;
+        });
+      }, 2000);
     }
   }
 </script>

@@ -10,6 +10,7 @@ import QueryProject from '@/components/QueryProject'
 import DetailProject from '@/components/DetailProject'
 import ModifyProject from '@/components/ModifyProject'
 import QueryBranch from '@/components/QueryBranch'
+import AddBranch from '@/components/AddBranch'
 import DetailBranch from '@/components/DetailBranch'
 import ModifyBranch from '@/components/ModifyBranch'
 import QueryUser from '@/components/QueryUser'
@@ -62,6 +63,9 @@ export default new Router({
         },{
           path:'queryBranch',
           component:QueryBranch, meta: { keepAlive: false }
+        },{
+          path:'addBranch',
+          component:AddBranch,meta:{keepAlive:false}
         },{
           path:'detailBranch',
           component:DetailBranch, meta: { keepAlive: false }

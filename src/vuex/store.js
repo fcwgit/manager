@@ -8,7 +8,9 @@ const state={
     pageSize:'',
     options: [],
     worker:[],
-    managerType:[]
+    managerType:[],
+    branchMasterType:[],
+    branchSlaverType:[]
 }
 
 const mutations={
@@ -29,6 +31,12 @@ const mutations={
     },
     initPageSize(state,param){
         state.pageSize=param;
+    },
+    initBranchMasterType(state,param){
+        state.branchMasterType=param;
+    },
+    initBranchSlaverType(state,param){
+        state.branchSlaverType=param;
     }
 }
 

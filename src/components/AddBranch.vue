@@ -1,129 +1,172 @@
 <template>
-<div>
-  <div style="width:89%;float:right">
-    <div style="display:none" id="result">
-      <el-table
-        :data="tableData3"
-        style="width:80%"
-        >
-        <el-table-column
-          prop="date"
-          label="添加日期"
-          width="150">
-        </el-table-column>
-        <el-table-column
-          prop="name"
-          label="机构名"
-          width="300" style="text-overflow:ellipsis">
-        </el-table-column>
-        <el-table-column
-          prop="pinyin"
-          label="拼音"
-          width="150">
-        </el-table-column>
-        <el-table-column
-          prop="id"
-          label="编号"
-          width="200">
-        </el-table-column>
-        <el-table-column
-          prop="author"
-          label="添加人"
-          width="100">
-        </el-table-column>
-      </el-table>
-    </div>
-    <div>
-      <!-- <template slot-scope="scope"> -->
-        <div style="width:100px;float:left">
-          <el-button type="primary" size="small" ><a style="text-decoration:none;visited:none" href="http://download.bjrcb.com/mbs/bjrcb_1.1.1.apk" download>下载模板</a></el-button>
-        </div>
-        <el-upload
-          class="upload-demo"
-          action="https://jsonplaceholder.typicode.com/posts/"
-          :on-change="fileHandleChange"
-          :file-list="fileList3">
-          <el-button size="small" type="primary">点击上传</el-button>
-          <div slot="tip" class="el-upload__tip">只能上传jpg/png文件，且不超过500kb</div>
-        </el-upload>
-      <!-- </template> -->
-    </div>
-  </div>
-</div>
+    <el-row>
+      <el-col :span="23">
+          <div class="title">新增检查机构</div>
+            <el-form :model="ruleForm" :rules="rules" ref="ruleForm" label-width="120px" class="demo-ruleForm">
+              <el-form-item label="机构名" prop="name">
+                  <el-input v-model="ruleForm.name"></el-input>
+              </el-form-item>
+              <el-form-item label="编号" prop="num">
+                  <el-input v-model="ruleForm.num"></el-input>
+              </el-form-item>
+
+              <el-form-item label="一级类别" prop="master">
+                <el-col :span="24">
+                  <el-select v-model="ruleForm.master" placeholder="请选择" size="small" >
+                      <el-option
+                        v-for="item in branchMasterType"
+                        :key="item.key"
+                        :label="item.value"
+                        :value="item.key">
+                      </el-option>
+                    </el-select>
+                </el-col>
+              </el-form-item>
+
+              <el-form-item label="二级类别" prop="slaver">
+                <el-col :span="24">
+                  <el-select v-model="ruleForm.slaver" placeholder="请选择" size="small" >
+                      <el-option
+                        v-for="item in branchSlaverType"
+                        :key="item.key"
+                        :label="item.value"
+                        :value="item.key">
+                      </el-option>
+                    </el-select>
+                </el-col>
+              </el-form-item>
+
+              <el-form-item label="添加者">
+                <el-col :span="24">
+                  <el-input v-model="ruleForm.author" :disabled=true></el-input>
+                </el-col>
+              </el-form-item>
+              <el-form-item>
+                  <!-- <el-col :span="12"> -->
+                    <el-button type="primary" @click="submitForm('ruleForm')" v-loading.fullscreen.lock="fullscreenLoading">提交</el-button>
+                  <!-- </el-col> -->
+              </el-form-item>
+          </el-form>
+      </el-col>
+    </el-row>
 </template>
 
 <script>
-  export default {
-    methods: {
-      detailClick(row) {
-        console.log(row);
-        this.$router.push('/detailUser');
-      },
-      modifyClick(row) {
-        console.log(row);
-        this.$router.push('/modifyUser');
-      },
-      handleChange(file, fileList) {
-        this.fileList3 = fileList.slice(-3);
-      },
-      fileHandleChange(file, fileList) {
-        this.fileList3 = fileList.slice(-3);
-        document.getElementById("result").style.display="block";
+import axios from "axios";
+import store from "@/vuex/store"
+export default {
+  name: "detailProject",
+  data() {
+    var checkName = (rule,value,callback)=>{
+      if(value == ''){
+        callback(new Error('请输入用户名'));
+      }else{
+        var reg= /^[A-Za-z]+$/;
+        if (reg.test(value)) //判断是否符合正则表达式
+        {
+          callback();
+        }else{
+          callback(new Error('用户名为1到10个字母组成'));
+        }
       }
-    },
-    data() {
-      return {
-        tableData3: [{
-          date: '2018-05-03',
-          name: '中国工商银行',
-          pinyin: 'gongshang',
-          id: '100000000001',
-          author: '张三'
-        }, {
-          date: '2018-05-03',
-          name: '招商银行',
-          pinyin: 'zhaoshang',
-          id: '100000000002',
-          author: '李四'
-        }, {
-          date: '2018-05-03',
-          name: '中国农业银行',
-          pinyin: 'nongye',
-          id: '100000000003',
-          author: '王五'
-        }, {
-          date: '2018-05-03',
-          name: '中国建设银行',
-          pinyin: 'jianshe',
-          id: '100000000004',
-          author: '赵六'
-        }, {
-          date: '2018-05-03',
-          name: '中信银行',
-          pinyin: 'zhongxin',
-          id: '100000000005',
-          author: '孙七'
-        }, {
-          date: '2018-05-03',
-          name: '中国银行',
-          pinyin: 'zhongguo',
-          id: '100000000006',
-          author: '周八'
-        }, {
-          date: '2018-05-03',
-          name: '华夏银行',
-          pinyin: 'huaxia',
-          id: '100000000007',
-          author: '吴九'
-        }],
-        fileList3: [{
-          name: 'food.jpeg',
-          url: 'https://fuss10.elemecdn.com/3/63/4e7f3a15429bfda99bce42a18cdd1jpeg.jpeg?imageMogr2/thumbnail/360x360/format/webp/quality/100'
-        }, {
-          name: 'food2.jpeg',
-          url: 'https://fuss10.elemecdn.com/3/63/4e7f3a15429bfda99bce42a18cdd1jpeg.jpeg?imageMogr2/thumbnail/360x360/format/webp/quality/100'
-        }]
-      }
+    };
+    return {
+      branchMasterType:store.state.branchMasterType,
+      branchSlaverType:store.state.branchSlaverType,
+      ruleForm: {
+        name: '',
+        num:'',
+        master: '',
+        slaver: '',
+        author: store.state.alias
+      },
+      rules: {
+        name: [
+          { required: true, message: "请输入用户名称", trigger: "blur" },
+          { min: 2, max: 30, message: "长度在 2 到 30 个字符", trigger: "blur" }
+        ],
+        num: [
+          { required: true, message: "请输入机构编号", trigger: "blur" },
+          { min: 2, max: 30, message: "长度在 2 到 30 个字符", trigger: "blur" }
+          
+        ],
+        master: [
+          { required: true, message: "请选择机构类别", trigger: "blur" },
+        ],
+        slaver:[
+          { required: true, message: "请填写职务", trigger: "blur" },
+        ]
+      },
+      fullscreenLoading:false
+    };
+  },
+  methods: {
+    submitForm(formName) {
+      this.fullscreenLoading = true;
+      this.$refs.ruleForm.validate(valid => { 
+        if (valid) { 
+          this.fullscreenLoading = true;
+          setTimeout(() => {
+            this.fullscreenLoading = true;
+            this.$axios.post("http://localhost:8080/addBranch.action",{
+              name:this.ruleForm.name,
+              num:this.ruleForm.num,
+              master:this.ruleForm.master,
+              slaver:this.ruleForm.slaver
+            })
+            .then(response=>{
+              let errorcode = response.data.head.errorCode;
+              if(errorcode != '000000'){
+                let errorMessage = response.data.head.errorMessage;
+                this.$message({
+                  message: errorMessage,
+                  type: 'error'
+                });
+                return;
+              }
+              this.$message({
+                  message: '恭喜你，添加机构成功',
+                  type: 'success'
+              });
+              this.$router.push('/container/addBranch');
+              this.ruleForm.name='';
+              this.ruleForm.num='';
+              this.ruleForm.master='';
+              this.ruleForm.slaver='';
+              this.fullscreenLoading = false
+              return;
+            })
+            .catch(error=>{
+              this.$message({
+                  message: '添加机构失败',
+                  type: 'error'
+              });
+              this.fullscreenLoading = false;
+              return;
+            });
+            
+          }, 2000);
+        } else { 
+          console.log('submit err');
+          this.fullscreenLoading = false;
+          this.$message({
+            message: '请补充信息',
+            type: 'error'
+        });
+        } 
+      }) 
     }
-  }
+  },
+};
 </script>
+
+<style scoped>
+.title {
+  height: 20px;
+  border-bottom: 1px solid #d3dce6;
+  background-color: #f9fafc;
+  padding: 10px;
+  /* text-align: left; */
+}
+
+</style>
