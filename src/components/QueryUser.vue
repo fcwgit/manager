@@ -92,10 +92,12 @@ import store from "@/vuex/store"
         this.submitForm();
       },
       detailClick(row) {
-        this.$router.push('/container/detailUser/'+row.time+"/"+row.pinyin+"/"+row.name+"/"+row.section+"/"+row.post+"/"+row.specialty+"/"+row.stateDesc+"/"+row.author+"/"+row.key);
+        // this.$router.push('/container/detailUser/'+row.time+"/"+row.pinyin+"/"+row.name+"/"+row.section+"/"+row.post+"/"+row.specialty+"/"+row.stateDesc+"/"+row.author+"/"+row.key);
+        this.$router.push({name:'detailUser',params:row});
       },
       modifyClick(row) {
-        this.$router.push('/container/modifyUser/'+row.time+"/"+row.pinyin+"/"+row.name+"/"+row.section+"/"+row.post+"/"+row.specialty+"/"+row.stateDesc+"/"+row.author+"/"+row.key);
+        // this.$router.push('/container/modifyUser/'+row.time+"/"+row.pinyin+"/"+row.name+"/"+row.section+"/"+row.post+"/"+row.specialty+"/"+row.stateDesc+"/"+row.author+"/"+row.key);
+        this.$router.push({name:'modifyUser',params:row})
       },
       submitForm(formName) {
         this.$axios.post("http://localhost:8080/queryUser.action",{

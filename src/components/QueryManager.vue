@@ -87,10 +87,12 @@ import store from "@/vuex/store"
         this.submitForm();
       },
       detailClick(row) {
-        this.$router.push('/container/detailManager/'+row.time+"/"+row.alias+"/"+row.name+"/"+row.section+"/"+row.post+"/"+row.type+"/"+row.state+"/"+row.author);
+        // this.$router.push('/container/detailManager/'+row.time+"/"+row.alias+"/"+row.name+"/"+row.section+"/"+row.post+"/"+row.type+"/"+row.state+"/"+row.author);
+        this.$router.push({name:'detailManager',params:row})
       },
       modifyClick(row) {
-        this.$router.push('/container/modifyManager/'+row.time+"/"+row.alias+"/"+row.name+"/"+row.section+"/"+row.post+"/"+row.type+"/"+row.state+"/"+row.author);
+        // this.$router.push('/container/modifyManager/'+row.time+"/"+row.alias+"/"+row.name+"/"+row.section+"/"+row.post+"/"+row.type+"/"+row.state+"/"+row.author);
+        this.$router.push({name:'modifyManager',params:row})
       },
       submitForm(formName) {
         this.$axios.post("http://localhost:8080/queryManager.action",{

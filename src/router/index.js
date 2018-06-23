@@ -22,6 +22,7 @@ import DetailManager from '@/components/DetailManager'
 import ModifyManager from '@/components/ModifyManager'
 import AddManager from '@/components/AddManager'
 import ResetPassword from '@/components/ResetPassword'
+import Document from '@/components/Document'
 
 Vue.use(Router)
 
@@ -67,19 +68,27 @@ export default new Router({
           path:'addBranch',
           component:AddBranch,meta:{keepAlive:false}
         },{
-          path:'detailBranch/:id/:num/:master/:slaver/:label/:state/:author/:time',
+          // path:'detailBranch/:id/:num/:master/:slaver/:label/:state/:author/:time',
+          path:'detailBranch',
+          name:'detailBranch',
           component:DetailBranch, meta: { keepAlive: false }
         },{
-          path:'modifyBranch/:id/:num/:master/:slaver/:label/:state/:author/:time',
+          // path:'modifyBranch/:id/:num/:master/:slaver/:label/:state/:author/:time',
+          path:'modifyBranch',
+          name:'modifyBranch',
           component:ModifyBranch, meta: { keepAlive: false }
         },{
           path:'queryUser',
           component:QueryUser, meta: { keepAlive: true }
         },{
-          path:'detailUser/:time/:pinyin/:name/:section/:post/:specialty/:stateDesc/:author/:key',
+          // path:'detailUser/:time/:pinyin/:name/:section/:post/:specialty/:stateDesc/:author/:key',
+          path:'detailUser',
+          name:'detailUser',
           component:DetailUser, meta: { keepAlive: false }
         },{
-          path:'modifyUser/:time/:pinyin/:name/:section/:post/:specialty/:stateDesc/:author/:key',
+          // path:'modifyUser/:time/:pinyin/:name/:section/:post/:specialty/:stateDesc/:author/:key',
+          path:'modifyUser',
+          name:'modifyUser',
           component:ModifyUser, meta: { keepAlive: false }
         },{
           path:'addUser',
@@ -88,14 +97,21 @@ export default new Router({
           path:'queryManager',
           component:QueryManager, meta: { keepAlive: true }
         },{
-          path:'detailManager/:time/:alias/:name/:section/:post/:type/:state/:author',
+          // path:'detailManager/:time/:alias/:name/:section/:post/:type/:state/:author',
+          path:'detailManager',
+          name:'detailManager',
           component:DetailManager, meta: { keepAlive: false }
         },{
-          path:'modifyManager/:time/:alias/:name/:section/:post/:type/:state/:author',
+          // path:'modifyManager/:time/:alias/:name/:section/:post/:type/:state/:author',
+          path:'modifyManager',
+          name:'modifyManager',
           component:ModifyManager, meta: { keepAlive: false }
         },{
           path:'addManager',
           component:AddManager, meta: { keepAlive: false }
+        },{
+          path:'document',
+          component:Document,meta:{keepAlive:false}
         }
       ]
     },

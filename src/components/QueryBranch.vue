@@ -68,11 +68,13 @@
       },
       detailClick(row) {
         // console.log(row);
-        this.$router.push('/container/detailBranch/'+row.id+"/"+row.num+"/"+row.master+"/"+row.slaver+"/"+row.label+"/"+row.state+"/"+row.author+"/"+row.time);
+        // this.$router.push('/container/detailBranch/'+row.id+"/"+row.num+"/"+row.master+"/"+row.slaver+"/"+row.label+"/"+row.state+"/"+row.author+"/"+row.time);
+        this.$router.push({name:'detailBranch',params:row});
       },
       modifyClick(row) {
         // console.log(row);
-        this.$router.push('/container/modifyBranch/'+row.id+"/"+row.num+"/"+row.master+"/"+row.slaver+"/"+row.label+"/"+row.state+"/"+row.author+"/"+row.time);
+        // this.$router.push('/container/modifyBranch/'+row.id+"/"+row.num+"/"+row.master+"/"+row.slaver+"/"+row.label+"/"+row.state+"/"+row.author+"/"+row.time);
+        this.$router.push({name:'modifyBranch',params:row});
       }
     },
     data() {

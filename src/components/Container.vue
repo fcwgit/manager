@@ -5,26 +5,32 @@
         router 
         :default-active="$route.path">
         <el-submenu index="1">
-          <template slot="title"><i class="el-icon-message"></i>检查项目管理</template>
+          <template slot="title"><i class="el-icon-document"></i>随机抽查事项清单</template>
+          <el-menu-item-group>
+            <el-menu-item index="/container/document" >随机抽查事项清单</el-menu-item>
+          </el-menu-item-group>
+        </el-submenu>
+        <el-submenu index="2">
+          <template slot="title"><i class="el-icon-time"></i>检查项目管理</template>
           <el-menu-item-group>
             <el-menu-item index="/container/createProject" >新建检查项目</el-menu-item>
             <el-menu-item index="/container/queryProject">管理检查项目</el-menu-item>
           </el-menu-item-group>
         </el-submenu>
-        <el-submenu index="2">
+        <el-submenu index="3">
           <template slot="title"><i class="el-icon-menu"></i>检查机构库管理</template>
           <el-menu-item-group>
             <el-menu-item index="/container/queryBranch">管理检查机构库</el-menu-item>
             <el-menu-item index="/container/addBranch">新增检查机构</el-menu-item>
           </el-menu-item-group>
         </el-submenu>
-        <el-submenu index="3">
+        <el-submenu index="4">
           <template slot="title"><i class="el-icon-setting"></i>检查人员管理</template>
           <el-menu-item-group>
             <el-menu-item index="/container/queryUser">管理检查人员库</el-menu-item>
           </el-menu-item-group>
         </el-submenu>
-        <el-submenu index="4">
+        <el-submenu index="5">
           <template slot="title"><i class="el-icon-service"></i>系统用户管理</template>
           <el-menu-item-group>
             <el-menu-item index="/container/queryManager">管理系统用户</el-menu-item>
@@ -43,7 +49,7 @@
           
           <el-dropdown-menu slot="dropdown">
             <!-- <el-dropdown-item>查看</el-dropdown-item>-->
-            <el-dropdown-item>修改密码</el-dropdown-item> 
+            <el-dropdown-item command="modifyPassword">修改密码</el-dropdown-item> 
             <el-dropdown-item command="logout">注销</el-dropdown-item>
           </el-dropdown-menu>
         </el-dropdown>
@@ -117,8 +123,16 @@ import store from '@/vuex/store';
       //   this.$router.push("/createProject");
       // },
       handleCommand(command) {
-        this.$message('退出登录 ');
-        this.$router.push("/");
+        
+        if(command == 'logout'){
+          this.$message('退出登录 ');
+          this.$router.push("/");
+        }
+
+        if(command == 'modifyPassword'){
+          alert(111);
+        }
+        
       }
     },
 
