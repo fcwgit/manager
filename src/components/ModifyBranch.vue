@@ -1,40 +1,53 @@
 <template>
-    <el-row>
-      <el-col :span="23">
-          <div class="title">机构详细信息</div>
-            <el-form :model="ruleForm" ref="ruleForm" label-width="120px" class="demo-ruleForm">
-              <el-form-item label="添加日期">
+  <el-row>
+    <el-col :span="23">
+        <div class="title">修改机构信息</div>
+          <el-form :model="ruleForm" :rules="rules" ref="ruleForm" label-width="120px" class="demo-ruleForm">
+            <el-form-item label="id">
+              <el-col :span="24">
+                <el-input v-model="ruleForm.id" :disabled=true></el-input>
+              </el-col>
+            </el-form-item>
+            <el-form-item label="添加日期">
+              <el-col :span="24">
+                <el-input v-model="ruleForm.time" :disabled=true></el-input>
+              </el-col>
+            </el-form-item>
+            <el-form-item label="机构名称" prop="label">
+                <el-input v-model="ruleForm.label"></el-input>
+            </el-form-item>
+            <el-form-item label="一级机构">
                 <el-col :span="24">
-                  <el-input v-model="ruleForm.date" ></el-input>
+                  <el-input v-model="ruleForm.master" :disabled=true></el-input> 
                 </el-col>
-              </el-form-item>
-              <el-form-item label="机构名称">
-                  <el-input v-model="ruleForm.name"></el-input>
-              </el-form-item>
-              <el-form-item label="机构拼音">
-                  <el-col :span="24">
-                    <el-input v-model="ruleForm.pinyin"></el-input> 
-                  </el-col>
-              </el-form-item>
-              
-              <el-form-item label="机构编号">
-                <el-col :span="24">
-                  <el-input v-model="ruleForm.id"></el-input>
-                </el-col>
-              </el-form-item>
-              <el-form-item label="添加人">
-                <el-col :span="24">
-                  <el-input v-model="ruleForm.author"></el-input>
-                </el-col>
-              </el-form-item>
-              <el-form-item>
-                  <!-- <el-col :span="12"> -->
-                    <el-button type="primary" @click="submitForm('ruleForm')" >提交</el-button>
-                  <!-- </el-col> -->
-              </el-form-item>
-          </el-form>
-      </el-col>
-    </el-row>
+            </el-form-item>
+            
+            <el-form-item label="二级机构">
+              <el-col :span="24">
+                <el-input v-model="ruleForm.slaver" :disabled=true></el-input>
+              </el-col>
+            </el-form-item>
+            <el-form-item label="状态">
+              <el-col :span="24">
+                <el-input v-model="ruleForm.state" :disabled=true></el-input>
+              </el-col>
+            </el-form-item>
+            <el-form-item label="添加人">
+              <el-col :span="24">
+                <el-input v-model="ruleForm.author" :disabled=true></el-input>
+              </el-col>
+            </el-form-item>
+            <el-form-item>
+                <!-- <el-col :span="12"> -->
+                  <el-button type="primary" @click="goBackForm('ruleForm')" v-loading.fullscreen.lock="fullscreenLoading">返回</el-button>
+                  <el-button type="primary" @click="submitForm('ruleForm')" v-loading.fullscreen.lock="fullscreenLoading">修改机构信息</el-button>
+                  <el-button type="primary" @click="unregisterForm('ruleForm')" v-loading.fullscreen.lock="fullscreenLoading">注销</el-button>
+                  <el-button type="primary" @click="registerForm('ruleForm')" v-loading.fullscreen.lock="fullscreenLoading">激活</el-button>
+                <!-- </el-col> -->
+            </el-form-item>
+        </el-form>
+    </el-col>
+  </el-row>
 </template>
 
 <script>
@@ -44,58 +57,143 @@ export default {
   data() {
     return {
       ruleForm: {
-        date: '2018-05-03',
-        name: '中国建设银行',
-        pinyin: 'jianshe',
-        id: '100000000004',
-        author: '赵六'
+        id: '',
+        num: '',
+        master: '',
+        slaver: '',
+        label: '',
+        state: '',
+        author: '',
+        time: ''
+        
       },
-      data: [{
-        label: '项目管理',
-        children: [{
-          label: '新建项目',
-          id:'createProject'
-        },{
-          label: '查询项目',
-          id:'queryProject'
-        }
+      rules: {
+        label: [
+          { required: true, message: "请输入用户名称", trigger: "blur" },
+          { min: 2, max: 30, message: "长度在 2 到 30 个字符", trigger: "blur" }
         ]
-      }, {
-        label: '机构管理',
-        children: [{
-          label: '添加机构',
-          id:'addBranch'
-        }, {
-          label: '查询机构',
-          id:'queryBranch'
-        }]
-      }, {
-        label: '用户管理',
-        children: [{
-          label: '新增管理员',
-          id:'addUser'
-        }, {
-          label: '查询管理员',
-          id:'queryUser'
-        }]
-      }],
-      defaultProps: {
-        children: 'children',
-        label: 'label'
-      }
+      },
+      fullscreenLoading:false
     };
   },
   methods: {
-    // handleNodeClick(data) {
-    //   alert(data.id);
-    //   if(data.id != undefined){
-    //     this.$router.push("/" + data.id);
-    //   }
-    // },
-    submitForm(formName) {
+    goBackForm(formName) {
       this.$router.go(-1);
+    },
+    submitForm(){
+      this.fullscreenLoading = true;
+      setTimeout(() => {
+        this.fullscreenLoading = true;
+        this.$axios.post("http://localhost:8080/modifyBranch.action",{
+          key:this.ruleForm.id,
+          name:this.ruleForm.label
+        })
+        .then(response=>{
+          let errorcode = response.data.head.errorCode;
+          if(errorcode != '000000'){
+            let errorMessage = response.data.head.errorMessage;
+            this.$message({
+              message: errorMessage,
+              type: 'error'
+            });
+            return;
+          }
+          this.$message({
+              message: '修改机构信息成功',
+              type: 'success'
+          });
+          this.$router.push('/container/queryBranch');
+          return;
+        })
+        .catch(error=>{
+          this.$message({
+              message: '修改机构信息失败',
+              type: 'error'
+          });
+          fullscreenLoading:false;
+          return;
+        });
+      }, 2000);
+    },
+    unregisterForm(){
+      this.fullscreenLoading = true;
+      setTimeout(() => {
+        this.fullscreenLoading = true;
+        this.$axios.post("http://localhost:8080/unregisterBranch.action",{
+          key:this.ruleForm.id
+        })
+        .then(response=>{
+          let errorcode = response.data.head.errorCode;
+          if(errorcode != '000000'){
+            let errorMessage = response.data.head.errorMessage;
+            this.$message({
+              message: errorMessage,
+              type: 'error'
+            });
+            return;
+          }
+          this.$message({
+              message: '恭喜你，注销机构成功',
+              type: 'success'
+          });
+          this.$router.push('/container/queryBranch');
+          return;
+        })
+        .catch(error=>{
+          this.$message({
+              message: '注销机构失败',
+              type: 'error'
+          });
+          fullscreenLoading:false;
+          return;
+        });
+      }, 2000);
+    },
+    registerForm(){
+      this.fullscreenLoading = true;
+      setTimeout(() => {
+        this.fullscreenLoading = true;
+        this.$axios.post("http://localhost:8080/registerBranch.action",{
+          key:this.ruleForm.id
+        })
+        .then(response=>{
+          let errorcode = response.data.head.errorCode;
+          if(errorcode != '000000'){
+            let errorMessage = response.data.head.errorMessage;
+            this.$message({
+              message: errorMessage,
+              type: 'error'
+            });
+            return;
+          }
+          this.$message({
+              message: '恭喜你，激活机构成功',
+              type: 'success'
+          });
+          this.$router.push('/container/queryBranch');
+          return;
+        })
+        .catch(error=>{
+          this.$message({
+              message: '激活机构失败',
+              type: 'error'
+          });
+          fullscreenLoading:false;
+          return;
+        });
+      }, 2000);
     }
   },
+  mounted:function(){
+    this.ruleForm.id = this.$route.params.id;
+    this.ruleForm.num = this.$route.params.num;
+    this.ruleForm.master = this.$route.params.master;
+    this.ruleForm.slaver = this.$route.params.slaver;
+    this.ruleForm.label = this.$route.params.label;
+    this.ruleForm.state = this.$route.params.state;
+    this.ruleForm.author = this.$route.params.author;
+    this.ruleForm.time = this.$route.params.time;
+  }
 };
 </script>
 

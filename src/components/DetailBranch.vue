@@ -3,28 +3,38 @@
     <el-col :span="23">
         <div class="title">机构详细信息</div>
           <el-form :model="ruleForm" ref="ruleForm" label-width="120px" class="demo-ruleForm">
+            <el-form-item label="id">
+              <el-col :span="24">
+                <el-input v-model="ruleForm.id" :disabled=true></el-input>
+              </el-col>
+            </el-form-item>
             <el-form-item label="添加日期">
               <el-col :span="24">
-                <el-input v-model="ruleForm.date" disabled=true></el-input>
+                <el-input v-model="ruleForm.time" :disabled=true></el-input>
               </el-col>
             </el-form-item>
             <el-form-item label="机构名称">
-                <el-input v-model="ruleForm.name" disabled=true></el-input>
+                <el-input v-model="ruleForm.label" :disabled=true></el-input>
             </el-form-item>
-            <el-form-item label="机构拼音">
+            <el-form-item label="一级机构">
                 <el-col :span="24">
-                  <el-input v-model="ruleForm.pinyin" disabled=true></el-input> 
+                  <el-input v-model="ruleForm.master" :disabled=true></el-input> 
                 </el-col>
             </el-form-item>
             
-            <el-form-item label="机构编号">
+            <el-form-item label="二级机构">
               <el-col :span="24">
-                <el-input v-model="ruleForm.id" disabled=true></el-input>
+                <el-input v-model="ruleForm.slaver" :disabled=true></el-input>
+              </el-col>
+            </el-form-item>
+            <el-form-item label="状态">
+              <el-col :span="24">
+                <el-input v-model="ruleForm.state" :disabled=true></el-input>
               </el-col>
             </el-form-item>
             <el-form-item label="添加人">
               <el-col :span="24">
-                <el-input v-model="ruleForm.author" disabled=true></el-input>
+                <el-input v-model="ruleForm.author" :disabled=true></el-input>
               </el-col>
             </el-form-item>
             <el-form-item>
@@ -44,58 +54,33 @@ export default {
   data() {
     return {
       ruleForm: {
-        date: '2018-05-03',
-        name: '中国建设银行',
-        pinyin: 'jianshe',
-        id: '100000000004',
-        author: '赵六'
+        id: '',
+        num: '',
+        master: '',
+        slaver: '',
+        label: '',
+        state: '',
+        author: '',
+        time: ''
+        
       },
-      data: [{
-        label: '项目管理',
-        children: [{
-          label: '新建项目',
-          id:'createProject'
-        },{
-          label: '查询项目',
-          id:'queryProject'
-        }
-        ]
-      }, {
-        label: '机构管理',
-        children: [{
-          label: '添加机构',
-          id:'addBranch'
-        }, {
-          label: '查询机构',
-          id:'queryBranch'
-        }]
-      }, {
-        label: '用户管理',
-        children: [{
-          label: '新增管理员',
-          id:'addUser'
-        }, {
-          label: '查询管理员',
-          id:'queryUser'
-        }]
-      }],
-      defaultProps: {
-        children: 'children',
-        label: 'label'
-      }
     };
   },
   methods: {
-    // handleNodeClick(data) {
-    //   alert(data.id);
-    //   if(data.id != undefined){
-    //     this.$router.push("/" + data.id);
-    //   }
-    // },
     submitForm(formName) {
       this.$router.go(-1);
     }
   },
+  mounted:function(){
+    this.ruleForm.id = this.$route.params.id;
+    this.ruleForm.num = this.$route.params.num;
+    this.ruleForm.master = this.$route.params.master;
+    this.ruleForm.slaver = this.$route.params.slaver;
+    this.ruleForm.label = this.$route.params.label;
+    this.ruleForm.state = this.$route.params.state;
+    this.ruleForm.author = this.$route.params.author;
+    this.ruleForm.time = this.$route.params.time;
+  }
 };
 </script>
 

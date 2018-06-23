@@ -67,10 +67,10 @@ export default new Router({
           path:'addBranch',
           component:AddBranch,meta:{keepAlive:false}
         },{
-          path:'detailBranch',
+          path:'detailBranch/:id/:num/:master/:slaver/:label/:state/:author/:time',
           component:DetailBranch, meta: { keepAlive: false }
         },{
-          path:'modifyBranch',
+          path:'modifyBranch/:id/:num/:master/:slaver/:label/:state/:author/:time',
           component:ModifyBranch, meta: { keepAlive: false }
         },{
           path:'queryUser',
