@@ -65,11 +65,13 @@
               <el-form-item>
                 <el-upload
                   class="upload-demo"
-                  action="https://jsonplaceholder.typicode.com/posts/"
-                  :on-change="fileHandleChange"
-                  :file-list="fileList3">
+                  action="http://localhost:8080/upload.action"
+                  name="uploadFile"
+                  :with-credentials=true
+                  :data="fileData"
+                  :on-remove="removeFile"
+                  :file-list="fileList">
                   <el-button size="small" type="primary">点击上传</el-button>
-                  <div slot="tip" class="el-upload__tip">只能上传jpg/png文件，且不超过500kb</div>
                 </el-upload>
               </el-form-item>
             </el-form>
@@ -464,13 +466,7 @@ export default {
       slaverTableDataLength:0,
    
       value:'',
-      fileList3: [{
-        name: 'food.jpeg',
-        url: 'https://fuss10.elemecdn.com/3/63/4e7f3a15429bfda99bce42a18cdd1jpeg.jpeg?imageMogr2/thumbnail/360x360/format/webp/quality/100'
-      }, {
-        name: 'food2.jpeg',
-        url: 'https://fuss10.elemecdn.com/3/63/4e7f3a15429bfda99bce42a18cdd1jpeg.jpeg?imageMogr2/thumbnail/360x360/format/webp/quality/100'
-      }],
+      fileList: [],
       bankData: [],
       defaultProps: {
         children: 'children',
@@ -484,13 +480,12 @@ export default {
       leaderBakTargetCount:0,
       masterTargetCount:0,
       masterBakTargetCount:0,
-      slaverTargetCount:0
+      slaverTargetCount:0,
+      fileData:{}
+
     }
   },
   methods: {
-    fileHandleChange(file, fileList) {
-        this.fileList3 = fileList.slice(-3);
-      },
     showTransfer1(){
       document.getElementById("transfer1").style.display="";
       document.getElementById("transfer2").style.display="none";
@@ -933,16 +928,6 @@ export default {
       return;
     },
 
-
-
-
-
-
-
-
-
-
-
     masterHandleChange(value, direction, movedKeys) {
       this.masterTableData = [];
       for(let i=0;i<value.length;i++){
@@ -1342,6 +1327,40 @@ export default {
 
 
 
+    },
+    removeFile(file, fileList){
+      setTimeout(() => {
+        this.fullscreenLoading = true;
+        this.$axios.post("http://localhost:8080/deleteFile.action",{
+          key:file.response.body.id
+        })
+        .then(response=>{
+          let errorcode = response.data.head.errorCode;
+          if(errorcode != '000000'){
+            let errorMessage = response.data.head.errorMessage;
+            this.$message({
+              message: errorMessage,
+              type: 'error'
+            });
+            return;
+          }
+          this.$message({
+              message: '删除文件成功',
+              type: 'success'
+          });
+          this.fullscreenLoading = false;
+          return;
+        })
+        .catch(error=>{
+          this.$message({
+              message: '删除文件失败',
+              type: 'error'
+          });
+          this.fullscreenLoading = false;
+          return;
+        });
+        
+      }, 2000);
     }
   },
   mounted:function(){
@@ -1355,6 +1374,7 @@ export default {
     this.projectId = projectObj.projectId;
     this.worker=projectObj.worker;
     this.options=JSON.parse(sessionStorage.getItem('options'))
+    this.fileData={key:projectObj.projectId}
   }
     
 }
