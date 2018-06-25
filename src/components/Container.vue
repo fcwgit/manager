@@ -57,14 +57,6 @@
       </el-header>
       
       <el-main>
-        <!-- <el-table :data="tableData">
-          <el-table-column prop="date" label="日期" width="140">
-          </el-table-column>
-          <el-table-column prop="name" label="姓名" width="120">
-          </el-table-column>
-          <el-table-column prop="address" label="地址">
-          </el-table-column>
-        </el-table> -->
         <keep-alive>
           <router-view v-if="$route.meta.keepAlive"></router-view>
         </keep-alive>
@@ -105,15 +97,9 @@
 import store from '@/vuex/store';
   export default {
     data() {
-      const item = {
-        date: '2016-05-02',
-        name: '王小虎',
-        address: '上海市普陀区金沙江路 1518 弄'
-      };
       return {
         managerAlias:store.state.alias,
         managerName:store.state.name,
-        tableData: Array(20).fill(item)
       }
     },
     methods:{
@@ -144,6 +130,17 @@ import store from '@/vuex/store';
       }
       document.getElementById("home").style.width = w + 'px';
       document.getElementById("home").style.height = h + 'px';
+
+      store.commit('initAlias',sessionStorage.getItem('alias'));
+      this.managerAlias=sessionStorage.getItem('alias');
+      store.commit('initName',sessionStorage.getItem('name'));
+      store.commit('initOptions',JSON.parse(sessionStorage.getItem('options')));
+      // store.commit('initWorker',JSON.parse(sessionStorage.getItem('worker')));
+      store.commit('initManagerType',JSON.parse(sessionStorage.getItem('managerType')));
+      store.commit('initPageSize',sessionStorage.getItem('pageSize'));
+      store.commit('initBranchMasterType',JSON.parse(sessionStorage.getItem('branchMasterType')));
+      store.commit('initBranchSlaverType',JSON.parse(sessionStorage.getItem('branchSlaverType')));
+      store.commit('setIsLogin',sessionStorage.getItem('isLogin'));
     }
   };
 </script>

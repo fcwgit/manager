@@ -50,7 +50,8 @@ export default new Router({
           path:'createProject',
           component:CreateProject, meta: { keepAlive: false }
         },{
-          path:'conformProject/:projectName/:projectDesc/:projectDate',
+          path:'conformProject',
+          name:'conformProject',
           component:ConformProject, meta: { keepAlive: false }
         },{
           path:'queryProject',
