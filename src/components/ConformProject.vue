@@ -38,8 +38,20 @@
               </el-form-item>
             </el-form>
             <el-form label-width="100px">
+              <el-form-item label="副组长" >
+                <el-input v-model="projectLeaderBak" :readonly="true" @click.native="showTransfer5">
+                </el-input>
+              </el-form-item>
+            </el-form>
+            <el-form label-width="100px">
               <el-form-item label="主查" >
                 <el-input v-model="projectMaster" :readonly="true" @click.native="showTransfer3">
+                </el-input>
+              </el-form-item>
+            </el-form>
+            <el-form label-width="100px">
+              <el-form-item label="副主查" >
+                <el-input v-model="projectMasterBak" :readonly="true" @click.native="showTransfer6">
                 </el-input>
               </el-form-item>
             </el-form>
@@ -293,6 +305,109 @@
             </el-tab-pane>
           </el-tabs>
         </div>
+        <div id="transfer5">
+          <el-tabs style="padding:5px">
+            <el-tab-pane label="副组长">
+              <el-transfer
+                filterable
+                :filter-method="filterMethod"
+                :titles="['资源库', '备选项']"
+                filter-placeholder="请输入人名拼音"
+                v-model="leaderBakSelected"
+                height="150"
+                @change="leaderBakHandleChange"
+                size="small"
+                :data="worker">
+              </el-transfer>
+              <el-table :data="leaderBakTableData" height="250" size="small">
+                <el-table-column prop="label" label="姓名" width="120">
+                </el-table-column>
+                <el-table-column prop="id" label="id" v-if="false">
+                </el-table-column>
+                <el-table-column prop="section" label="处室" width="120">
+                </el-table-column>
+                <el-table-column prop="post" label="职务" width="120">
+                </el-table-column>
+                <el-table-column prop="specialty" label="专长">
+                </el-table-column>
+              </el-table>
+              <div class="totalDiv" > 
+                <el-row>
+                <el-col :span="10">
+                <el-form label-width="100px">
+                  <el-form-item label="样本数量" >
+                    <el-input :disabled="true" v-model=leaderBakTableDataLength>
+                    </el-input>
+                  </el-form-item>
+                </el-form>
+                </el-col>
+                <el-col :span="10">
+                <el-form label-width="100px">
+                  <el-form-item label="随机数量" >
+                    <el-input v-model="leaderBakTargetCount" value="number">
+                    </el-input>
+                  </el-form-item>
+                </el-form>
+                </el-col>
+                </el-row>
+              </div>
+              <div class="div-btn" center>
+                <el-button type="success" @click="checkoutLeaderBak()">随机</el-button>
+              </div>
+            </el-tab-pane>
+          </el-tabs>
+        </div>
+        <div id="transfer6">
+          <el-tabs style="padding:5px">
+            <el-tab-pane label="副主查">
+              <el-transfer
+                filterable
+                :filter-method="filterMethod"
+                :titles="['资源库', '备选项']"
+                filter-placeholder="请输入城市拼音"
+                v-model="masterBakSelected"
+                @change="masterBakHandleChange"
+                height="150"
+                size="small"
+                :data="worker">
+              </el-transfer>
+              <el-table :data="masterBakTableData" height="250" size="small">
+                <el-table-column prop="label" label="姓名" width="120">
+                </el-table-column>
+                <el-table-column prop="section" label="处室" width="120">
+                </el-table-column>
+                <el-table-column prop="post" label="职务" width="120">
+                </el-table-column>
+                <el-table-column prop="specialty" label="专长">
+                </el-table-column>
+              </el-table>
+
+              <div class="totalDiv" > 
+                <el-row>
+                <el-col :span="10">
+                <el-form label-width="100px">
+                  <el-form-item label="样本数量" >
+                    <el-input :disabled="true" v-model=masterBakTableDataLength>
+                    </el-input>
+                  </el-form-item>
+                </el-form>
+                </el-col>
+                <el-col :span="10">
+                <el-form label-width="100px">
+                  <el-form-item label="随机数量" >
+                    <el-input v-model="masterBakTargetCount" value="number">
+                    </el-input>
+                  </el-form-item>
+                </el-form>
+                </el-col>
+                </el-row>
+              </div>
+              <div class="div-btn" center>
+                <el-button type="success" @click="checkoutMasterBak()">随机</el-button>
+              </div>
+            </el-tab-pane>
+          </el-tabs>
+        </div>
       </el-col>
     </el-row>
   <!-- <div> -->
@@ -322,11 +437,15 @@ export default {
       projectId:'',
       projectTarget:'',
       projectLeader:'',
+      projectLeaderBak:'',
       projectMaster:'',
+      projectMasterBak:'',
       projectSlaver:'',
       bankSelected: [],
       leaderSelected: [],
+      leaderBakSelected: [],
       masterSelected: [],
+      masterBakSelected: [],
       slaverSelected: [],
       filterMethod(query, item) {
         return item.pinyin.indexOf(query) > -1;
@@ -335,8 +454,12 @@ export default {
       bankTableDataLength:0,
       leaderTableData:[],
       leaderTableDataLength:0,
+      leaderBakTableData:[],
+      leaderBakTableDataLength:0,
       masterTableData:[],
       masterTableDataLength:0,
+      masterBakTableData:[],
+      masterBakTableDataLength:0,
       slaverTableData:[],
       slaverTableDataLength:0,
    
@@ -358,7 +481,9 @@ export default {
       formLabelWidth: '120px',
       bankTargetCount:0,
       leaderTargetCount:0,
+      leaderBakTargetCount:0,
       masterTargetCount:0,
+      masterBakTargetCount:0,
       slaverTargetCount:0
     }
   },
@@ -371,25 +496,48 @@ export default {
       document.getElementById("transfer2").style.display="none";
       document.getElementById("transfer3").style.display="none";
       document.getElementById("transfer4").style.display="none";
+      document.getElementById("transfer5").style.display="none";
+      document.getElementById("transfer6").style.display="none";
     },
     showTransfer2(){
       document.getElementById("transfer1").style.display="none";
       document.getElementById("transfer2").style.display="";
       document.getElementById("transfer3").style.display="none";
       document.getElementById("transfer4").style.display="none";
-      
+      document.getElementById("transfer5").style.display="none";
+      document.getElementById("transfer6").style.display="none";
     },
     showTransfer3(){
       document.getElementById("transfer1").style.display="none";
       document.getElementById("transfer2").style.display="none";
       document.getElementById("transfer3").style.display="";
       document.getElementById("transfer4").style.display="none";
+      document.getElementById("transfer5").style.display="none";
+      document.getElementById("transfer6").style.display="none";
     },
     showTransfer4(){
       document.getElementById("transfer1").style.display="none";
       document.getElementById("transfer2").style.display="none";
       document.getElementById("transfer3").style.display="none";
       document.getElementById("transfer4").style.display="";
+      document.getElementById("transfer5").style.display="none";
+      document.getElementById("transfer6").style.display="none";
+    },
+    showTransfer5(){
+      document.getElementById("transfer1").style.display="none";
+      document.getElementById("transfer2").style.display="none";
+      document.getElementById("transfer3").style.display="none";
+      document.getElementById("transfer4").style.display="none";
+      document.getElementById("transfer5").style.display="";
+      document.getElementById("transfer6").style.display="none";
+    },
+    showTransfer6(){
+      document.getElementById("transfer1").style.display="none";
+      document.getElementById("transfer2").style.display="none";
+      document.getElementById("transfer3").style.display="none";
+      document.getElementById("transfer4").style.display="none";
+      document.getElementById("transfer5").style.display="none";
+      document.getElementById("transfer6").style.display="";
     },
     bankHandleChange() {
 
@@ -551,7 +699,7 @@ export default {
 
       if(this.leaderTableDataLength == 0){
         this.$message({  
-            message : '请重新设置检查对象随机数量！',  
+            message : '请重新设置组长随机数量！',  
             type : 'warning'  
         })  
         return; 
@@ -559,7 +707,7 @@ export default {
       
       if(this.leaderTableDataLength>this.leaderTableData.length){
         this.$message({  
-            message : '请重新设置检查对象随机数量！',  
+            message : '请重新设置组长随机数量！',  
             type : 'warning'  
         })  
         return; 
@@ -655,6 +803,146 @@ export default {
       });
       return;
     },
+    leaderBakHandleChange(value, direction, movedKeys) {
+      this.leaderBakTableData = [];
+      for(let i=0;i<value.length;i++){
+        for(let j=0;j<this.worker.length;j++){
+          let obj = this.worker[j];
+          if(obj.id == value[i]){
+            this.leaderBakTableData.push(obj);
+            break;
+          }
+        }
+      }
+
+      this.leaderBakTableDataLength = this.leaderBakTableData.length;
+    },
+    checkoutLeaderBak(){
+      if(this.leaderBakTableData.length == 0){
+        this.$message({  
+            message : '请选择副组长！',  
+            type : 'warning'  
+        })  
+        return; 
+      }
+
+      if(this.leaderBakTableDataLength == 0){
+        this.$message({  
+            message : '请重新设置副组长随机数量！',  
+            type : 'warning'  
+        })  
+        return; 
+      }
+      
+      if(this.leaderBakTableDataLength>this.leaderBakTableData.length){
+        this.$message({  
+            message : '请重新设置副组长随机数量！',  
+            type : 'warning'  
+        })  
+        return; 
+      }
+
+      let targetArr = [];
+      let randomSeed = [];
+      let sortSeed = [];
+      for(let i=0;i<this.leaderBakTableData.length;i++){
+        let obj = this.leaderBakTableData[i];
+        
+        let randomNum = Math.random();
+        randomSeed[i] = randomNum;
+        sortSeed[i] = randomNum;
+      }
+      randomSeed = randomSeed.sort();
+      randomSeed = randomSeed.reverse();
+
+      for(let j=0;j<this.leaderBakTargetCount;j++){
+        let jj = randomSeed[j];
+        for(let k=0;k<sortSeed.length;k++){
+          if(jj == sortSeed[k]){
+            targetArr[j] = this.leaderBakTableData[k];
+            break;
+          }
+        }
+      }
+
+      let message1 = '';
+      let message2 = '';
+      for(let i=0;i<this.leaderBakTableData.length;i++){
+        let obj = this.leaderBakTableData[i];
+        message1 += '[' + obj.label + ']';
+      }
+      for(let i=0;i<targetArr.length;i++){
+        let obj = targetArr[i];
+        message2 += '[' + obj.label + ']';
+      }
+
+      this.$confirm('从'+message1+'这'+this.leaderBakTableData.length+'个备选人员随机选择'+message2+'这'+this.leaderBakTargetCount+'个人员, 是否继续?', '提示', {
+        confirmButtonText: '确定',
+        cancelButtonText: '取消',
+        type: 'warning'
+      }).then(() => {
+        this.$message({
+          type: 'success',
+          message: '随机选择成功!'
+        });
+
+        this.projectLeaderBak = message2;
+
+
+        setTimeout(() => {
+          this.fullscreenLoading = true;
+          this.$axios.post("http://localhost:8080/addLeaderBak.action",{
+            leader:targetArr,
+            key:this.projectId
+          })
+          .then(response=>{
+            let errorcode = response.data.head.errorCode;
+            if(errorcode != '000000'){
+              let errorMessage = response.data.head.errorMessage;
+              this.$message({
+                message: errorMessage,
+                type: 'error'
+              });
+              return;
+            }
+            this.$message({
+                message: '恭喜你，设置副组长成功',
+                type: 'success'
+            });
+            // this.$router.push('/container/addBranch');
+            this.fullscreenLoading = false;
+            return;
+          })
+          .catch(error=>{
+            this.$message({
+                message: '设置副组长失败',
+                type: 'error'
+            });
+            this.fullscreenLoading = false;
+            return;
+          });
+          
+        }, 2000);
+
+      }).catch(() => {
+        this.$message({
+          type: 'warning',
+          message: '请重新选设置副组长!'
+        });          
+      });
+      return;
+    },
+
+
+
+
+
+
+
+
+
+
+
     masterHandleChange(value, direction, movedKeys) {
       this.masterTableData = [];
       for(let i=0;i<value.length;i++){
@@ -781,6 +1069,141 @@ export default {
         this.$message({
           type: 'warning',
           message: '请重新选设置主查!'
+        });          
+      });
+      return;
+      
+    },
+
+
+
+
+    masterBakHandleChange(value, direction, movedKeys) {
+      this.masterBakTableData = [];
+      for(let i=0;i<value.length;i++){
+        for(let j=0;j<this.worker.length;j++){
+          let obj = this.worker[j];
+          if(obj.id == value[i]){
+            this.masterBakTableData.push(obj);
+            break;
+          }
+        }
+      }
+
+      this.masterBakTableDataLength = this.masterBakTableData.length;
+    },
+    
+    checkoutMasterBak(){
+      if(this.masterBakTableData.length == 0){
+        this.$message({  
+            message : '请选择副主查！',  
+            type : 'warning'  
+        })  
+        return; 
+      }
+
+      if(this.masterBakTableDataLength == 0){
+        this.$message({  
+            message : '请重新设置副主查随机数量！',  
+            type : 'warning'  
+        })  
+        return; 
+      }
+      
+      if(this.masterBakTableDataLength>this.masterBakTableData.length){
+        this.$message({  
+            message : '请重新设置副主查随机数量！',  
+            type : 'warning'  
+        })  
+        return; 
+      }
+
+      let targetArr = [];
+      let randomSeed = [];
+      let sortSeed = [];
+      for(let i=0;i<this.masterBakTableData.length;i++){
+        let obj = this.masterBakTableData[i];
+        
+        let randomNum = Math.random();
+        randomSeed[i] = randomNum;
+        sortSeed[i] = randomNum;
+      }
+      randomSeed = randomSeed.sort();
+      randomSeed = randomSeed.reverse();
+
+      for(let j=0;j<this.masterBakTargetCount;j++){
+        let jj = randomSeed[j];
+        for(let k=0;k<sortSeed.length;k++){
+          if(jj == sortSeed[k]){
+            targetArr[j] = this.masterBakTableData[k];
+            break;
+          }
+        }
+      }
+
+      let message1 = '';
+      let message2 = '';
+      for(let i=0;i<this.masterBakTableData.length;i++){
+        let obj = this.masterBakTableData[i];
+        message1 += '[' + obj.label + ']';
+      }
+      for(let i=0;i<targetArr.length;i++){
+        let obj = targetArr[i];
+        message2 += '[' + obj.label + ']';
+      }
+
+      this.$confirm('从'+message1+'这'+this.masterBakTableData.length+'个备选人员随机选择'+message2+'这'+this.masterBakTargetCount+'个人员, 是否继续?', '提示', {
+        confirmButtonText: '确定',
+        cancelButtonText: '取消',
+        type: 'warning'
+      }).then(() => {
+        this.$message({
+          type: 'success',
+          message: '随机选择成功!'
+        });
+
+        this.projectMasterBak = message2;
+
+
+        setTimeout(() => {
+          this.fullscreenLoading = true;
+          this.$axios.post("http://localhost:8080/addMasterBak.action",{
+            leader:targetArr,
+            key:this.projectId
+          })
+          .then(response=>{
+            let errorcode = response.data.head.errorCode;
+            if(errorcode != '000000'){
+              let errorMessage = response.data.head.errorMessage;
+              this.$message({
+                message: errorMessage,
+                type: 'error'
+              });
+              return;
+            }
+            this.$message({
+                message: '恭喜你，设置副主查成功',
+                type: 'success'
+            });
+            // this.$router.push('/container/addBranch');
+            this.fullscreenLoading = false;
+            return;
+          })
+          .catch(error=>{
+            this.$message({
+                message: '设置副主查失败',
+                type: 'error'
+            });
+            this.fullscreenLoading = false;
+            return;
+          });
+          
+        }, 2000);
+
+      }).catch(() => {
+        this.$message({
+          type: 'warning',
+          message: '请重新选设置副主查!'
         });          
       });
       return;
