@@ -55,9 +55,10 @@ export default new Router({
           component:ConformProject, meta: { keepAlive: false }
         },{
           path:'queryProject',
-          component:QueryProject, meta: { keepAlive: false }
+          component:QueryProject, meta: { keepAlive: true }
         },{
           path:'detailProject',
+          name:'detailProject',
           component:DetailProject, meta: { keepAlive: false }
         },{
           path:'modifyProject',

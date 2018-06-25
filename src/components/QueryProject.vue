@@ -1,128 +1,152 @@
 <template>
-  <el-table
-    :data="tableData3"
-    style="width:99%"
-    height="800">
-    <el-table-column
-      fixed
-      prop="date"
-      label="日期"
-      width="150">
-    </el-table-column>
-    <el-table-column
-      prop="name"
-      label="项目名称"
-      width="300" style="text-overflow:ellipsis">
-    </el-table-column>
-    <!-- <el-table-column
-      prop="province"
-      label="项目描述"
-      width="300">
-    </el-table-column> -->
-    <el-table-column
-      prop="city"
-      label="检查对象"
-      width="200">
-    </el-table-column>
-    <el-table-column
-      prop="address"
-      label="组长"
-      width="200">
-    </el-table-column>
-    <el-table-column
-      prop="zip"
-      label="主查"
-      width="200">
-    </el-table-column>
-    <el-table-column
-      prop="worker"
-      label="检查人员"
-      width="200">
-    </el-table-column>
-    <el-table-column
-      fixed="right"
-      label="操作"
-      width="100">
-      <template slot-scope="scope">
-        <el-button @click="detailClick(scope.row)" type="text" size="small">查看</el-button>
-        <el-button @click="modifyClick(scope.row)" type="text" size="small">编辑</el-button>
-      </template>
-    </el-table-column>
-  </el-table>
+<div>
+  <div class="title">查询项目信息</div>
+  <el-form :model="ruleForm" :rules="rules" ref="ruleForm" label-width="120px" class="demo-ruleForm">
+        <el-form-item label="项目名称" prop="name">
+          <el-col :span="10">
+            <el-input type="text" v-model="ruleForm.name" maxlength=10></el-input>
+          </el-col>
+        </el-form-item>
+        
+        <el-form-item>
+            <el-button type="primary" @click="submitForm('ruleForm')">查询</el-button>
+            <el-button @click="resetForm('ruleForm')">重置</el-button>
+        </el-form-item>
+      </el-form>
+      <hr>
+      <el-table :data="tableData" style="width:98%" >
+        <el-table-column
+          prop="time"
+          label="添加日期"
+          width="200">
+        </el-table-column>
+        <el-table-column
+          prop="name"
+          label="项目名称"
+          width="400" style="text-overflow:ellipsis">
+        </el-table-column>
+        <el-table-column
+          prop="date"
+          label="检查月份"
+          width="150" style="text-overflow:ellipsis">
+        </el-table-column>
+        <el-table-column
+          prop="stateDisplay"
+          label="状态"
+          width="100">
+        </el-table-column>
+        <el-table-column
+          prop="author"
+          label="添加者"
+          width="100">
+        </el-table-column>
+        <el-table-column
+          prop="id"
+          label="id"
+          v-if="false">
+        </el-table-column>
+        <el-table-column
+          fixed="right"
+          label="操作"
+          width="100">
+          <template slot-scope="scope">
+            <el-button @click="detailClick(scope.row)" type="text" size="small">查看</el-button>
+            <el-button @click="modifyClick(scope.row)" v-if="scope.row.right" type="text" size="small">编辑</el-button>
+          </template>
+        </el-table-column>
+      </el-table>
+      <el-pagination
+        layout="prev, pager, next"
+        @current-change="handleCurrentChange"
+        :page-size=pageSize
+        :total=count>
+      </el-pagination>
+</div>
 </template>
 
 <script>
+import axios from "axios";
+import store from "@/vuex/store"
   export default {
+    // name:queryManager,
     methods: {
+      handleCurrentChange(val) {
+        this.currentPage = val;
+        this.submitForm();
+      },
       detailClick(row) {
-        console.log(row);
-        this.$router.push('/container/detailProject');
+        // this.$router.push('/container/detailUser/'+row.time+"/"+row.pinyin+"/"+row.name+"/"+row.section+"/"+row.post+"/"+row.specialty+"/"+row.stateDesc+"/"+row.author+"/"+row.key);
+        this.$router.push({name:'detailProject',params:row});
       },
       modifyClick(row) {
-        console.log(row);
-        this.$router.push('/container/modifyProject');
-      }
+        // this.$router.push('/container/modifyUser/'+row.time+"/"+row.pinyin+"/"+row.name+"/"+row.section+"/"+row.post+"/"+row.specialty+"/"+row.stateDesc+"/"+row.author+"/"+row.key);
+        this.$router.push({name:'modifyUser',params:row})
+      },
+      submitForm(formName) {
+        this.$axios.post("http://localhost:8080/queryProject.action",{
+          name:this.ruleForm.name,
+          currentPage:this.currentPage
+        })
+        .then(response=>{
+          let errorcode = response.data.head.errorCode;
+          if(errorcode != '000000'){
+            let errorMessage = response.data.head.errorMessage;
+            this.$message({
+              message: errorMessage,
+              type: 'error'
+            });
+            return;
+          }
+          
+          this.$message({
+              message: '查询成功',
+              type: 'success'
+          });
+
+          this.tableData = response.data.body.projectList;
+          this.count = parseInt(response.data.body.count);
+          this.pageSize = parseInt(store.state.pageSize);
+          return;
+        })
+        .catch(error=>{
+          console.log('error='+error);
+          this.$message({
+              message: '查询失败',
+              type: 'error'
+          });
+          return;
+        });
+      },
+      resetForm(formName) {
+        this.$refs[formName].resetFields();
+      },
     },
     data() {
       return {
-        tableData3: [{
-          date: '2018-05-03',
-          name: '深化整治银行业市场乱象的检查',
-          province: '深化整治银行业市场乱象的检查',
-          city: '中国银行、农业银行',
-          address: '张三',
-          zip: 'zhangsan',
-          worker:'张三、李四、王五'
-        }, {
-          date: '2018-05-02',
-          name: '深化整治银行业运维系统的检查',
-          province: '深化整治银行业运维系统的检查',
-          city: '上海银行、青岛银行',
-          address: 'lisi',
-          zip: 'lisi',
-          worker:'张三、李四、王五'
-        }, {
-          date: '2018-05-04',
-          name: '关于商业银行账户清理的检查',
-          province: '关于商业银行账户清理的检查',
-          city: '浙商银行、齐鲁银行',
-          address: 'zhaoliu',
-          zip: '赵六',
-          worker:'张三、李四、王五'
-        }, {
-          date: '2018-05-01',
-          name: '关于商业银行消防安全清理的检查',
-          province: '关于商业银行消防安全清理的检查',
-          city: '渤海银行、晋商银行',
-          address: 'wangwu',
-          zip: '王五',
-          worker:'张三、李四、王五'
-        }, {
-          date: '2018-05-08',
-          name: '关于商业银行涉密信息清理的检查',
-          province: '关于商业银行涉密信息清理的检查',
-          city: '工商银行、交通银行',
-          address: 'zhaoliu',
-          zip: '赵六',
-          worker:'张三、李四、王五'
-        }, {
-          date: '2018-05-06',
-          name: '关于商业银行服务质量的检查',
-          province: '关于商业银行服务质量的检查',
-          city: '天津商行、农业银行',
-          address: 'wangwu',
-          zip: '王五',
-          worker:'张三、李四、王五'
-        }, {
-          date: '2018-05-07',
-          name: '关于商业银行资金安全的检查',
-          province: '关于商业银行资金安全的检查',
-          city: '中信银行、浦发银行',
-          address: 'lisi',
-          zip: '李四',
-          worker:'张三、李四、王五'
-        }]
+        ruleForm: {
+          name: "",
+        },
+        rules: {
+          name: [
+          { required:true, trigger: "blur" }
+        ]
+        },
+        tableData: [],
+        count:0,
+        pageSize:0,
+        currentPage:'1'
       }
-    }
+    },
   }
 </script>
+
+<style scoped>
+.title {
+  height: 20px;
+  border-bottom: 1px solid #d3dce6;
+  background-color: #f9fafc;
+  padding: 10px;
+  /* text-align: left; */
+}
+
+</style>
