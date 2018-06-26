@@ -24,13 +24,13 @@
             <el-menu-item index="/container/addBranch">新增检查机构</el-menu-item>
           </el-menu-item-group>
         </el-submenu>
-        <el-submenu index="4">
+        <el-submenu index="4" v-if=role>
           <template slot="title"><i class="el-icon-setting"></i>检查人员管理</template>
           <el-menu-item-group>
             <el-menu-item index="/container/queryUser">管理检查人员库</el-menu-item>
           </el-menu-item-group>
         </el-submenu>
-        <el-submenu index="5">
+        <el-submenu index="5" v-if=role>
           <template slot="title"><i class="el-icon-service"></i>系统用户管理</template>
           <el-menu-item-group>
             <el-menu-item index="/container/queryManager">管理系统用户</el-menu-item>
@@ -142,7 +142,11 @@ import store from '@/vuex/store';
       store.commit('initBranchMasterType',JSON.parse(sessionStorage.getItem('branchMasterType')));
       store.commit('initBranchSlaverType',JSON.parse(sessionStorage.getItem('branchSlaverType')));
       store.commit('setIsLogin',sessionStorage.getItem('isLogin'));
-      this.role=sessionStorage.getItem('role');
+      if(sessionStorage.getItem('role') == 'false'){
+        this.role = false;
+      }else{
+        this.role = true;
+      }
     }
   };
 </script>

@@ -34,6 +34,16 @@
       }else{
         this.role = true;
       }
+    },
+    methods:{
+      exportExcel(){
+        var myurl="${context}/assetInLibrary/export";
+        var form=$("<form>");
+        form.attr("style","display:none");
+        form.attr("method","post");
+        form.attr("action",myurl);
+        $("body").append(form);
+    }
     }
   };
 </script>
