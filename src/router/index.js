@@ -62,6 +62,7 @@ export default new Router({
           component:DetailProject, meta: { keepAlive: false }
         },{
           path:'modifyProject',
+          name:'modifyProject',
           component:ModifyProject, meta: { keepAlive: false }
         },{
           path:'queryBranch',

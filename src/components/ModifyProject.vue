@@ -415,7 +415,7 @@
   <!-- <div> -->
     <el-row>
       <el-col>
-        <el-button id="login" style="width:100%" type="primary">提交</el-button> 
+        <el-button id="login" style="width:100%" type="primary" @click="goBack()">提交</el-button> 
       </el-col>
     </el-row>
  <!-- </div>  -->
@@ -486,6 +486,9 @@ export default {
     }
   },
   methods: {
+    goBack(){
+      this.$router.go(-1);
+    },
     showTransfer1(){
       document.getElementById("transfer1").style.display="";
       document.getElementById("transfer2").style.display="none";
@@ -1366,15 +1369,59 @@ export default {
   mounted:function(){
     let projectObj = JSON.parse(sessionStorage.getItem('worker'));
 
-    this.projectName = projectObj.name;
-    this.projectDesc = projectObj.des;
-    this.projectDate = projectObj.date;
+    // this.projectName = this.$route.params.name;
+    // this.projectDesc = this.$route.params.des;
+    // this.projectDate = this.$route.params.date;
     this.showTransfer1();
     this.bankData = projectObj.bankData;
     this.projectId = projectObj.projectId;
     this.worker=projectObj.worker;
     this.options=JSON.parse(sessionStorage.getItem('options'))
     this.fileData={key:projectObj.projectId}
+
+
+    this.projectId = this.$route.params.id;
+    this.$axios.post("http://localhost:8080/queryProjectDetail.action",{
+      key:this.projectId
+    })
+    .then(response=>{
+      let errorcode = response.data.head.errorCode;
+      if(errorcode != '000000'){
+        let errorMessage = response.data.head.errorMessage;
+        this.$message({
+          message: errorMessage,
+          type: 'error'
+        });
+        return;
+      }
+      
+      this.$message({
+          message: '查询成功',
+          type: 'success'
+      });
+
+      this.projectName = response.data.body.project.name;
+      this.projectDesc = response.data.body.project.des;
+      this.projectDate = response.data.body.project.date;
+      this.projectTarget = response.data.body.target;
+      this.projectLeader = response.data.body.leader;
+      this.projectLeaderBak = response.data.body.leaderBak;
+      this.projectMaster = response.data.body.master;
+      this.projectMasterBak = response.data.body.masterBak;
+      this.projectSlaver = response.data.body.slaver;
+      return;
+    })
+    .catch(error=>{
+      console.log('error='+error);
+      this.$message({
+          message: '查询失败',
+          type: 'error'
+      });
+      return;
+    });
+
+
+
   }
     
 }

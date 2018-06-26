@@ -26,6 +26,11 @@
           width="400" style="text-overflow:ellipsis">
         </el-table-column>
         <el-table-column
+          prop="des"
+          label="des"
+          v-if="false">
+        </el-table-column>
+        <el-table-column
           prop="date"
           label="检查月份"
           width="150" style="text-overflow:ellipsis">
@@ -80,7 +85,7 @@ import store from "@/vuex/store"
       },
       modifyClick(row) {
         // this.$router.push('/container/modifyUser/'+row.time+"/"+row.pinyin+"/"+row.name+"/"+row.section+"/"+row.post+"/"+row.specialty+"/"+row.stateDesc+"/"+row.author+"/"+row.key);
-        this.$router.push({name:'modifyUser',params:row})
+        this.$router.push({name:'modifyProject',params:row})
       },
       submitForm(formName) {
         this.$axios.post("http://localhost:8080/queryProject.action",{
