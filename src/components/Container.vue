@@ -116,7 +116,7 @@ import store from '@/vuex/store';
         }
 
         if(command == 'modifyPassword'){
-          alert(111);
+          this.$router.push("/container/initPassword");
         }
         
       }

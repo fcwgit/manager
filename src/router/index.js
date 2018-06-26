@@ -22,6 +22,7 @@ import DetailManager from '@/components/DetailManager'
 import ModifyManager from '@/components/ModifyManager'
 import AddManager from '@/components/AddManager'
 import ResetPassword from '@/components/ResetPassword'
+import InitPassword from '@/components/InitPassword'
 import Document from '@/components/Document'
 
 Vue.use(Router)
@@ -115,6 +116,9 @@ export default new Router({
         },{
           path:'document',
           component:Document,meta:{keepAlive:false}
+        },{
+          path:'initPassword',
+          component:InitPassword,meta:{keepAlive:false}
         }
       ]
     },

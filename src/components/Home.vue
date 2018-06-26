@@ -4,19 +4,25 @@
   <div>
     <ul style="list-style-type:none;text-align:left;margin-left:150px">
       <li>
-        <router-link to="/container/createProject">1、新建检查项目</router-link>
+        <router-link to="/container/document">1、随机抽查事项清单</router-link>
       </li>
       <li>
-        <router-link to="/container/queryProject">2、管理检查项目</router-link>
+        <router-link to="/container/createProject">2、新建检查项目</router-link>
       </li>
       <li>
-        <router-link to="/container/queryBranch">3、管理机构库</router-link>
+        <router-link to="/container/queryProject">3、管理检查项目</router-link>
       </li>
       <li>
-        <router-link to="/container/queryUser">4、管理检查人员库</router-link>
+        <router-link to="/container/queryBranch">4、管理检查机构库</router-link>
       </li>
       <li>
-        <router-link to="/container/queryManager">5、管理系统用户</router-link>
+        <router-link to="/container/addBranch">5、新增检查机构</router-link>
+      </li>
+      <li>
+        <router-link to="/container/queryUser">6、管理检查人员库</router-link>
+      </li>
+      <li>
+        <router-link to="/container/queryManager">7、管理系统用户</router-link>
       </li>
     </ul>
   </div>
