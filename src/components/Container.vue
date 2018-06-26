@@ -17,7 +17,7 @@
             <el-menu-item index="/container/queryProject">管理检查项目</el-menu-item>
           </el-menu-item-group>
         </el-submenu>
-        <el-submenu index="3">
+        <el-submenu index="3" v-if=role>
           <template slot="title"><i class="el-icon-menu"></i>检查机构库管理</template>
           <el-menu-item-group>
             <el-menu-item index="/container/queryBranch">管理检查机构库</el-menu-item>
@@ -100,6 +100,7 @@ import store from '@/vuex/store';
       return {
         managerAlias:store.state.alias,
         managerName:store.state.name,
+        role:false
       }
     },
     methods:{
@@ -141,6 +142,7 @@ import store from '@/vuex/store';
       store.commit('initBranchMasterType',JSON.parse(sessionStorage.getItem('branchMasterType')));
       store.commit('initBranchSlaverType',JSON.parse(sessionStorage.getItem('branchSlaverType')));
       store.commit('setIsLogin',sessionStorage.getItem('isLogin'));
+      this.role=sessionStorage.getItem('role');
     }
   };
 </script>

@@ -3,6 +3,7 @@ import Vuex from 'vuex';
 Vue.use(Vuex);
 
 const state={
+    role:false,
     isLogin:false,
     alias:'',
     name:'',
@@ -15,6 +16,10 @@ const state={
 }
 
 const mutations={
+    setRole(state,params){
+        sessionStorage.setItem('role',params);
+        state.role=params;
+    },
     setIsLogin(state,params){
         sessionStorage.setItem('isLogin',params);
         state.isLogin=params;

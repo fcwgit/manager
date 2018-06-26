@@ -90,6 +90,13 @@ export default {
                   });
                   return;
                 }
+                let role = response.data.body.type;
+                // alert(role);
+                if(role == '0'){
+                  store.commit('setRole',true);
+                }else{
+                  store.commit('setRole',false);
+                }
                 store.commit('initAlias',response.data.body.alias);
                 store.commit('initName',response.data.body.name);
                 store.commit('initOptions',response.data.body.branch_rate);
