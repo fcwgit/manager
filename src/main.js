@@ -6,7 +6,7 @@ import router from './router'
 import ElementUI from 'element-ui';
 import 'element-ui/lib/theme-chalk/index.css';
 import axios from 'axios';
-axios.defaults.baseURL = 'http://localhost:8080'
+axios.defaults.baseURL = 'http://192.168.1.4:8080'
 
 Vue.config.productionTip = false
 axios.defaults.withCredentials=true;
