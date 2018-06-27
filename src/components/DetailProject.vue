@@ -1,8 +1,8 @@
 <template>
 <div>
-  <el-row>
-    <el-col :span="24">
-        <div class="title">项目详细信息</div>
+  <div>
+    <el-tabs style="padding:5px">
+      <el-tab-pane label="项目详细信息" >
         <el-form :model="ruleForm" ref="ruleForm" label-width="120px" class="demo-ruleForm">
           <el-form-item label="检查项目名称" prop="name">
             <el-col :span="24">
@@ -48,130 +48,140 @@
               <el-input v-model="ruleForm.slaver" :disabled="true"></el-input>
             </el-col>
           </el-form-item>
-          <el-form-item>
-              <!-- <el-col :span="12"> -->
-                <el-button type="primary" @click="submitForm('ruleForm')" >返回</el-button>
-              <!-- </el-col> -->
-          </el-form-item>
-      </el-form>
-    </el-col>
-  </el-row>
-  <div class="title">检查对象设置信息</div>
-  <el-table :data="addTarget" style="width:98%" >
-    <el-table-column
-      prop="time"
-      label="设置日期"
-      width="150">
-    </el-table-column>
-    <el-table-column
-      prop="contents"
-      label="内容"
-    >
-    </el-table-column>
-    <el-table-column
-      prop="author"
-      label="操作员"
-      width="100">
-    </el-table-column>
-  </el-table>
+          
+        </el-form>
+      </el-tab-pane>
+      <el-tab-pane label="检查对象设置信息" >
+        <el-table :data="addTarget" style="width:98%" >
+          <el-table-column
+            prop="time"
+            label="设置日期"
+            width="150">
+          </el-table-column>
+          <el-table-column
+            prop="contents"
+            label="内容"
+          >
+          </el-table-column>
+          <el-table-column
+            prop="author"
+            label="操作员"
+            width="100">
+          </el-table-column>
+        </el-table>
+      </el-tab-pane>
+      <el-tab-pane label="组长设置信息">
+        <el-table :data="addLeader" style="width:98%" >
+          <el-table-column
+            prop="time"
+            label="设置日期"
+            width="150">
+          </el-table-column>
+          <el-table-column
+            prop="contents"
+            label="内容"
+          >
+          </el-table-column>
+          <el-table-column
+            prop="author"
+            label="操作员"
+            width="100">
+          </el-table-column>
+        </el-table>
+      </el-tab-pane>
+      <el-tab-pane label="副组长设置信息">
+        <el-table :data="addLeaderBak" style="width:98%" >
+          <el-table-column
+            prop="time"
+            label="设置日期"
+            width="150">
+          </el-table-column>
+          <el-table-column
+            prop="contents"
+            label="内容"
+          >
+          </el-table-column>
+          <el-table-column
+            prop="author"
+            label="操作员"
+            width="100">
+          </el-table-column>
+        </el-table>
+      </el-tab-pane>
 
-  <div class="title">组长设置信息</div>
-  <el-table :data="addLeader" style="width:98%" >
-    <el-table-column
-      prop="time"
-      label="设置日期"
-      width="150">
-    </el-table-column>
-    <el-table-column
-      prop="contents"
-      label="内容"
-    >
-    </el-table-column>
-    <el-table-column
-      prop="author"
-      label="操作员"
-      width="100">
-    </el-table-column>
-  </el-table>
+      <el-tab-pane label="主查设置信息">
+        <el-table :data="addMaster" style="width:98%" >
+          <el-table-column
+            prop="time"
+            label="设置日期"
+            width="150">
+          </el-table-column>
+          <el-table-column
+            prop="contents"
+            label="内容"
+          >
+          </el-table-column>
+          <el-table-column
+            prop="author"
+            label="操作员"
+            width="100">
+          </el-table-column>
+        </el-table>
+      </el-tab-pane>
 
-  <div class="title">副组长设置信息</div>
-  <el-table :data="addLeaderBak" style="width:98%" >
-    <el-table-column
-      prop="time"
-      label="设置日期"
-      width="150">
-    </el-table-column>
-    <el-table-column
-      prop="contents"
-      label="内容"
-    >
-    </el-table-column>
-    <el-table-column
-      prop="author"
-      label="操作员"
-      width="100">
-    </el-table-column>
-  </el-table>
-  <div class="title">主查设置信息</div>
-  <el-table :data="addMaster" style="width:98%" >
-    <el-table-column
-      prop="time"
-      label="设置日期"
-      width="150">
-    </el-table-column>
-    <el-table-column
-      prop="contents"
-      label="内容"
-    >
-    </el-table-column>
-    <el-table-column
-      prop="author"
-      label="操作员"
-      width="100">
-    </el-table-column>
-  </el-table>
+      <el-tab-pane label="副主查设置信息">
+        <el-table :data="addMasterBak" style="width:98%" >
+          <el-table-column
+            prop="time"
+            label="设置日期"
+            width="150">
+          </el-table-column>
+          <el-table-column
+            prop="contents"
+            label="内容"
+          >
+          </el-table-column>
+          <el-table-column
+            prop="author"
+            label="操作员"
+            width="100">
+          </el-table-column>
+        </el-table>
+      </el-tab-pane>
 
-
-<div class="title">副主查设置信息</div>
-  <el-table :data="addMasterBak" style="width:98%" >
-    <el-table-column
-      prop="time"
-      label="设置日期"
-      width="150">
-    </el-table-column>
-    <el-table-column
-      prop="contents"
-      label="内容"
-    >
-    </el-table-column>
-    <el-table-column
-      prop="author"
-      label="操作员"
-      width="100">
-    </el-table-column>
-  </el-table>
-
-
-<div class="title">检查人员设置信息</div>
-  <el-table :data="addSlaver" style="width:98%" >
-    <el-table-column
-      prop="time"
-      label="设置日期"
-      width="150">
-    </el-table-column>
-    <el-table-column
-      prop="contents"
-      label="内容"
-    >
-    </el-table-column>
-    <el-table-column
-      prop="author"
-      label="操作员"
-      width="100">
-    </el-table-column>
-  </el-table>
-
+      <el-tab-pane label="检查人员设置信息">
+        <el-table :data="addSlaver" style="width:98%" >
+          <el-table-column
+            prop="time"
+            label="设置日期"
+            width="150">
+          </el-table-column>
+          <el-table-column
+            prop="contents"
+            label="内容"
+          >
+          </el-table-column>
+          <el-table-column
+            prop="author"
+            label="操作员"
+            width="100">
+          </el-table-column>
+        </el-table>
+      </el-tab-pane>
+    </el-tabs>
+  </div>
+  <div>
+    <el-row :gutter="20">
+      <el-col :span="2" :offset="6">
+        <el-button type="primary" @click="submitForm('ruleForm')" >返回</el-button>
+      </el-col>
+      <el-col :span="6" >
+        <el-button type="primary" @click="submitForm('ruleForm')" >导出excel文件</el-button>
+      </el-col>
+    </el-row>
+  </div>
 </div>
+
 </template>
 
 <script>
