@@ -612,6 +612,7 @@ export default {
         message2 += '[' + obj.label + ']';
       }
 
+      let contents = '从'+message1+'这'+this.bankTableData.length+'个备选机构随机选择'+message2+'这'+this.bankTargetCount+'个检查对象';
       this.$confirm('从'+message1+'这'+this.bankTableData.length+'个备选机构随机选择'+message2+'这'+this.bankTargetCount+'个检查对象, 是否继续?', '提示', {
         confirmButtonText: '确定',
         cancelButtonText: '取消',
@@ -629,10 +630,15 @@ export default {
           this.fullscreenLoading = true;
           this.$axios.post("/addTarget.action",{
             target:targetArr,
-            key:this.projectId
+            key:this.projectId,
+            contents:contents
           })
           .then(response=>{
             if(response.data=='999999'){
+              this.$message({
+                type: 'warning',
+                message: '请重新登录!'
+              }); 
               this.$router.push('/');
               return;
             }
@@ -746,6 +752,7 @@ export default {
         message2 += '[' + obj.label + ']';
       }
 
+      let contents = '从'+message1+'这'+this.leaderTableData.length+'个备选人员随机选择'+message2+'这'+this.leaderTargetCount+'个人员';
       this.$confirm('从'+message1+'这'+this.leaderTableData.length+'个备选人员随机选择'+message2+'这'+this.leaderTargetCount+'个人员, 是否继续?', '提示', {
         confirmButtonText: '确定',
         cancelButtonText: '取消',
@@ -763,10 +770,15 @@ export default {
           this.fullscreenLoading = true;
           this.$axios.post("/addLeader.action",{
             leader:targetArr,
-            key:this.projectId
+            key:this.projectId,
+            contents:contents
           })
           .then(response=>{
             if(response.data=='999999'){
+              this.$message({
+                type: 'warning',
+                message: '请重新登录!'
+              }); 
               this.$router.push('/');
               return;
             }
@@ -879,6 +891,7 @@ export default {
         message2 += '[' + obj.label + ']';
       }
 
+      let contents = '从'+message1+'这'+this.leaderBakTableData.length+'个备选人员随机选择'+message2+'这'+this.leaderBakTargetCount+'个人员';
       this.$confirm('从'+message1+'这'+this.leaderBakTableData.length+'个备选人员随机选择'+message2+'这'+this.leaderBakTargetCount+'个人员, 是否继续?', '提示', {
         confirmButtonText: '确定',
         cancelButtonText: '取消',
@@ -896,10 +909,15 @@ export default {
           this.fullscreenLoading = true;
           this.$axios.post("/addLeaderBak.action",{
             leader:targetArr,
-            key:this.projectId
+            key:this.projectId,
+            contents:contents
           })
           .then(response=>{
             if(response.data=='999999'){
+              this.$message({
+                type: 'warning',
+                message: '请重新登录!'
+              }); 
               this.$router.push('/');
               return;
             }
@@ -1014,6 +1032,7 @@ export default {
         message2 += '[' + obj.label + ']';
       }
 
+      let contents = '从'+message1+'这'+this.masterTableData.length+'个备选人员随机选择'+message2+'这'+this.masterTargetCount+'个人员';
       this.$confirm('从'+message1+'这'+this.masterTableData.length+'个备选人员随机选择'+message2+'这'+this.masterTargetCount+'个人员, 是否继续?', '提示', {
         confirmButtonText: '确定',
         cancelButtonText: '取消',
@@ -1031,10 +1050,15 @@ export default {
           this.fullscreenLoading = true;
           this.$axios.post("/addMaster.action",{
             leader:targetArr,
-            key:this.projectId
+            key:this.projectId,
+            contents:contents
           })
           .then(response=>{
             if(response.data=='999999'){
+              this.$message({
+                type: 'warning',
+                message: '请重新登录!'
+              }); 
               this.$router.push('/');
               return;
             }
@@ -1153,6 +1177,7 @@ export default {
         message2 += '[' + obj.label + ']';
       }
 
+      let contents = '从'+message1+'这'+this.masterBakTableData.length+'个备选人员随机选择'+message2+'这'+this.masterBakTargetCount+'个人员';
       this.$confirm('从'+message1+'这'+this.masterBakTableData.length+'个备选人员随机选择'+message2+'这'+this.masterBakTargetCount+'个人员, 是否继续?', '提示', {
         confirmButtonText: '确定',
         cancelButtonText: '取消',
@@ -1170,10 +1195,15 @@ export default {
           this.fullscreenLoading = true;
           this.$axios.post("/addMasterBak.action",{
             leader:targetArr,
-            key:this.projectId
+            key:this.projectId,
+            contents:contents
           })
           .then(response=>{
             if(response.data=='999999'){
+              this.$message({
+                type: 'warning',
+                message: '请重新登录!'
+              }); 
               this.$router.push('/');
               return;
             }
@@ -1289,6 +1319,7 @@ export default {
         message2 += '[' + obj.label + ']';
       }
 
+      let contents = '从'+message1+'这'+this.slaverTableData.length+'个备选人员随机选择'+message2+'这'+this.slaverTargetCount+'个人员'; 
       this.$confirm('从'+message1+'这'+this.slaverTableData.length+'个备选人员随机选择'+message2+'这'+this.slaverTargetCount+'个人员, 是否继续?', '提示', {
         confirmButtonText: '确定',
         cancelButtonText: '取消',
@@ -1306,10 +1337,15 @@ export default {
           this.fullscreenLoading = true;
           this.$axios.post("/addSlaver.action",{
             leader:targetArr,
-            key:this.projectId
+            key:this.projectId,
+            contents:contents
           })
           .then(response=>{
             if(response.data=='999999'){
+              this.$message({
+                type: 'warning',
+                message: '请重新登录!'
+              }); 
               this.$router.push('/');
               return;
             }
@@ -1360,6 +1396,10 @@ export default {
         })
         .then(response=>{
           if(response.data=='999999'){
+            this.$message({
+              type: 'warning',
+              message: '请重新登录!'
+            }); 
             this.$router.push('/');
             return;
           }

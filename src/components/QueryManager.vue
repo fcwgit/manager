@@ -101,6 +101,10 @@ import store from "@/vuex/store"
         })
         .then(response=>{
           if(response.data=='999999'){
+            this.$message({
+              type: 'warning',
+              message: '请重新登录!'
+            }); 
             this.$router.push('/');
             return;
           }
