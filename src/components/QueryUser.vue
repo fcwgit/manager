@@ -100,11 +100,15 @@ import store from "@/vuex/store"
         this.$router.push({name:'modifyUser',params:row})
       },
       submitForm(formName) {
-        this.$axios.post("http://localhost:8080/queryUser.action",{
+        this.$axios.post("/queryUser.action",{
           pinyin:this.ruleForm.name,
           currentPage:this.currentPage
         })
         .then(response=>{
+          if(response.data=='999999'){
+            this.$router.push('/');
+            return;
+          }
           let errorcode = response.data.head.errorCode;
           if(errorcode != '000000'){
             let errorMessage = response.data.head.errorMessage;

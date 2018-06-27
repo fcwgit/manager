@@ -68,7 +68,7 @@ export default {
                     setTimeout(() => {
                         this.fullscreenLoading = false;
                         let flag = false;
-                        axios.post("http://localhost:8080/login.action",{
+                        axios.post("/login.action",{
                         name:this.LoginForm.username,
                         password:this.LoginForm.password
                         })

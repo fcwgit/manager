@@ -119,7 +119,7 @@ export default {
           this.fullscreenLoading = true;
           setTimeout(() => {
             this.fullscreenLoading = true;
-            this.$axios.post("http://localhost:8080/addUser.action",{
+            this.$axios.post("/addUser.action",{
               pinyin:this.ruleForm.pinyin,
               name:this.ruleForm.name,
               section:this.ruleForm.section,
@@ -127,6 +127,10 @@ export default {
               specialty:this.ruleForm.specialty
             })
             .then(response=>{
+              if(response.data=='999999'){
+                this.$router.push('/');
+                return;
+              }
               let errorcode = response.data.head.errorCode;
               if(errorcode != '000000'){
                 let errorMessage = response.data.head.errorMessage;

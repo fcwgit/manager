@@ -84,11 +84,15 @@ export default {
       this.fullscreenLoading = true;
       setTimeout(() => {
         this.fullscreenLoading = true;
-        this.$axios.post("http://localhost:8080/modifyBranch.action",{
+        this.$axios.post("/modifyBranch.action",{
           key:this.ruleForm.id,
           name:this.ruleForm.label
         })
         .then(response=>{
+          if(response.data=='999999'){
+            this.$router.push('/');
+            return;
+          }
           let errorcode = response.data.head.errorCode;
           if(errorcode != '000000'){
             let errorMessage = response.data.head.errorMessage;
@@ -119,10 +123,14 @@ export default {
       this.fullscreenLoading = true;
       setTimeout(() => {
         this.fullscreenLoading = true;
-        this.$axios.post("http://localhost:8080/unregisterBranch.action",{
+        this.$axios.post("/unregisterBranch.action",{
           key:this.ruleForm.id
         })
         .then(response=>{
+          if(response.data=='999999'){
+            this.$router.push('/');
+            return;
+          }
           let errorcode = response.data.head.errorCode;
           if(errorcode != '000000'){
             let errorMessage = response.data.head.errorMessage;
@@ -153,10 +161,14 @@ export default {
       this.fullscreenLoading = true;
       setTimeout(() => {
         this.fullscreenLoading = true;
-        this.$axios.post("http://localhost:8080/registerBranch.action",{
+        this.$axios.post("/registerBranch.action",{
           key:this.ruleForm.id
         })
         .then(response=>{
+          if(response.data=='999999'){
+            this.$router.push('/');
+            return;
+          }
           let errorcode = response.data.head.errorCode;
           if(errorcode != '000000'){
             let errorMessage = response.data.head.errorMessage;

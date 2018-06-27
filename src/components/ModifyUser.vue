@@ -118,7 +118,7 @@ export default {
           this.fullscreenLoading = true;
           setTimeout(() => {
             this.fullscreenLoading = true;
-            this.$axios.post("http://localhost:8080/modifyUser.action",{
+            this.$axios.post("/modifyUser.action",{
               name:this.ruleForm.name,
               pinyin:this.ruleForm.pinyin,
               section:this.ruleForm.section,
@@ -127,6 +127,10 @@ export default {
               key:this.ruleForm.key
             })
             .then(response=>{
+              if(response.data=='999999'){
+                this.$router.push('/');
+                return;
+              }
               let errorcode = response.data.head.errorCode;
               if(errorcode != '000000'){
                 let errorMessage = response.data.head.errorMessage;
@@ -168,10 +172,14 @@ export default {
       this.fullscreenLoading = true;
       setTimeout(() => {
         this.fullscreenLoading = true;
-        this.$axios.post("http://localhost:8080/unregisterUser.action",{
+        this.$axios.post("/unregisterUser.action",{
           key:this.ruleForm.key
         })
         .then(response=>{
+          if(response.data=='999999'){
+            this.$router.push('/');
+            return;
+          }
           let errorcode = response.data.head.errorCode;
           if(errorcode != '000000'){
             let errorMessage = response.data.head.errorMessage;
@@ -203,12 +211,16 @@ export default {
       this.fullscreenLoading = true;
       setTimeout(() => {
         this.fullscreenLoading = true;
-        this.$axios.post("http://localhost:8080/registerUser.action",{
+        this.$axios.post("/registerUser.action",{
           key:this.ruleForm.key
         })
         .then(response=>{
           let errorcode = response.data.head.errorCode;
           if(errorcode != '000000'){
+            if(response.data=='999999'){
+              this.$router.push('/');
+              return;
+            }
             let errorMessage = response.data.head.errorMessage;
             this.$message({
               message: errorMessage,

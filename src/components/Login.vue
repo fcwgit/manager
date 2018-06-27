@@ -73,10 +73,14 @@ export default {
           setTimeout(() => {
             this.fullscreenLoading = false;
             let flag = false;
-            this.$axios.post("http://localhost:8080/login.action",{
+            this.$axios.post("/login.action",{
               name:this.LoginForm.username,
               password:this.LoginForm.password})
               .then(response=>{
+                if(response.data=='999999'){
+                  this.$router.push('/');
+                  return;
+                }
                 let errorcode = response.data.head.errorCode;
                 if(errorcode == '100004'){
                   this.$router.push('resetPassword');

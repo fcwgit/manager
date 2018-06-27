@@ -65,7 +65,7 @@
               <el-form-item>
                 <el-upload
                   class="upload-demo"
-                  action="http://localhost:8080/upload.action"
+                  action="/upload.action"
                   name="uploadFile"
                   :with-credentials=true
                   :data="fileData"
@@ -627,11 +627,15 @@ export default {
 
         setTimeout(() => {
           this.fullscreenLoading = true;
-          this.$axios.post("http://localhost:8080/addTarget.action",{
+          this.$axios.post("/addTarget.action",{
             target:targetArr,
             key:this.projectId
           })
           .then(response=>{
+            if(response.data=='999999'){
+              this.$router.push('/');
+              return;
+            }
             let errorcode = response.data.head.errorCode;
             if(errorcode != '000000'){
               let errorMessage = response.data.head.errorMessage;
@@ -757,11 +761,15 @@ export default {
 
         setTimeout(() => {
           this.fullscreenLoading = true;
-          this.$axios.post("http://localhost:8080/addLeader.action",{
+          this.$axios.post("/addLeader.action",{
             leader:targetArr,
             key:this.projectId
           })
           .then(response=>{
+            if(response.data=='999999'){
+              this.$router.push('/');
+              return;
+            }
             let errorcode = response.data.head.errorCode;
             if(errorcode != '000000'){
               let errorMessage = response.data.head.errorMessage;
@@ -886,11 +894,15 @@ export default {
 
         setTimeout(() => {
           this.fullscreenLoading = true;
-          this.$axios.post("http://localhost:8080/addLeaderBak.action",{
+          this.$axios.post("/addLeaderBak.action",{
             leader:targetArr,
             key:this.projectId
           })
           .then(response=>{
+            if(response.data=='999999'){
+              this.$router.push('/');
+              return;
+            }
             let errorcode = response.data.head.errorCode;
             if(errorcode != '000000'){
               let errorMessage = response.data.head.errorMessage;
@@ -1017,11 +1029,15 @@ export default {
 
         setTimeout(() => {
           this.fullscreenLoading = true;
-          this.$axios.post("http://localhost:8080/addMaster.action",{
+          this.$axios.post("/addMaster.action",{
             leader:targetArr,
             key:this.projectId
           })
           .then(response=>{
+            if(response.data=='999999'){
+              this.$router.push('/');
+              return;
+            }
             let errorcode = response.data.head.errorCode;
             if(errorcode != '000000'){
               let errorMessage = response.data.head.errorMessage;
@@ -1152,11 +1168,15 @@ export default {
 
         setTimeout(() => {
           this.fullscreenLoading = true;
-          this.$axios.post("http://localhost:8080/addMasterBak.action",{
+          this.$axios.post("/addMasterBak.action",{
             leader:targetArr,
             key:this.projectId
           })
           .then(response=>{
+            if(response.data=='999999'){
+              this.$router.push('/');
+              return;
+            }
             let errorcode = response.data.head.errorCode;
             if(errorcode != '000000'){
               let errorMessage = response.data.head.errorMessage;
@@ -1284,11 +1304,15 @@ export default {
 
         setTimeout(() => {
           this.fullscreenLoading = true;
-          this.$axios.post("http://localhost:8080/addSlaver.action",{
+          this.$axios.post("/addSlaver.action",{
             leader:targetArr,
             key:this.projectId
           })
           .then(response=>{
+            if(response.data=='999999'){
+              this.$router.push('/');
+              return;
+            }
             let errorcode = response.data.head.errorCode;
             if(errorcode != '000000'){
               let errorMessage = response.data.head.errorMessage;
@@ -1331,10 +1355,14 @@ export default {
     removeFile(file, fileList){
       setTimeout(() => {
         this.fullscreenLoading = true;
-        this.$axios.post("http://localhost:8080/deleteFile.action",{
+        this.$axios.post("/deleteFile.action",{
           key:file.response.body.id
         })
         .then(response=>{
+          if(response.data=='999999'){
+            this.$router.push('/');
+            return;
+          }
           let errorcode = response.data.head.errorCode;
           if(errorcode != '000000'){
             let errorMessage = response.data.head.errorMessage;

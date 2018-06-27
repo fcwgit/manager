@@ -78,12 +78,16 @@ export default {
               this.fullscreenLoading = true;
               setTimeout(() => {
                 this.fullscreenLoading = true;
-                this.$axios.post("http://localhost:8080/addProject.action",{
+                this.$axios.post("/addProject.action",{
                   name:this.ruleForm.name,
                   des:this.ruleForm.des,
                   date:this.ruleForm.date
                 })
                 .then(response=>{
+                  if(response.data=='999999'){
+                    this.$router.push('/');
+                    return;
+                  }
                   let errorcode = response.data.head.errorCode;
                   if(errorcode != '000000'){
                     let errorMessage = response.data.head.errorMessage;

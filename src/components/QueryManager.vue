@@ -95,11 +95,15 @@ import store from "@/vuex/store"
         this.$router.push({name:'modifyManager',params:row})
       },
       submitForm(formName) {
-        this.$axios.post("http://localhost:8080/queryManager.action",{
+        this.$axios.post("/queryManager.action",{
           name:this.ruleForm.name,
           currentPage:this.currentPage
         })
         .then(response=>{
+          if(response.data=='999999'){
+            this.$router.push('/');
+            return;
+          }
           let errorcode = response.data.head.errorCode;
           if(errorcode != '000000'){
             let errorMessage = response.data.head.errorMessage;
