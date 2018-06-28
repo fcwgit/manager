@@ -14,7 +14,7 @@
         </el-tree>
       </el-col>
       <el-col :span='18'>
-        <el-table :data="bankTableData" height="400" size="small">
+        <el-table :data="bankTableData"  size="small">
           <el-table-column prop="time" label="添加日期" width="80" v-if="false">
           </el-table-column>
           <el-table-column prop="id" label="行名" width="120" v-if="false">
