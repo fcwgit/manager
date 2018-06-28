@@ -636,7 +636,7 @@ export default {
         setTimeout(() => {
           this.fullscreenLoading = true;
           this.$axios.post("/addTarget.action",{
-            target:targetArr,
+            target:sele,
             key:this.projectId,
             contents:contents
           })
