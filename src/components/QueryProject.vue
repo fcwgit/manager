@@ -150,6 +150,49 @@ import store from "@/vuex/store"
         currentPage:'1'
       }
     },
+    mounted:function(){
+      setTimeout(() => {
+        this.$axios.post("/getOptions.action")
+        .then(response=>{
+          if(response.data=='999999'){
+            this.$message({
+              type: 'warning',
+              message: '请重新登录!'
+            }); 
+            this.$router.push('/');
+            return;
+          }
+          let errorcode = response.data.head.errorCode;
+          if(errorcode != '000000'){
+            let errorMessage = response.data.head.errorMessage;
+            this.$message({
+              message: errorMessage,
+              type: 'error'
+            });
+            return;
+          }
+          let projectObj={
+            name:'',
+            des:'',
+            date:'',
+            projectId:'',
+            bankData:response.data.body.bankData,
+            worker:response.data.body.worker
+          }
+          sessionStorage.removeItem('worker');
+          sessionStorage.setItem('worker',JSON.stringify(projectObj));
+          return;
+        })
+        .catch(error=>{
+          this.$message({
+              message: '获取参数失败',
+              type: 'error'
+          });
+          return;
+        });
+        
+      }, 2000);
+    }
   }
 </script>
 

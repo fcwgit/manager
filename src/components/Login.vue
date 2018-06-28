@@ -107,7 +107,7 @@ export default {
                 store.commit('initAlias',response.data.body.alias);
                 store.commit('initName',response.data.body.name);
                 store.commit('initOptions',response.data.body.branch_rate);
-                store.commit('initWorker',response.data.body.worker);
+                // store.commit('initWorker',response.data.body.worker);
                 store.commit('initManagerType',response.data.body.manager_type);
                 store.commit('initPageSize',response.data.body.pageSize);
                 store.commit('initBranchMasterType',response.data.body.branch_master_type);

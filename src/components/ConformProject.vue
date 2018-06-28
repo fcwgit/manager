@@ -65,7 +65,7 @@
               <el-form-item>
                 <el-upload
                   class="upload-demo"
-                  action="/upload.action"
+                  action="http://localhost:8080/upload.action"
                   name="uploadFile"
                   :with-credentials=true
                   :data="fileData"
@@ -1385,14 +1385,14 @@ export default {
       });
       return;
 
-
-
     },
     removeFile(file, fileList){
       setTimeout(() => {
         this.fullscreenLoading = true;
         this.$axios.post("/deleteFile.action",{
-          key:file.response.body.id
+          key:file.response.body.id,
+          name:file.response.body.name,
+          projectId:this.projectId
         })
         .then(response=>{
           if(response.data=='999999'){

@@ -61,15 +61,17 @@
                 </el-input>
               </el-form-item>
             </el-form>
+
             <el-form label-width="100px">
               <el-form-item>
                 <el-upload
                   class="upload-demo"
-                  action="/upload.action"
+                  action="http://localhost:8080/upload.action"
                   name="uploadFile"
                   :with-credentials=true
                   :data="fileData"
                   :on-remove="removeFile"
+                  :on-preview="downloadFile"
                   :file-list="fileList">
                   <el-button size="small" type="primary">点击上传</el-button>
                 </el-upload>
@@ -82,7 +84,6 @@
         <div id="transfer1">
           <el-tabs style="padding:5px">
             <el-tab-pane label="检查对象">
-
               <div class="tree-class">
                 <el-tree
                   :data="bankData"
@@ -96,7 +97,6 @@
                   >
                 </el-tree>
               </div>
-
 
               <el-table :data="bankTableData" height="250" size="small">
                 <el-table-column prop="masterDisplay" label="类别" width="80">
@@ -464,7 +464,6 @@ export default {
       masterBakTableDataLength:0,
       slaverTableData:[],
       slaverTableDataLength:0,
-   
       value:'',
       fileList: [],
       bankData: [],
@@ -1047,7 +1046,6 @@ export default {
 
         this.projectMaster = message2;
 
-
         setTimeout(() => {
           this.fullscreenLoading = true;
           this.$axios.post("/addMaster.action",{
@@ -1101,9 +1099,6 @@ export default {
       return;
       
     },
-
-
-
 
     masterBakHandleChange(value, direction, movedKeys) {
       this.masterBakTableData = [];
@@ -1395,7 +1390,10 @@ export default {
       setTimeout(() => {
         this.fullscreenLoading = true;
         this.$axios.post("/deleteFile.action",{
-          key:file.response.body.id
+          key:file.fileId,
+          name:file.name,
+          projectId:file.projectId,
+          url:file.url
         })
         .then(response=>{
           if(response.data=='999999'){
@@ -1432,21 +1430,32 @@ export default {
         });
         
       }, 2000);
+    },
+    downloadFile(file){
+      console.log(file);
+      // window.location.herf=
+      // window.open(file.response.body.url);
+      window.open(file.url, '_blank');
+
+
+      // let link = document.createElement('a');
+      // link.href = window.URL.createObjectURL(blob);
+      // if (!title) {
+      //   const fileName = headers[‘content-disposition’];
+      //   title = fileName.includes(‘filename=’) ? fileName.split(’=’)[1] : ‘下载的表单文件’;
+      // }
+      // link.download = title;
+      // link.click();
     }
   },
   mounted:function(){
     let projectObj = JSON.parse(sessionStorage.getItem('worker'));
 
-    // this.projectName = this.$route.params.name;
-    // this.projectDesc = this.$route.params.des;
-    // this.projectDate = this.$route.params.date;
     this.showTransfer1();
     this.bankData = projectObj.bankData;
     this.projectId = projectObj.projectId;
     this.worker=projectObj.worker;
-    this.options=JSON.parse(sessionStorage.getItem('options'))
-    this.fileData={key:projectObj.projectId}
-
+    this.options=JSON.parse(sessionStorage.getItem('options'));
 
     this.projectId = this.$route.params.id;
     this.$axios.post("/queryProjectDetail.action",{
@@ -1485,6 +1494,8 @@ export default {
       this.projectMaster = response.data.body.master;
       this.projectMasterBak = response.data.body.masterBak;
       this.projectSlaver = response.data.body.slaver;
+      this.fileList = response.data.body.projectFileRelationList;
+      this.fileData= {key:response.data.body.project.id};
       return;
     })
     .catch(error=>{
