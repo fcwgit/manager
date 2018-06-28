@@ -56,24 +56,12 @@
   export default {
     methods: {
       handleClick(data,checked, node) {
-        // console.log("=======");
-        // console.log(data);
-        // console.log(checked);
-        // console.log(node);
-        // console.log("=======");
-        // console.log(this.$refs.tree.getCheckedNodes(true));
-        // console.log(this.$refs.tree.getCheckedKeys());
         this.bankTableData = this.$refs.tree.getCheckedNodes(true);
-      //  console.log
       },
       detailClick(row) {
-        // console.log(row);
-        // this.$router.push('/container/detailBranch/'+row.id+"/"+row.num+"/"+row.master+"/"+row.slaver+"/"+row.label+"/"+row.state+"/"+row.author+"/"+row.time);
         this.$router.push({name:'detailBranch',params:row});
       },
       modifyClick(row) {
-        // console.log(row);
-        // this.$router.push('/container/modifyBranch/'+row.id+"/"+row.num+"/"+row.master+"/"+row.slaver+"/"+row.label+"/"+row.state+"/"+row.author+"/"+row.time);
         this.$router.push({name:'modifyBranch',params:row});
       }
     },

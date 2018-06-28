@@ -575,31 +575,37 @@ export default {
         })  
         return; 
       }
-      let targetArr = [];
-      let randomSeed = [];
-      let sortSeed = [];
+
+      let all = [];
       for(let i=0;i<this.bankTableData.length;i++){
         let obj = this.bankTableData[i];
         if(obj.right == undefined){
           this.$message({  
             message : '请设置机构权重！',  
             type : 'warning'  
-          })  
+          })
+          all = [];
           return; 
         }
-        let randomNum = Math.random() * parseInt(obj.right);
-        randomSeed[i] = randomNum;
-        sortSeed[i] = randomNum;
+
+        for(let j=0;j<obj.right;j++){
+          all.push(obj);
+        }
       }
-      randomSeed = randomSeed.sort();
-      randomSeed = randomSeed.reverse();
-      for(let j=0;j<this.bankTargetCount;j++){
-        let jj = randomSeed[j];
-        for(let k=0;k<sortSeed.length;k++){
-          if(jj == sortSeed[k]){
-            targetArr[j] = this.bankTableData[k];
+
+      let sele = [];
+      while(sele.length<this.bankTargetCount){
+        let a = this.getBranch(all);
+        let flag = true;
+        for(let i=0;i<sele.length;i++){
+          let b = sele[i];
+          if(a.num == b.num){
+            flag = false;
             break;
           }
+        }
+        if(flag){
+          sele.push(a);
         }
       }
 
@@ -609,10 +615,11 @@ export default {
         let obj = this.bankTableData[i];
         message1 += '[' + obj.label + ']';
       }
-      for(let i=0;i<targetArr.length;i++){
-        let obj = targetArr[i];
+      for(let i=0;i<sele.length;i++){
+        let obj = sele[i];
         message2 += '[' + obj.label + ']';
       }
+
       let contents = '从'+message1+'这'+this.bankTableData.length+'个备选机构随机选择'+message2+'这'+this.bankTargetCount+'个检查对象';
       this.$confirm('从'+message1+'这'+this.bankTableData.length+'个备选机构随机选择'+message2+'这'+this.bankTargetCount+'个检查对象, 是否继续?', '提示', {
         confirmButtonText: '确定',
@@ -625,7 +632,6 @@ export default {
         });
 
         this.projectTarget = message2;
-
 
         setTimeout(() => {
           this.fullscreenLoading = true;
@@ -678,6 +684,10 @@ export default {
         });          
       });
       return;
+    },
+    getBranch(src){
+      let index = parseInt(Math.random()*src.length);
+      return src[index]; 
     },
     leaderHandleChange(value, direction, movedKeys) {
       this.leaderTableData = [];
