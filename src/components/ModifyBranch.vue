@@ -18,13 +18,13 @@
             </el-form-item>
             <el-form-item label="一级机构">
                 <el-col :span="24">
-                  <el-input v-model="ruleForm.master" :disabled=true></el-input> 
+                  <el-input v-model="ruleForm.masterDisplay" :disabled=true></el-input> 
                 </el-col>
             </el-form-item>
             
             <el-form-item label="二级机构">
               <el-col :span="24">
-                <el-input v-model="ruleForm.slaver" :disabled=true></el-input>
+                <el-input v-model="ruleForm.slaverDisplay" :disabled=true></el-input>
               </el-col>
             </el-form-item>
             <el-form-item label="状态">
@@ -61,6 +61,8 @@ export default {
         num: '',
         master: '',
         slaver: '',
+        masterDisplay: '',
+        slaverDisplay: '',
         label: '',
         state: '',
         author: '',
@@ -213,6 +215,8 @@ export default {
     this.ruleForm.num = this.$route.params.num;
     this.ruleForm.master = this.$route.params.master;
     this.ruleForm.slaver = this.$route.params.slaver;
+    this.ruleForm.masterDisplay = this.$route.params.masterDisplay;
+    this.ruleForm.slaverDisplay = this.$route.params.slaverDisplay;
     this.ruleForm.label = this.$route.params.label;
     this.ruleForm.state = this.$route.params.state;
     this.ruleForm.author = this.$route.params.author;

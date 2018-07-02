@@ -21,11 +21,11 @@
           </el-table-column>
           <el-table-column prop="label" label="名称" width="150">
           </el-table-column>
-          <el-table-column prop="num" label="机构编号" width="120">
+          <el-table-column prop="num" label="机构编号" width="120" v-if="false">
           </el-table-column>
-          <el-table-column prop="master" label="一级类别" width="80">
+          <el-table-column prop="masterDisplay" label="一级类别" width="150">
           </el-table-column>
-          <el-table-column prop="slaver" label="二级类别" width="80">
+          <el-table-column prop="slaverDisplay" label="二级类别" width="150">
           </el-table-column>
           
           <el-table-column prop="state" label="状态" width="80">

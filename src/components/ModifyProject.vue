@@ -62,11 +62,11 @@
               </el-form-item>
             </el-form>
 
-            <el-form label-width="100px">
-              <el-form-item>
+            <el-form label-width="200px">
+              <el-form-item label="《风险权重等级划分操作表》">
                 <el-upload
                   class="upload-demo"
-                  action="http://localhost:8080/upload.action"
+                  action="http://localhost:8080/manage/upload.action"
                   name="uploadFile"
                   :with-credentials=true
                   :data="fileData"
@@ -1402,7 +1402,7 @@ export default {
         this.$axios.post("/deleteFile.action",{
           key:file.fileId,
           name:file.name,
-          projectId:file.projectId,
+          projectId:this.projectId,
           url:file.url
         })
         .then(response=>{

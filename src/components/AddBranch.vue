@@ -6,9 +6,9 @@
               <el-form-item label="机构名" prop="name">
                   <el-input v-model="ruleForm.name"></el-input>
               </el-form-item>
-              <el-form-item label="编号" prop="num">
+              <!-- <el-form-item label="编号" prop="num">
                   <el-input v-model="ruleForm.num"></el-input>
-              </el-form-item>
+              </el-form-item> -->
 
               <el-form-item label="一级类别" prop="master">
                 <el-col :span="24">
@@ -75,7 +75,7 @@ export default {
       branchSlaverType:store.state.branchSlaverType,
       ruleForm: {
         name: '',
-        num:'',
+        // num:'',
         master: '',
         slaver: '',
         author: store.state.alias
@@ -85,11 +85,11 @@ export default {
           { required: true, message: "请输入用户名称", trigger: "blur" },
           { min: 2, max: 30, message: "长度在 2 到 30 个字符", trigger: "blur" }
         ],
-        num: [
-          { required: true, message: "请输入机构编号", trigger: "blur" },
-          { min: 2, max: 30, message: "长度在 2 到 30 个字符", trigger: "blur" }
+        // num: [
+        //   { required: true, message: "请输入机构编号", trigger: "blur" },
+        //   { min: 2, max: 30, message: "长度在 2 到 30 个字符", trigger: "blur" }
           
-        ],
+        // ],
         master: [
           { required: true, message: "请选择机构类别", trigger: "blur" },
         ],
@@ -110,7 +110,7 @@ export default {
             this.fullscreenLoading = true;
             this.$axios.post("/addBranch.action",{
               name:this.ruleForm.name,
-              num:this.ruleForm.num,
+              // num:this.ruleForm.num,
               master:this.ruleForm.master,
               slaver:this.ruleForm.slaver
             })
@@ -138,7 +138,7 @@ export default {
               });
               this.$router.push('/container/addBranch');
               this.ruleForm.name='';
-              this.ruleForm.num='';
+              // this.ruleForm.num='';
               this.ruleForm.master='';
               this.ruleForm.slaver='';
               this.fullscreenLoading = false
