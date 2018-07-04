@@ -43,7 +43,7 @@
     </el-aside>
     
     <el-container>
-      <el-header style="text-align: right; font-size: 12px;height=167px;">
+      <el-header class="header-image">
         <el-dropdown @command="handleCommand">
           <i class="el-icon-setting" style="margin-right: 15px"></i>
           
@@ -71,17 +71,15 @@
 </template>
 
 <style>
-  #header{
-    height: 167px;
-  }
-  .el-header {
-    background-color: #B3C0D1;
-    background:url('../assets/header.png') ;
-    background-size:100%;
-    -moz-background-size:100%;
-    color: #333;
-    line-height: 60px;
-    margin-right: 10px;
+  .header-image{
+    height: 180px;
+    text-align: right; 
+    font-size: 18px;
+    background-image:url('../assets/header.png') ;
+    background-repeat:no-repeat; 
+    background-size:100% 100%;
+    -moz-background-size:100% 100%;
+    height: 60px;
   }
   
   .el-aside {

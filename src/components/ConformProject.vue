@@ -107,7 +107,7 @@
                 </el-table-column>
                 <el-table-column prop="label" label="简称" width="200">
                 </el-table-column>
-                <el-table-column prop="num" label="编号" width="120">
+                <el-table-column prop="num" label="编号" width="120" v-if="false">
                 </el-table-column>
                 <el-table-column prop="right"
                   fixed="right"
