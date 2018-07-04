@@ -81,12 +81,14 @@ export default {
                             message : '两次输入的新密码不一致！',  
                             type : 'error'  
                         })  
+                        this.fullscreenLoading = false;
                         return;  
                     } else if(oldPassword == newPassword){
                         this.$message({  
                             message : '新旧密码不可一样，请重新设置新密码！',  
                             type : 'error'  
                         })  
+                        this.fullscreenLoading = false;
                         return;  
                     }else{
                         this.fullscreenLoading = true;

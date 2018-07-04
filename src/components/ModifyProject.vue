@@ -66,7 +66,7 @@
               <el-form-item label="《风险权重等级划分操作表》">
                 <el-upload
                   class="upload-demo"
-                  action="http://localhost:8080/manage/upload.action"
+                  :action="uploadUrl"
                   name="uploadFile"
                   :with-credentials=true
                   :data="fileData"
@@ -425,11 +425,13 @@
 <script>
 import axios from "axios";
 import store from '@/vuex/store';
+import url from '@/uploadConfig.js'
 export default {
   name: "conformProject",
  
   data() {
     return {
+      uploadUrl:'',
       fullscreenLoading:false,
       options:[],
       worker:[],
@@ -1459,12 +1461,13 @@ export default {
     }
   },
   mounted:function(){
+    this.uploadUrl = url.uploadUrl;
     let projectObj = JSON.parse(sessionStorage.getItem('worker'));
 
     this.showTransfer1();
-    this.bankData = projectObj.bankData;
+    
     this.projectId = projectObj.projectId;
-    this.worker=projectObj.worker;
+    
     this.options=JSON.parse(sessionStorage.getItem('options'));
 
     this.projectId = this.$route.params.id;
@@ -1506,6 +1509,8 @@ export default {
       this.projectSlaver = response.data.body.slaver;
       this.fileList = response.data.body.projectFileRelationList;
       this.fileData= {key:response.data.body.project.id};
+      this.bankData = response.data.body.bankData;
+      this.worker = response.data.body.worker;
       return;
     })
     .catch(error=>{

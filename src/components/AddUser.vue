@@ -38,7 +38,7 @@
               <el-form-item>
                   <!-- <el-col :span="12"> -->
                     <el-button type="primary" @click="goBackForm('ruleForm')" >返回</el-button>
-                    <el-button type="primary" @click="submitForm('ruleForm')" >提交</el-button>
+                    <el-button type="primary" @click="submitForm('ruleForm')" v-loading.fullscreen.lock="fullscreenLoading">提交</el-button>
                   <!-- </el-col> -->
               </el-form-item>
           </el-form>
@@ -162,6 +162,7 @@ export default {
             
           }, 2000);
         } else { 
+          this.fullscreenLoading = false;
           console.log('submit err');
         } 
       }) 

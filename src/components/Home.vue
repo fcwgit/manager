@@ -2,27 +2,27 @@
 <div>
   
   <div>
-    <ul style="list-style-type:none;text-align:left;margin-left:150px">
+    <ul style="list-style-type:none;list-style-type:decimal;text-align:left;margin-left:150px">
       <li>
-        <router-link to="/container/document">1、随机抽查事项清单</router-link>
+        <router-link to="/container/document">随机抽查事项清单</router-link>
       </li>
       <li>
-        <router-link to="/container/createProject">2、新建检查项目</router-link>
+        <router-link to="/container/createProject">新建检查项目</router-link>
       </li>
       <li>
-        <router-link to="/container/queryProject">3、管理检查项目</router-link>
+        <router-link to="/container/queryProject">管理检查项目</router-link>
       </li>
-      <li>
-        <router-link to="/container/queryBranch">4、管理检查机构库</router-link>
+      <li v-if=role>
+        <router-link to="/container/queryBranch">管理检查机构库</router-link>
       </li>
-      <li>
-        <router-link to="/container/addBranch">5、新增检查机构</router-link>
+      <li v-if=role>
+        <router-link to="/container/addBranch">新增检查机构</router-link>
       </li>
-      <li>
-        <router-link to="/container/queryUser">6、管理检查人员库</router-link>
+      <li v-if=role>
+        <router-link to="/container/queryUser">管理检查人员库</router-link>
       </li>
-      <li>
-        <router-link to="/container/queryManager">7、管理系统用户</router-link>
+      <li v-if=role>
+        <router-link to="/container/queryManager">管理系统用户</router-link>
       </li>
     </ul>
   </div>
@@ -36,8 +36,16 @@ export default {
  
   data () {
     return {
-      
+      role:false
     }
+  },
+  mounted(){
+    console.log(sessionStorage.getItem('role') == 'false');
+    if(sessionStorage.getItem('role') == 'false'){
+        this.role = false;
+      }else{
+        this.role = true;
+      }
   }
 }
 </script>
