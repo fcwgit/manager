@@ -53,10 +53,11 @@
         <el-table-column
           fixed="right"
           label="操作"
-          width="100">
+          width="130">
           <template slot-scope="scope">
             <el-button @click="detailClick(scope.row)" type="text" size="small">查看</el-button>
             <el-button @click="modifyClick(scope.row)" v-if="scope.row.right" type="text" size="small">编辑</el-button>
+            <el-button @click="deleteClick(scope.row)" v-if="scope.row.right" type="text" size="small">删除</el-button>
           </template>
         </el-table-column>
       </el-table>
@@ -87,6 +88,55 @@ import store from "@/vuex/store"
         // this.$router.push('/container/modifyUser/'+row.time+"/"+row.pinyin+"/"+row.name+"/"+row.section+"/"+row.post+"/"+row.specialty+"/"+row.stateDesc+"/"+row.author+"/"+row.key);
         this.$router.push({name:'modifyProject',params:row})
       },
+      deleteClick(row) {
+        // this.$router.push('/container/modifyUser/'+row.time+"/"+row.pinyin+"/"+row.name+"/"+row.section+"/"+row.post+"/"+row.specialty+"/"+row.stateDesc+"/"+row.author+"/"+row.key);
+        // this.$router.push({name:'modifyProject',params:row})
+        this.$confirm('确定删除项目?', '提示', {
+          confirmButtonText: '确定',
+          cancelButtonText: '取消',
+          type: 'warning'
+        }).then(() => {
+          this.$axios.post("/deleteProject.action",{
+            projectId:row.id
+          })
+          .then(response=>{
+            if(response.data=='999999'){
+              this.$message({
+                type: 'warning',
+                message: '请重新登录!'
+              }); 
+              this.$router.push('/');
+              return;
+            }
+            let errorcode = response.data.head.errorCode;
+            if(errorcode != '000000'){
+              let errorMessage = response.data.head.errorMessage;
+              this.$message({
+                message: errorMessage,
+                type: 'error'
+              });
+              return;
+            }
+            
+            this.$message({
+                message: '删除成功',
+                type: 'success'
+            });
+
+            this.submitForm();
+            return;
+          })
+          .catch(error=>{
+            console.log('error='+error);
+            this.$message({
+                message: '删除失败',
+                type: 'error'
+            });
+            return;
+          });
+        })
+      },
+
       submitForm(formName) {
         this.$axios.post("/queryProject.action",{
           name:this.ruleForm.name,
@@ -192,7 +242,9 @@ import store from "@/vuex/store"
         });
         
       }, 2000);
+      this.submitForm();
     }
+    
   }
 </script>
 

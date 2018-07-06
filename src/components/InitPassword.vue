@@ -47,18 +47,20 @@ export default {
             rule: { 
                 oldPassword: [ { 
                     required: true, 
-                    min: 6,
-                    max: 20,
                     message: '原密码是必须的，长度为6-20位！', 
                     trigger: 'blur' 
                 }],
                 newPassword: [ { 
                     required: true, 
+                    min: 6,
+                    max: 20,
                     message: '新密码是必须的！', 
                     trigger: 'blur' 
                 }],
                 newPasswordRepeated: [ { 
                     required: true, 
+                    min: 6,
+                    max: 20,
                     message: '新密码是必须的！', 
                     trigger: 'blur' 
                 }],

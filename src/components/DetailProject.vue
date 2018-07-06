@@ -56,7 +56,7 @@
           
         </el-form>
       </el-tab-pane>
-      <el-tab-pane label="检查对象设置信息" >
+      <el-tab-pane label="检查对象设置信息" v-if=right>
         <el-table :data="addTarget" style="width:98%" >
           <el-table-column
             prop="time"
@@ -75,7 +75,7 @@
           </el-table-column>
         </el-table>
       </el-tab-pane>
-      <el-tab-pane label="组长设置信息">
+      <el-tab-pane label="组长设置信息" v-if=right>
         <el-table :data="addLeader" style="width:98%" >
           <el-table-column
             prop="time"
@@ -94,7 +94,7 @@
           </el-table-column>
         </el-table>
       </el-tab-pane>
-      <el-tab-pane label="副组长设置信息">
+      <el-tab-pane label="副组长设置信息" v-if=right>
         <el-table :data="addLeaderBak" style="width:98%" >
           <el-table-column
             prop="time"
@@ -114,7 +114,7 @@
         </el-table>
       </el-tab-pane>
 
-      <el-tab-pane label="主查设置信息">
+      <el-tab-pane label="主查设置信息" v-if=right>
         <el-table :data="addMaster" style="width:98%" >
           <el-table-column
             prop="time"
@@ -134,7 +134,7 @@
         </el-table>
       </el-tab-pane>
 
-      <el-tab-pane label="副主查设置信息">
+      <el-tab-pane label="副主查设置信息" v-if=right>
         <el-table :data="addMasterBak" style="width:98%" >
           <el-table-column
             prop="time"
@@ -154,7 +154,7 @@
         </el-table>
       </el-tab-pane>
 
-      <el-tab-pane label="检查人员设置信息">
+      <el-tab-pane label="检查人员设置信息" v-if=right>
         <el-table :data="addSlaver" style="width:98%" >
           <el-table-column
             prop="time"
@@ -174,7 +174,7 @@
         </el-table>
       </el-tab-pane>
 
-      <el-tab-pane label="附件">
+      <el-tab-pane label="附件" v-if=right>
         <el-table :data="fileLog" style="width:98%" >
           <el-table-column
             prop="contents"
@@ -205,7 +205,7 @@
       <el-col :span="2" :offset="6">
         <el-button type="primary" @click="submitForm('ruleForm')" >返回</el-button>
       </el-col>
-      <el-col :span="6" >
+      <el-col :span="6" v-if=right>
         <el-button type="primary" @click="handleDownload()" >导出excel文件</el-button>
       </el-col>
     </el-row>
@@ -216,10 +216,12 @@
 
 <script>
 import axios from "axios";
+import store from '@/vuex/store';
 export default {
   name: "detailProject",
   data() {
     return {
+      right:false,
       ruleForm: {
         projectId:'',
         name: '',
@@ -250,6 +252,7 @@ export default {
       window.open(row.url, '_blank');
     },
     handleDownload() {
+      
       this.downloadLoading = true
       require.ensure([], () => {
         const { export_json_object_to_excel } = require('@/vendor/Export2Excel')
@@ -349,7 +352,6 @@ export default {
       }
   },
   mounted:function(){
-
     this.ruleForm.projectId = this.$route.params.id;
     this.$axios.post("/queryProjectDetail.action",{
       key:this.ruleForm.projectId,
@@ -389,7 +391,6 @@ export default {
       this.ruleForm.slaver = response.data.body.slaver;
       this.ruleForm.fileNames = response.data.body.fileNames;
 
-
       this.addTarget = response.data.body.addTarget;
       this.addLeader = response.data.body.addLeader;
       this.addLeaderBak = response.data.body.addLeaderBak;
@@ -397,6 +398,17 @@ export default {
       this.addMasterBak = response.data.body.addMasterBak;
       this.addSlaver = response.data.body.addSlaver;
       this.fileLog = response.data.body.fileLog;
+      
+      if(sessionStorage.getItem('role') == 'true'){
+        this.right=true;
+      }else{
+        if(response.data.body.project.author == store.state.name){
+          this.right=true;
+        }else{
+          this.right=false;
+        }
+      }
+
       return;
     })
     .catch(error=>{

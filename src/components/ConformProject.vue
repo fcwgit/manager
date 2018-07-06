@@ -415,7 +415,7 @@
   <!-- <div> -->
     <el-row>
       <el-col>
-        <el-button id="login" style="width:100%" type="primary">提交</el-button> 
+        <el-button id="login" style="width:100%" type="primary" @click="goBack()">提交</el-button> 
       </el-col>
     </el-row>
  <!-- </div>  -->
@@ -488,6 +488,9 @@ export default {
     }
   },
   methods: {
+    goBack(){
+      this.$router.push('/container/queryProject');
+    },
     showTransfer1(){
       document.getElementById("transfer1").style.display="";
       document.getElementById("transfer2").style.display="none";

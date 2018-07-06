@@ -75,7 +75,6 @@
     height: 180px;
     text-align: right; 
     font-size: 18px;
-    background-image:url('../assets/header.png') ;
     background-repeat:no-repeat; 
     background-size:100% 100%;
     -moz-background-size:100% 100%;

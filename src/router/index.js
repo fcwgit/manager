@@ -56,7 +56,7 @@ export default new Router({
           component:ConformProject, meta: { keepAlive: false }
         },{
           path:'queryProject',
-          component:QueryProject, meta: { keepAlive: true }
+          component:QueryProject, meta: { keepAlive: false }
         },{
           path:'detailProject',
           name:'detailProject',
@@ -83,7 +83,7 @@ export default new Router({
           component:ModifyBranch, meta: { keepAlive: false }
         },{
           path:'queryUser',
-          component:QueryUser, meta: { keepAlive: true }
+          component:QueryUser, meta: { keepAlive: false }
         },{
           // path:'detailUser/:time/:pinyin/:name/:section/:post/:specialty/:stateDesc/:author/:key',
           path:'detailUser',
@@ -99,7 +99,7 @@ export default new Router({
           component:AddUser, meta: { keepAlive: false }
         },{
           path:'queryManager',
-          component:QueryManager, meta: { keepAlive: true }
+          component:QueryManager, meta: { keepAlive: false }
         },{
           // path:'detailManager/:time/:alias/:name/:section/:post/:type/:state/:author',
           path:'detailManager',
