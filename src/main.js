@@ -7,7 +7,7 @@ import ElementUI from 'element-ui';
 import 'element-ui/lib/theme-chalk/index.css';
 import 'babel-polyfill';
 import axios from 'axios';
-axios.defaults.baseURL = 'http://10.12.17.230:8080/manage'
+axios.defaults.baseURL = 'http://localhost:8080/manage'
 
 Vue.config.productionTip = false
 axios.defaults.withCredentials=true;

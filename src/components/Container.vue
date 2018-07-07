@@ -44,7 +44,12 @@
     
     <el-container>
       <el-header class="header-image">
-        <el-dropdown @command="handleCommand">
+        <div style="float:left;height:60px;width:300px;">
+          <h3 class="h3-left">北京银监局现场检查</h3>
+          <h3 class="h3-right">“双随机一公开”程序</h3>
+        </div>
+        
+        <el-dropdown @command="handleCommand" style="padding-top:20px">
           <i class="el-icon-setting" style="margin-right: 15px"></i>
           
           <el-dropdown-menu slot="dropdown">
@@ -71,14 +76,32 @@
 </template>
 
 <style>
+  .h3-left{
+    line-height:30px;
+    margin:0px;
+    text-align: left;
+    font-family:Tahoma,Helvetica,Arial,'宋体',sans-serif;
+  }
+  .h3-right{
+    line-height:30px;
+    margin:0px;
+    text-align: right;
+    font-family:Tahoma,Helvetica,Arial,'宋体',sans-serif;
+
+  }
+  
   .header-image{
-    height: 180px;
     text-align: right; 
-    font-size: 18px;
-    background-repeat:no-repeat; 
+    font-size: 16px;
+    /* background-repeat:no-repeat; 
     background-size:100% 100%;
-    -moz-background-size:100% 100%;
-    height: 60px;
+    -moz-background-size:100% 100%; */
+    /* height: 60px; */
+    /* background-color: aqua; */
+    background: -webkit-linear-gradient(#56ace8, #cae5f7); /* Safari 5.1 - 6.0 */
+    background: -o-linear-gradient(#56ace8, #cae5f7); /* Opera 11.1 - 12.0 */
+    background: -moz-linear-gradient(#56ace8, #cae5f7); /* Firefox 3.6 - 15 */
+    background: linear-gradient(#56ace8, #cae5f7); /* 标准的语法 */
   }
   
   .el-aside {

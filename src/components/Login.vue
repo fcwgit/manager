@@ -1,6 +1,7 @@
 <template>
     <el-main>
         <el-form :model="LoginForm" ref="LoginForm" :rules="rule" label-width="0" class="login-form">
+            <h2 style="text-align:center">双随机一公开系统</h2>
             <h3>用户登录</h3>
             <el-form-item prop="username" label="用户名：" label-width="80px" >
               <el-col>
@@ -155,7 +156,7 @@ export default {
 </script>
 <style scoped>
     .login-form {
-        margin: 20px auto;
+        margin: 60px auto;
         width: 310px;
         background: #fff;
         box-shadow: 0 0 35px #b4bccc;
